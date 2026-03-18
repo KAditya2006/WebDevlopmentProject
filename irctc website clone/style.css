@@ -1,0 +1,356 @@
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+}
+
+.top-bar {
+  background-color: #f8f8f8;
+  padding: 5px 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 14px;
+  border-bottom: 1px solid #ccc;
+}
+
+.top-bar .links span {
+  margin-right: 15px;
+  cursor: pointer;
+}
+
+.top-bar .right-section span {
+  margin-left: 15px;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background-color: white;
+  padding: 10px 20px;
+  box-shadow: 0px 1px 5px rgba(0, 0, 0, 0.1);
+}
+
+.header .logo {
+  display: flex;
+  align-items: center;
+}
+
+.header .logo img {
+  height: 40px;
+  margin-right: 10px;
+}
+
+.header .menu {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 15px;
+  align-items: center;
+  font-size: 15px;
+}
+
+.menu a {
+  text-decoration: none;
+  color: #000;
+  font-weight: bold;
+}
+
+.menu .highlight {
+  color: red;
+}
+
+.login-btn {
+  background-color: #003366;
+  color: white;
+  padding: 6px 12px;
+  text-decoration: none;
+  margin-right: 10px;
+}
+
+.irctc-logo img {
+  height: 40px;
+}
+
+.links {
+  padding-left: 450px;
+}
+
+.hero {
+  height: 800px;
+  background-size: cover;
+  background-image: url("background image.webp");
+}
+
+.search {
+  height: 550px;
+  width: 700px;
+  background-color: #f8f8f8;
+  margin-left: 70px;
+  margin-top: 30px;
+}
+
+.pnr {
+  margin-left: 30px;
+  width: 300px;
+  background-color: #003366;
+  color: white;
+  height: 30px;
+}
+
+.pnr a {
+  color: white;
+  text-decoration: none;
+}
+
+.book-tic {
+  color: #003366;
+  margin-left: 240px;
+  margin-top: 50px;
+}
+
+.travel {
+  height: 40px;
+  width: 300px;
+  margin-top: 30px;
+  border: 0.5px solid #003366;
+  color: #003366;
+}
+
+.berth {
+  height: 40px;
+  width: 300px;
+  margin-left: 35px;
+  border: 0.5px solid #003366;
+  color: #003366;
+}
+
+.date {
+  margin-left: 35px;
+  height: 40px;
+  width: 300px;
+  border: 0.5px solid #003366;
+  color: #003366;
+}
+
+.ticketType {
+  margin-top: 30px;
+  height: 40px;
+  width: 300px;
+  border: 0.5px solid #003366;
+  color: #003366;
+}
+.checkbox {
+  margin-top: 20px;
+  color: #003366;
+}
+option {
+  color: #003366;
+}
+::placeholder {
+  color: #003366;
+}
+
+.searchButton {
+  margin-top: 70px;
+  margin-left: 25px;
+  color: #f8f8f8;
+  background-color: darkorange;
+  text-decoration: none;
+  border: none;
+  height: 40px;
+  width: 150px;
+  border-radius: 10%;
+}
+
+.searchButton a {
+  text-decoration: none;
+  color: white;
+}
+
+.ease {
+  margin-top: 70px;
+  margin-left: 300px;
+  color: #f8f8f8;
+  background-color: darkorange;
+  text-decoration: none;
+  border: none;
+  height: 40px;
+  width: 200px;
+  border-radius: 10%;
+}
+
+.ease a {
+  text-decoration: none;
+  color: white;
+}
+
+.box {
+  height: 150px;
+  width: 700px;
+  background-color: #f8f8f8;
+  margin-left: 70px;
+}
+.text:hover {
+  text-decoration: underline;
+}
+
+.box1 {
+  border-top: 3px solid #cecece;
+  margin-top: 30px;
+}
+
+.box1 h1 {
+  padding-left: 500px;
+}
+
+.icon button {
+  border-radius: 50%;
+  height: 100px;
+  width: 100px;
+  border: 2px solid black;
+  margin-top: 50px;
+}
+.icon {
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+}
+
+.aadhar-alert1 {
+  background-image: url("irctc aadhar alert.png");
+  height: 200px;
+  width: 1500px;
+  background-size: contain;
+  margin-top: 50px;
+  background-repeat: no-repeat;
+  border-bottom: 4px solid grey;
+}
+
+.aadhar-alert2 {
+  background-image: url("alerts image.jpeg");
+  height: 200px;
+  width: 1500px;
+  background-size: contain;
+  margin-top: 50px;
+  background-repeat: no-repeat;
+  border-bottom: 4px solid grey;
+}
+
+.footer1 {
+  background-color: #2c215d;
+  height: 70px;
+  display: flex;
+  justify-content: space-evenly;
+  text-align: center;
+  margin-top: 100px;
+}
+.footer1 a {
+  padding-left: 25px;
+  font-size: 2rem;
+}
+.footer1 p {
+  font-size: 0.9rem;
+  color: white;
+  padding-left: 100px;
+}
+
+.footer2 {
+  height: 400px;
+  background-color: #2c215d;
+  color: white;
+  margin-top: 2px;
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+}
+
+.footer2 select {
+  margin-top: 30px;
+  text-decoration: none;
+  border: none;
+  background-color: #2c215d;
+  color: white;
+  width: 100px;
+  height: auto;
+  font-weight: bold;
+}
+
+.footer2 option {
+  border: none;
+  background-color: #2c215d;
+  color: white;
+  height: auto;
+  font-size: 0.7rem;
+}
+
+.footer2 select:hover {
+  border: 1px solid #f35c3d;
+}
+
+.footer2 p {
+  margin-top: 30px;
+  font-weight: bold;
+  background-color: #2c215d;
+  color: white;
+}
+
+.footer2 p:hover {
+  border: 1px solid #f35c3d;
+}
+
+.footer3text {
+  text-align: right;
+  font-size: 0.6rem;
+}
+
+.cris:hover {
+  border-bottom: 1px solid #003366;
+}
+
+.icon i {
+  font-size: large;
+  color: black;
+}
+
+.footer3img {
+  display: flex;
+}
+.footer3img img {
+  height: 60px;
+  width: 100px;
+  gap: 1.7rem;
+}
+
+.footer3 {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 3px;
+  gap: 1.7rem;
+}
+
+#travel {
+  font-size: 1.5rem;
+  color: #003366;
+}
+
+ul li {
+  list-style-type: none;
+}
+
+.search button:hover {
+  cursor: pointer;
+}
+
+.icon button:hover {
+  background-color: #003366;
+  color: white;
+  transform: scale(1.15);
+}
+
+.icon i:hover {
+  background-color: #003366;
+  color: white;
+  transform: scale(1.003);
+  transition: 1.6s;
+}

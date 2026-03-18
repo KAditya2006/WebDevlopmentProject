@@ -1,0 +1,126 @@
+*{
+	margin: 0;
+	padding: 0;
+}
+
+body{
+	background-color: rgb(0,0,33);
+	color:white;
+	font-family: poppins, sans-serif;
+}
+header{
+	position:sticky;
+	top:0;
+}
+
+nav{
+	display: flex;
+	justify-content:space-around;
+	align-items: center;
+	height: 75px;
+	background-color: rgb(3, 3, 59);
+	position: sticky;
+	top:0;
+}
+
+nav ul{
+	display: flex;
+	justify-content:space-around;
+	
+}
+
+nav ul li{
+	list-style: none;
+	margin:0 23px;
+	cursor: pointer;
+}
+nav ul a{
+	text-decoration: none;
+	color: white;
+
+}
+
+nav ul a:hover{
+	color:rgb(175, 175, 184);
+	font-size: 1.05rem;
+	text-decoration:underline;
+}
+
+.left {
+	font-size: 1.5rem;
+	font-weight: 600;
+	cursor: pointer;
+}
+
+.firstSection{
+	display: flex;
+	justify-content: space-around;
+	align-items: center;
+	margin:135px 0;
+	
+}
+
+.firstSection > div{
+	width:30%;
+}
+
+.rightSection img{
+    width:80%;
+	margin-top: 80px;
+	
+}
+
+.leftSection{
+	font-size: 2rem;
+	
+}
+
+.aqua{
+	color:aqua;
+	font-weight:bold;
+	
+}
+
+#element{
+	color:aqua;
+}
+
+
+.secondSection{
+	max-width: 80vw;
+	margin: auto;
+	height: 80vh;
+}
+
+main hr{
+	border:0;
+	background: rgb(144, 144, 235);
+	height:1px;
+	margin: 40px 50px;
+}
+
+.secondSection h1{
+	font-size: 2.4rem;
+}
+
+
+.text-gray{
+	color:gray;
+}
+
+.secondSection .box{
+	background-color: white;
+	width:80vw;
+	height:2px;
+	margin:56px 0;
+	 display: flex;
+	 /* justify-content: space-between; */
+}
+
+.secondSection .vertical{
+	 height:100px;
+	 width:2px;
+	 background-color: white;
+	 margin: 0 100px;
+	
+}

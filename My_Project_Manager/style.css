@@ -1,0 +1,128 @@
+:root {
+  --accent: #06b6d4;
+  --bg: #f8fafc;
+  --card: #ffffff;
+  --muted: #64748b;
+}
+* {
+  box-sizing: border-box;
+}
+body {
+  font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto,
+    "Helvetica Neue", Arial;
+  margin: 0;
+  background: var(--bg);
+  color: #0f172a;
+}
+.app {
+  max-width: 900px;
+  margin: 36px auto;
+  padding: 20px;
+}
+header {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+h1 {
+  margin: 0;
+  font-size: 1.4rem;
+}
+.card {
+  background: var(--card);
+  border-radius: 12px;
+  padding: 18px;
+  box-shadow: 0 6px 18px rgba(2, 6, 23, 0.06);
+  margin-top: 18px;
+}
+form {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+input[type="text"] {
+  flex: 1;
+  min-width: 180px;
+  padding: 10px;
+  border: 1px solid #e6eef5;
+  border-radius: 8px;
+}
+.controls {
+  display: flex;
+  gap: 8px;
+}
+button {
+  background: var(--accent);
+  color: white;
+  border: 0;
+  padding: 10px 14px;
+  border-radius: 8px;
+  cursor: pointer;
+}
+button.secondary {
+  background: #e2f9fb;
+  color: #064e53;
+}
+.muted {
+  color: var(--muted);
+  font-size: 0.9rem;
+}
+.bookmark-list {
+  margin-top: 16px;
+  display: grid;
+  gap: 10px;
+}
+.bookmark {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px;
+  border-radius: 10px;
+  border: 1px solid #eef6f8;
+}
+.bookmark .left {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.favicon {
+  width: 36px;
+  height: 36px;
+  border-radius: 7px;
+  background: #eef7f8;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  color: #0f172a;
+}
+.meta {
+  display: flex;
+  flex-direction: column;
+}
+.meta a {
+  font-weight: 600;
+  text-decoration: none;
+  color: #0f172a;
+}
+.meta .url {
+  font-size: 0.85rem;
+  color: var(--muted);
+}
+.actions {
+  display: flex;
+  gap: 8px;
+}
+.small {
+  padding: 6px 8px;
+  border-radius: 8px;
+  font-size: 0.9rem;
+}
+@media (max-width: 560px) {
+  form {
+    flex-direction: column;
+  }
+  .controls {
+    width: 100%;
+  }
+}

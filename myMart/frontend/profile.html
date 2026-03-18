@@ -1,0 +1,2351 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" type="image/png" href="/media/logo.png">
+  <title>My Profile - myMart</title>
+  <style>
+    /* All existing CSS styles remain the same */
+    /* ===== General Styles ===== */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    body {
+      background-color: #AED6CF;
+      color: #333;
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+
+    /* ===== Navbar ===== */
+    nav {
+      background: #91ADC8;
+      color: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 12px 20px;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      z-index: 1000;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+    }
+
+    .logo img {
+      height: 50px;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 20px;
+      list-style: none;
+    }
+
+    .nav-links a {
+      text-decoration: none;
+      color: #fff;
+      font-size: 16px;
+      transition: color 0.3s;
+      font-weight: 500;
+    }
+
+    .nav-links a:hover {
+      color: #ffcc00;
+    }
+
+    .nav-links a.active {
+      color: #ffcc00;
+      font-weight: 600;
+    }
+
+    .search-bar {
+      flex: 1;
+      margin: 0 30px;
+      position: relative;
+    }
+
+    .search-bar input {
+      width: 90%;
+      padding: 10px 16px;
+      border-radius: 20px;
+      border: none;
+      outline: none;
+      font-size: 15px;
+    }
+
+    .search-btn {
+      position: absolute;
+      right: 40px;
+      top: 50%;
+      transform: translateY(-50%);
+      background: none;
+      border: none;
+      color: #666;
+      cursor: pointer;
+    }
+
+    .actions {
+      display: flex;
+      gap: 15px;
+    }
+
+    .actions a {
+      color: #fff;
+      text-decoration: none;
+      font-size: 16px;
+      background: #ff7a18;
+      padding: 8px 16px;
+      border-radius: 6px;
+      transition: background 0.3s;
+      font-weight: 500;
+    }
+
+    .actions a:hover {
+      background: #e26500;
+    }
+
+    .cart-count {
+      background: #ff3333;
+      color: white;
+      border-radius: 50%;
+      padding: 2px 6px;
+      font-size: 12px;
+      position: absolute;
+      top: -5px;
+      right: -5px;
+    }
+
+    .cart-link {
+      position: relative;
+    }
+
+    /* ===== Toggle Button ===== */
+    .menu-toggle {
+      display: none;
+      flex-direction: column;
+      cursor: pointer;
+    }
+
+    .menu-toggle div {
+      width: 25px;
+      height: 3px;
+      background: white;
+      margin: 4px 0;
+      transition: 0.3s;
+    }
+
+    /* ===== Profile Container ===== */
+    .profile-container {
+      max-width: 1200px;
+      margin: 100px auto 50px;
+      padding: 0 20px;
+    }
+
+    .profile-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 30px;
+    }
+
+    .profile-header h1 {
+      font-size: 32px;
+      color: #333;
+    }
+
+    .profile-actions {
+      display: flex;
+      gap: 15px;
+    }
+
+    .btn {
+      padding: 12px 20px;
+      font-size: 16px;
+      font-weight: 600;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: all 0.3s;
+      text-decoration: none;
+      display: inline-block;
+      text-align: center;
+    }
+
+    .btn-primary {
+      background: #ff7a18;
+      color: #fff;
+    }
+
+    .btn-primary:hover {
+      background: #e26500;
+    }
+
+    .btn-secondary {
+      background: #3498db;
+      color: #fff;
+    }
+
+    .btn-secondary:hover {
+      background: #2980b9;
+    }
+
+    .btn-outline {
+      background: transparent;
+      color: #666;
+      border: 1px solid #ccc;
+    }
+
+    .btn-outline:hover {
+      background: #f0f0f0;
+    }
+
+    .btn-danger {
+      background: #e74c3c;
+      color: #fff;
+    }
+
+    .btn-danger:hover {
+      background: #c0392b;
+    }
+
+    .btn-small {
+      padding: 8px 16px;
+      font-size: 14px;
+    }
+
+    /* ===== Profile Content ===== */
+    .profile-content {
+      display: grid;
+      grid-template-columns: 300px 1fr;
+      gap: 30px;
+    }
+
+    /* ===== Sidebar ===== */
+    .profile-sidebar {
+      background: white;
+      border-radius: 12px;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+      padding: 30px;
+      height: fit-content;
+    }
+
+    .user-info {
+      text-align: center;
+      margin-bottom: 30px;
+      padding-bottom: 20px;
+      border-bottom: 1px solid #eee;
+    }
+
+    .user-avatar {
+      width: 100px;
+      height: 100px;
+      border-radius: 50%;
+      background: #ff7a18;
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 36px;
+      font-weight: bold;
+      margin: 0 auto 15px;
+    }
+
+    .user-info h2 {
+      font-size: 20px;
+      margin-bottom: 5px;
+      color: #333;
+    }
+
+    .user-info p {
+      color: #666;
+      font-size: 14px;
+    }
+
+    .profile-menu {
+      list-style: none;
+    }
+
+    .profile-menu li {
+      margin-bottom: 10px;
+    }
+
+    .profile-menu a {
+      display: flex;
+      align-items: center;
+      padding: 12px 15px;
+      text-decoration: none;
+      color: #666;
+      border-radius: 6px;
+      transition: all 0.3s;
+    }
+
+    .profile-menu a:hover {
+      background: #f5f5f5;
+      color: #333;
+    }
+
+    .profile-menu a.active {
+      background: rgba(255, 122, 24, 0.1);
+      color: #ff7a18;
+      font-weight: 600;
+    }
+
+    .menu-icon {
+      margin-right: 10px;
+      font-size: 18px;
+    }
+
+    /* ===== Main Content ===== */
+    .profile-main {
+      background: white;
+      border-radius: 12px;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+      padding: 30px;
+    }
+
+    .tab-content {
+      display: none;
+    }
+
+    .tab-content.active {
+      display: block;
+      animation: fadeIn 0.3s ease;
+    }
+
+    .tab-header {
+      margin-bottom: 25px;
+      padding-bottom: 15px;
+      border-bottom: 1px solid #eee;
+    }
+
+    .tab-header h2 {
+      font-size: 24px;
+      color: #333;
+    }
+
+    .tab-header p {
+      color: #666;
+      margin-top: 5px;
+    }
+
+    /* ===== Personal Info Form ===== */
+    .form-section {
+      margin-bottom: 30px;
+    }
+
+    .form-section h3 {
+      font-size: 18px;
+      margin-bottom: 15px;
+      color: #333;
+      display: flex;
+      align-items: center;
+    }
+
+    .form-section h3::before {
+      content: "•";
+      color: #ff7a18;
+      margin-right: 8px;
+      font-size: 24px;
+    }
+
+    .form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+      margin-bottom: 20px;
+    }
+
+    .form-group {
+      margin-bottom: 20px;
+    }
+
+    .form-group label {
+      display: block;
+      margin-bottom: 8px;
+      font-weight: 600;
+      color: #333;
+    }
+
+    .form-group input,
+    .form-group select,
+    .form-group textarea {
+      width: 100%;
+      padding: 12px 16px;
+      border: 2px solid #e1e5e9;
+      border-radius: 8px;
+      font-size: 16px;
+      transition: all 0.3s;
+    }
+
+    .form-group input:focus,
+    .form-group select:focus,
+    .form-group textarea:focus {
+      border-color: #ff7a18;
+      outline: none;
+      box-shadow: 0 0 0 3px rgba(255, 122, 24, 0.2);
+    }
+
+    .form-group textarea {
+      resize: none;
+      height: 100px;
+    }
+
+    .form-actions {
+      display: flex;
+      gap: 15px;
+      margin-top: 30px;
+    }
+
+    /* ===== Order History ===== */
+    .order-card {
+      border: 1px solid #e1e5e9;
+      border-radius: 8px;
+      margin-bottom: 20px;
+      overflow: hidden;
+    }
+
+    .order-header {
+      background: #f9f9f9;
+      padding: 15px 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .order-id {
+      font-weight: bold;
+      color: #ff7a18;
+    }
+
+    .order-date {
+      color: #666;
+    }
+
+    .order-status {
+      padding: 5px 10px;
+      border-radius: 20px;
+      font-size: 12px;
+      font-weight: bold;
+    }
+
+    .status-delivered {
+      background: #e6ffe6;
+      color: #2e7d32;
+    }
+
+    .status-pending {
+      background: #fff3e0;
+      color: #f57c00;
+    }
+
+    .status-shipped {
+      background: #e3f2fd;
+      color: #1976d2;
+    }
+
+    .status-cancelled {
+      background: #ffebee;
+      color: #c62828;
+    }
+
+    .order-items {
+      padding: 20px;
+    }
+
+    .order-item {
+      display: flex;
+      align-items: center;
+      margin-bottom: 15px;
+      padding-bottom: 15px;
+      border-bottom: 1px solid #eee;
+    }
+
+    .order-item:last-child {
+      margin-bottom: 0;
+      padding-bottom: 0;
+      border-bottom: none;
+    }
+
+    .order-item img {
+      width: 60px;
+      height: 60px;
+      border-radius: 6px;
+      object-fit: cover;
+      margin-right: 15px;
+      background: #f5f5f5;
+    }
+
+    .order-item-details {
+      flex: 1;
+    }
+
+    .order-item-details h4 {
+      font-size: 16px;
+      margin-bottom: 5px;
+      color: #333;
+    }
+
+    .order-item-details p {
+      color: #666;
+      font-size: 14px;
+    }
+
+    .order-price {
+      font-weight: bold;
+      color: #333;
+    }
+
+    .order-footer {
+      padding: 15px 20px;
+      background: #f9f9f9;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .order-total {
+      font-weight: bold;
+      color: #333;
+      font-size: 18px;
+    }
+
+    .order-actions {
+      display: flex;
+      gap: 10px;
+    }
+
+    /* ===== Address Book ===== */
+    .address-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 20px;
+    }
+
+    .address-card {
+      border: 1px solid #e1e5e9;
+      border-radius: 8px;
+      padding: 20px;
+      position: relative;
+    }
+
+    .address-card.default {
+      border-color: #ff7a18;
+      background: rgba(255, 122, 24, 0.05);
+    }
+
+    .address-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 15px;
+    }
+
+    .address-title {
+      font-weight: bold;
+      color: #333;
+    }
+
+    .default-badge {
+      background: #ff7a18;
+      color: white;
+      padding: 3px 8px;
+      border-radius: 4px;
+      font-size: 12px;
+      font-weight: bold;
+    }
+
+    .address-details p {
+      margin-bottom: 8px;
+      color: #666;
+    }
+
+    .address-actions {
+      display: flex;
+      gap: 10px;
+      margin-top: 15px;
+    }
+
+    .add-address-card {
+      border: 2px dashed #ccc;
+      border-radius: 8px;
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: all 0.3s;
+      min-height: 200px;
+    }
+
+    .add-address-card:hover {
+      border-color: #ff7a18;
+      background: rgba(255, 122, 24, 0.05);
+    }
+
+    .add-icon {
+      font-size: 40px;
+      color: #ccc;
+      margin-bottom: 15px;
+    }
+
+    .add-address-card p {
+      color: #666;
+      font-weight: 600;
+    }
+
+    /* ===== Wishlist ===== */
+    .wishlist-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: 20px;
+    }
+
+    .wishlist-item {
+      border: 1px solid #e1e5e9;
+      border-radius: 8px;
+      overflow: hidden;
+      transition: transform 0.3s;
+    }
+
+    .wishlist-item:hover {
+      transform: translateY(-5px);
+    }
+
+    .wishlist-item img {
+      width: 100%;
+      height: 150px;
+      object-fit: cover;
+      background: #f5f5f5;
+    }
+
+    .wishlist-item-details {
+      padding: 15px;
+    }
+
+    .wishlist-item-details h4 {
+      font-size: 16px;
+      margin-bottom: 10px;
+      color: #333;
+    }
+
+    .wishlist-item-details p {
+      font-size: 16px;
+      color: #0b63ff;
+      font-weight: bold;
+      margin-bottom: 15px;
+    }
+
+    .wishlist-actions {
+      display: flex;
+      gap: 10px;
+    }
+
+    .wishlist-actions .btn {
+      padding: 8px 12px;
+      font-size: 14px;
+      flex: 1;
+    }
+
+    /* ===== Empty States ===== */
+    .empty-state {
+      text-align: center;
+      padding: 60px 20px;
+      color: #666;
+    }
+
+    .empty-state-icon {
+      font-size: 64px;
+      margin-bottom: 20px;
+      opacity: 0.5;
+    }
+
+    .empty-state h3 {
+      font-size: 20px;
+      margin-bottom: 10px;
+      color: #333;
+    }
+
+    .empty-state p {
+      margin-bottom: 20px;
+      max-width: 400px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    /* ===== Demo Mode Banner ===== */
+    .demo-banner {
+      background: linear-gradient(135deg, #ff7a18, #ff9a3d);
+      color: white;
+      padding: 12px 20px;
+      border-radius: 8px;
+      margin-bottom: 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      box-shadow: 0 4px 12px rgba(255, 122, 24, 0.3);
+    }
+
+    .demo-banner p {
+      margin: 0;
+      font-weight: 500;
+    }
+
+    .demo-banner .btn {
+      background: rgba(255, 255, 255, 0.2);
+      color: white;
+      border: 1px solid rgba(255, 255, 255, 0.3);
+    }
+
+    .demo-banner .btn:hover {
+      background: rgba(255, 255, 255, 0.3);
+    }
+
+    /* ===== Toast Notification ===== */
+    .toast {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      background: #333;
+      color: white;
+      padding: 12px 20px;
+      border-radius: 4px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+      z-index: 10000;
+      transform: translateY(100px);
+      opacity: 0;
+      transition: all 0.3s ease;
+    }
+
+    .toast.show {
+      transform: translateY(0);
+      opacity: 1;
+    }
+
+    /* ===== Modal ===== */
+    .modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0,0,0,0.7);
+      z-index: 10000;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .modal-content {
+      background: white;
+      border-radius: 12px;
+      width: 90%;
+      max-width: 500px;
+      max-height: 90vh;
+      position: relative;
+      animation: modalFadeIn 0.3s ease;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .modal-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 0;
+      padding: 20px 30px;
+      border-bottom: 1px solid #e1e5e9;
+      flex-shrink: 0;
+    }
+
+    .modal-header h2 {
+      font-size: 24px;
+      color: #333;
+      margin: 0;
+    }
+
+    .close-modal {
+      background: none;
+      border: none;
+      font-size: 24px;
+      cursor: pointer;
+      color: #666;
+      padding: 0;
+      width: 30px;
+      height: 30px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    /* ===== Scrollable Address Form ===== */
+    .address-form-container {
+      flex: 1;
+      overflow-y: auto;
+      padding: 0 30px;
+    }
+
+    .address-form {
+      padding: 20px 0;
+    }
+
+    .address-form .form-group {
+      margin-bottom: 20px;
+    }
+
+    .address-form .form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 15px;
+      margin-bottom: 0;
+    }
+
+    .address-form label {
+      display: block;
+      margin-bottom: 6px;
+      font-weight: 600;
+      color: #333;
+      font-size: 14px;
+    }
+
+    .address-form input,
+    .address-form select {
+      width: 100%;
+      padding: 12px;
+      border: 2px solid #e1e5e9;
+      border-radius: 6px;
+      font-size: 14px;
+      transition: all 0.3s;
+    }
+
+    .address-form input:focus,
+    .address-form select:focus {
+      border-color: #ff7a18;
+      outline: none;
+      box-shadow: 0 0 0 3px rgba(255, 122, 24, 0.1);
+    }
+
+    .address-form-footer {
+      padding: 20px 30px;
+      border-top: 1px solid #e1e5e9;
+      background: #f9f9f9;
+      border-radius: 0 0 12px 12px;
+      flex-shrink: 0;
+    }
+
+    /* ===== Custom Scrollbar ===== */
+    .address-form-container::-webkit-scrollbar {
+      width: 6px;
+    }
+
+    .address-form-container::-webkit-scrollbar-track {
+      background: #f1f1f1;
+      border-radius: 3px;
+    }
+
+    .address-form-container::-webkit-scrollbar-thumb {
+      background: #c1c1c1;
+      border-radius: 3px;
+    }
+
+    .address-form-container::-webkit-scrollbar-thumb:hover {
+      background: #a8a8a8;
+    }
+
+    /* ===== Animations ===== */
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    @keyframes modalFadeIn {
+      from { opacity: 0; transform: scale(0.9); }
+      to { opacity: 1; transform: scale(1); }
+    }
+
+    /* ===== Responsive Design ===== */
+    @media (max-width: 992px) {
+      .profile-content {
+        grid-template-columns: 1fr;
+      }
+      
+      .profile-sidebar {
+        order: 2;
+      }
+      
+      .profile-main {
+        order: 1;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .menu-toggle {
+        display: flex;
+      }
+
+      .nav-links,
+      .actions,
+      .search-bar {
+        display: none;
+        flex-direction: column;
+        background: #91ADC8;
+        width: 100%;
+        position: absolute;
+        top: 70px;
+        left: 0;
+        text-align: center;
+        padding: 15px 0;
+      }
+
+      .nav-links.active,
+      .actions.active,
+      .search-bar.active {
+        display: flex;
+      }
+
+      .profile-container {
+        margin-top: 80px;
+        padding: 0 15px;
+      }
+
+      .profile-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 15px;
+      }
+
+      .form-row {
+        grid-template-columns: 1fr;
+      }
+
+      .address-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .wishlist-grid {
+        grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+      }
+
+      .address-form .form-row {
+        grid-template-columns: 1fr;
+      }
+
+      .order-header,
+      .order-footer {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+      }
+
+      .order-actions {
+        width: 100%;
+      }
+
+      .order-actions .btn {
+        flex: 1;
+      }
+
+      .address-actions {
+        flex-direction: column;
+      }
+
+      .modal-content {
+        width: 95%;
+        max-height: 95vh;
+      }
+
+      .modal-header,
+      .address-form-container,
+      .address-form-footer {
+        padding: 15px 20px;
+      }
+
+      .demo-banner {
+        flex-direction: column;
+        gap: 10px;
+        text-align: center;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .profile-header h1 {
+        font-size: 28px;
+      }
+
+      .wishlist-actions {
+        flex-direction: column;
+      }
+
+      .modal-header h2 {
+        font-size: 20px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Navbar -->
+  <nav>
+    <div class="logo"><img src="/media/logo.png" alt="myMart logo"></div>
+
+    <div class="menu-toggle" onclick="toggleMenu()">
+      <div></div>
+      <div></div>
+      <div></div>
+    </div>
+
+    <ul class="nav-links">
+      <li><a href="homePage.html">Home</a></li>
+      <li><a href="shop.html">Shop</a></li>
+      <li><a href="deals.html">Deals</a></li>
+      <li><a href="contact.html">Contact</a></li>
+    </ul>
+
+    <div class="search-bar">
+      <input type="text" placeholder="Search for products..." id="searchInput">
+      <button class="search-btn" onclick="searchProducts()">🔍</button>
+    </div>
+
+    <div class="actions">
+      <a href="#" id="logoutBtn">Logout</a>
+      <a href="cart.html" class="cart-link">Cart 🛒 <span class="cart-count">0</span></a>
+    </div>
+  </nav>
+
+  <!-- Profile Container -->
+  <div class="profile-container">
+    <div class="profile-header">
+      <h1>My Account</h1>
+      <div class="profile-actions">
+        <a href="homePage.html" class="btn btn-outline">← Back to Shopping</a>
+        <button class="btn btn-secondary" onclick="toggleDemoMode()" id="demoModeToggle">Enable Demo Mode</button>
+      </div>
+    </div>
+
+    <div class="profile-content">
+      <!-- Sidebar -->
+      <div class="profile-sidebar">
+        <div class="user-info">
+          <div class="user-avatar" id="userAvatar">JS</div>
+          <h2 id="userName">Loading...</h2>
+          <p id="userEmail">Loading...</p>
+          <p id="userMobile" style="font-size: 12px; color: #888; margin-top: 5px;"></p>
+        </div>
+
+        <ul class="profile-menu">
+          <li><a href="#" class="active" data-tab="personal"><span class="menu-icon">👤</span> Personal Information</a></li>
+          <li><a href="#" data-tab="orders"><span class="menu-icon">📦</span> Order History</a></li>
+          <li><a href="#" data-tab="addresses"><span class="menu-icon">🏠</span> Address Book</a></li>
+          <li><a href="#" data-tab="wishlist"><span class="menu-icon">❤️</span> Wishlist</a></li>
+          <li><a href="#" data-tab="security"><span class="menu-icon">🔒</span> Security</a></li>
+        </ul>
+      </div>
+
+      <!-- Main Content -->
+      <div class="profile-main">
+        <!-- Demo Mode Banner -->
+        <div class="demo-banner" id="demoBanner" style="display: none;">
+          <p>Demo mode is active. Sample data is shown for demonstration purposes only.</p>
+          <button class="btn btn-small" onclick="clearDemoData()">Clear Demo Data</button>
+        </div>
+
+        <!-- Personal Information Tab -->
+        <div class="tab-content active" id="personal-tab">
+          <div class="tab-header">
+            <h2>Personal Information</h2>
+            <p>Manage your personal details and preferences</p>
+          </div>
+
+          <form id="personalInfoForm">
+            <div class="form-section">
+              <h3>Basic Information</h3>
+              <div class="form-row">
+                <div class="form-group">
+                  <label for="firstName">First Name</label>
+                  <input type="text" id="firstName" required>
+                </div>
+                <div class="form-group">
+                  <label for="lastName">Last Name</label>
+                  <input type="text" id="lastName" required>
+                </div>
+              </div>
+              <div class="form-row">
+                <div class="form-group">
+                  <label for="email">Email Address</label>
+                  <input type="email" id="email" required>
+                </div>
+                <div class="form-group">
+                  <label for="phone">Phone Number</label>
+                  <input type="tel" id="phone" required>
+                </div>
+              </div>
+            </div>
+
+            <div class="form-section">
+              <h3>Additional Information</h3>
+              <div class="form-row">
+                <div class="form-group">
+                  <label for="birthdate">Date of Birth</label>
+                  <input type="date" id="birthdate">
+                </div>
+                <div class="form-group">
+                  <label for="gender">Gender</label>
+                  <select id="gender">
+                    <option value="">Select Gender</option>
+                    <option value="male">Male</option>
+                    <option value="female">Female</option>
+                    <option value="other">Other</option>
+                    <option value="prefer-not-to-say">Prefer not to say</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+
+            <div class="form-section">
+              <h3>Communication Preferences</h3>
+              <div class="form-group">
+                <label>
+                  <input type="checkbox" id="emailNotifications"> 
+                  Send me email notifications about new products and promotions
+                </label>
+              </div>
+              <div class="form-group">
+                <label>
+                  <input type="checkbox" id="smsNotifications"> 
+                  Send me SMS notifications about order updates
+                </label>
+              </div>
+            </div>
+
+            <div class="form-actions">
+              <button type="button" class="btn btn-outline" onclick="resetForm()">Cancel</button>
+              <button type="submit" class="btn btn-primary">Save Changes</button>
+            </div>
+          </form>
+        </div>
+
+        <!-- Order History Tab -->
+        <div class="tab-content" id="orders-tab">
+          <div class="tab-header">
+            <h2>Order History</h2>
+            <p>View and track your recent orders</p>
+          </div>
+
+          <div id="ordersContainer">
+            <!-- Orders will be dynamically loaded here -->
+          </div>
+        </div>
+
+        <!-- Address Book Tab -->
+        <div class="tab-content" id="addresses-tab">
+          <div class="tab-header">
+            <h2>Address Book</h2>
+            <p>Manage your shipping addresses</p>
+          </div>
+
+          <div class="address-grid" id="addressesContainer">
+            <!-- Addresses will be dynamically loaded here -->
+          </div>
+        </div>
+
+        <!-- Wishlist Tab -->
+        <div class="tab-content" id="wishlist-tab">
+          <div class="tab-header">
+            <h2>My Wishlist</h2>
+            <p>Items you've saved for later</p>
+          </div>
+
+          <div class="wishlist-grid" id="wishlistContainer">
+            <!-- Wishlist items will be dynamically loaded here -->
+          </div>
+        </div>
+
+        <!-- Security Tab -->
+        <div class="tab-content" id="security-tab">
+          <div class="tab-header">
+            <h2>Security Settings</h2>
+            <p>Manage your password and account security</p>
+          </div>
+
+          <form id="securityForm">
+            <div class="form-section">
+              <h3>Change Password</h3>
+              <div class="form-group">
+                <label for="currentPassword">Current Password</label>
+                <input type="password" id="currentPassword" required>
+              </div>
+              <div class="form-group">
+                <label for="newPassword">New Password</label>
+                <input type="password" id="newPassword" required>
+              </div>
+              <div class="form-group">
+                <label for="confirmPassword">Confirm New Password</label>
+                <input type="password" id="confirmPassword" required>
+              </div>
+            </div>
+
+            <div class="form-section">
+              <h3>Two-Factor Authentication</h3>
+              <div class="form-group">
+                <label>
+                  <input type="checkbox" id="twoFactorAuth"> 
+                  Enable two-factor authentication for added security
+                </label>
+              </div>
+            </div>
+
+            <div class="form-actions">
+              <button type="submit" class="btn btn-primary">Update Security Settings</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Add Address Modal -->
+  <div class="modal" id="addAddressModal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2 id="modalTitle">Add New Address</h2>
+        <button class="close-modal" onclick="closeAddAddressModal()">&times;</button>
+      </div>
+      <div class="address-form-container">
+        <form id="addAddressForm" class="address-form">
+          <div class="form-group">
+            <label for="addressTitle">Address Title</label>
+            <input type="text" id="addressTitle" placeholder="Home, Work, etc." required>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label for="addressFirstName">First Name</label>
+              <input type="text" id="addressFirstName" required>
+            </div>
+            <div class="form-group">
+              <label for="addressLastName">Last Name</label>
+              <input type="text" id="addressLastName" required>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="addressStreet">Street Address</label>
+            <input type="text" id="addressStreet" placeholder="House number and street name" required>
+          </div>
+          <div class="form-group">
+            <label for="addressApartment">Apartment, Suite, etc. (Optional)</label>
+            <input type="text" id="addressApartment" placeholder="Apartment, suite, unit, etc.">
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label for="addressCity">City</label>
+              <input type="text" id="addressCity" required>
+            </div>
+            <div class="form-group">
+              <label for="addressState">State</label>
+              <input type="text" id="addressState" required>
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label for="addressZip">ZIP Code</label>
+              <input type="text" id="addressZip" required>
+            </div>
+            <div class="form-group">
+              <label for="addressCountry">Country</label>
+              <select id="addressCountry" required>
+                <option value="">Select Country</option>
+                <option value="india">India</option>
+                <option value="usa">United States</option>
+                <option value="uk">United Kingdom</option>
+                <option value="canada">Canada</option>
+                <option value="australia">Australia</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="addressPhone">Phone Number</label>
+            <input type="tel" id="addressPhone" required>
+          </div>
+          <div class="form-group">
+            <label>
+              <input type="checkbox" id="setAsDefault"> 
+              Set as default address
+            </label>
+          </div>
+        </form>
+      </div>
+      <div class="address-form-footer">
+        <div class="form-actions">
+          <button type="button" class="btn btn-outline" onclick="closeAddAddressModal()">Cancel</button>
+          <button type="button" class="btn btn-primary" onclick="saveAddress()" id="saveAddressBtn">Save Address</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Order Details Modal -->
+  <div class="modal" id="orderDetailsModal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2 id="orderModalTitle">Order Details</h2>
+        <button class="close-modal" onclick="closeOrderDetailsModal()">&times;</button>
+      </div>
+      <div class="address-form-container">
+        <div id="orderDetailsContent">
+          <!-- Order details will be loaded here -->
+        </div>
+      </div>
+      <div class="address-form-footer">
+        <div class="form-actions">
+          <button type="button" class="btn btn-outline" onclick="closeOrderDetailsModal()">Close</button>
+          <button type="button" class="btn btn-primary" onclick="trackOrderFromModal()">Track Order</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast Notification -->
+  <div class="toast" id="toast"></div>
+
+  <script>
+    // Global variables
+    let currentUser = null;
+    let userProfile = null;
+    let originalFormData = null;
+    let editingAddressId = null;
+    let isDemoMode = false;
+    let currentOrderDetails = null;
+
+    // Initialize the page
+    document.addEventListener('DOMContentLoaded', function() {
+      initializePage();
+    });
+
+    // Initialize page data
+    function initializePage() {
+      // Check if user is logged in
+      currentUser = JSON.parse(localStorage.getItem('currentUser'));
+      
+      if (!currentUser) {
+        // Redirect to login if no user is logged in
+        window.location.href = 'login.html';
+        return;
+      }
+
+      // Check if demo mode is active
+      isDemoMode = localStorage.getItem('demoMode') === 'true';
+      updateDemoModeUI();
+
+      // Load user profile data
+      userProfile = currentUser.profile || {};
+      
+      // Update cart count
+      updateCartCount();
+      
+      // Load user data into the form
+      loadUserData();
+      
+      // Setup event listeners
+      setupTabNavigation();
+      setupFormSubmissions();
+      
+      // Load additional data
+      loadOrders();
+      loadAddresses();
+      loadWishlist();
+    }
+
+    // Toggle mobile menu
+    function toggleMenu() {
+      document.querySelector(".nav-links").classList.toggle("active");
+      document.querySelector(".search-bar").classList.toggle("active");
+      document.querySelector(".actions").classList.toggle("active");
+    }
+
+    // Update cart count in navbar
+    function updateCartCount() {
+      const cart = JSON.parse(localStorage.getItem('cart')) || [];
+      const cartCount = document.querySelector('.cart-count');
+      const totalItems = cart.reduce((sum, item) => sum + (item.quantity || 1), 0);
+      cartCount.textContent = totalItems;
+    }
+
+    // Load user data into the form
+    function loadUserData() {
+      if (!userProfile) return;
+      
+      // Update user avatar
+      const userAvatar = document.getElementById('userAvatar');
+      const firstName = userProfile.firstName || '';
+      const lastName = userProfile.lastName || '';
+      userAvatar.textContent = (firstName.charAt(0) + lastName.charAt(0)).toUpperCase() || 'U';
+      
+      // Update user info in sidebar
+      document.getElementById('userName').textContent = `${firstName} ${lastName}`.trim() || 'User';
+      document.getElementById('userEmail').textContent = userProfile.email || 'No email';
+      document.getElementById('userMobile').textContent = userProfile.phone || '';
+      
+      // Populate form fields
+      document.getElementById('firstName').value = firstName;
+      document.getElementById('lastName').value = lastName;
+      document.getElementById('email').value = userProfile.email || '';
+      document.getElementById('phone').value = userProfile.phone || '';
+      document.getElementById('birthdate').value = userProfile.birthdate || '';
+      document.getElementById('gender').value = userProfile.gender || '';
+      document.getElementById('emailNotifications').checked = userProfile.emailNotifications || false;
+      document.getElementById('smsNotifications').checked = userProfile.smsNotifications || false;
+      
+      // Store original form data for cancel functionality
+      originalFormData = {
+        firstName: firstName,
+        lastName: lastName,
+        email: userProfile.email || '',
+        phone: userProfile.phone || '',
+        birthdate: userProfile.birthdate || '',
+        gender: userProfile.gender || '',
+        emailNotifications: userProfile.emailNotifications || false,
+        smsNotifications: userProfile.smsNotifications || false
+      };
+    }
+
+    // Reset form to original values
+    function resetForm() {
+      if (!originalFormData) return;
+      
+      document.getElementById('firstName').value = originalFormData.firstName;
+      document.getElementById('lastName').value = originalFormData.lastName;
+      document.getElementById('email').value = originalFormData.email;
+      document.getElementById('phone').value = originalFormData.phone;
+      document.getElementById('birthdate').value = originalFormData.birthdate;
+      document.getElementById('gender').value = originalFormData.gender;
+      document.getElementById('emailNotifications').checked = originalFormData.emailNotifications;
+      document.getElementById('smsNotifications').checked = originalFormData.smsNotifications;
+      
+      showToast('Changes discarded');
+    }
+
+    // Setup tab navigation
+    function setupTabNavigation() {
+      const tabLinks = document.querySelectorAll('.profile-menu a');
+      
+      tabLinks.forEach(link => {
+        link.addEventListener('click', function(e) {
+          e.preventDefault();
+          
+          // Remove active class from all tabs
+          tabLinks.forEach(l => l.classList.remove('active'));
+          document.querySelectorAll('.tab-content').forEach(tab => {
+            tab.classList.remove('active');
+          });
+          
+          // Add active class to clicked tab
+          this.classList.add('active');
+          const tabId = this.getAttribute('data-tab') + '-tab';
+          document.getElementById(tabId).classList.add('active');
+        });
+      });
+    }
+
+    // Setup form submissions
+    function setupFormSubmissions() {
+      // Personal info form
+      document.getElementById('personalInfoForm').addEventListener('submit', function(e) {
+        e.preventDefault();
+        savePersonalInfo();
+      });
+      
+      // Security form
+      document.getElementById('securityForm').addEventListener('submit', function(e) {
+        e.preventDefault();
+        updatePassword();
+      });
+    }
+
+    // Save personal information
+    function savePersonalInfo() {
+      // Update user profile data
+      userProfile.firstName = document.getElementById('firstName').value;
+      userProfile.lastName = document.getElementById('lastName').value;
+      userProfile.email = document.getElementById('email').value;
+      userProfile.phone = document.getElementById('phone').value;
+      userProfile.birthdate = document.getElementById('birthdate').value;
+      userProfile.gender = document.getElementById('gender').value;
+      userProfile.emailNotifications = document.getElementById('emailNotifications').checked;
+      userProfile.smsNotifications = document.getElementById('smsNotifications').checked;
+      
+      // Update current user session
+      if (currentUser) {
+        currentUser.profile = userProfile;
+        localStorage.setItem('currentUser', JSON.stringify(currentUser));
+        
+        // Update user in users array
+        const users = JSON.parse(localStorage.getItem('users')) || [];
+        const userIndex = users.findIndex(u => u.id === currentUser.id);
+        if (userIndex !== -1) {
+          users[userIndex].profile = userProfile;
+          localStorage.setItem('users', JSON.stringify(users));
+        }
+      }
+      
+      // Update UI
+      loadUserData();
+      
+      // Show success message
+      showToast('Personal information updated successfully!');
+    }
+
+    // Update password
+    function updatePassword() {
+      const currentPassword = document.getElementById('currentPassword').value;
+      const newPassword = document.getElementById('newPassword').value;
+      const confirmPassword = document.getElementById('confirmPassword').value;
+      
+      // Validate passwords
+      if (newPassword !== confirmPassword) {
+        showToast('New passwords do not match!');
+        return;
+      }
+      
+      if (newPassword.length < 6) {
+        showToast('Password must be at least 6 characters long!');
+        return;
+      }
+      
+      // Verify current password
+      const users = JSON.parse(localStorage.getItem('users')) || [];
+      const user = users.find(u => u.id === currentUser.id);
+      
+      if (!user) {
+        showToast('User not found!');
+        return;
+      }
+      
+      if (user.password !== currentPassword) {
+        showToast('Current password is incorrect!');
+        return;
+      }
+      
+      // Update password in users array
+      user.password = newPassword;
+      localStorage.setItem('users', JSON.stringify(users));
+      
+      // Clear form
+      document.getElementById('securityForm').reset();
+      
+      // Show success message
+      showToast('Password updated successfully!');
+    }
+
+    // Load orders from localStorage
+    function loadOrders() {
+      const ordersContainer = document.getElementById('ordersContainer');
+      
+      // Get orders from localStorage
+      const orders = JSON.parse(localStorage.getItem('orders')) || [];
+      const userOrders = orders.filter(order => order.userId === currentUser.id);
+      
+      // If no orders and demo mode is active, show sample data
+      if (userOrders.length === 0 && isDemoMode) {
+        displaySampleOrders();
+        return;
+      }
+      
+      if (userOrders.length === 0) {
+        ordersContainer.innerHTML = `
+          <div class="empty-state">
+            <div class="empty-state-icon">📦</div>
+            <h3>No Orders Yet</h3>
+            <p>You haven't placed any orders yet. Start shopping to see your order history here.</p>
+            <a href="shop.html" class="btn btn-primary">Start Shopping</a>
+          </div>
+        `;
+        return;
+      }
+      
+      // Sort orders by date (newest first)
+      userOrders.sort((a, b) => new Date(b.date) - new Date(a.date));
+      
+      // Display orders
+      ordersContainer.innerHTML = userOrders.map(order => `
+        <div class="order-card">
+          <div class="order-header">
+            <div>
+              <span class="order-id">Order #${order.id}</span>
+              <span class="order-date">Placed on ${new Date(order.date).toLocaleDateString()}</span>
+            </div>
+            <span class="order-status status-${order.status}">${order.status.charAt(0).toUpperCase() + order.status.slice(1)}</span>
+          </div>
+          <div class="order-items">
+            ${order.items.map(item => `
+              <div class="order-item">
+                <img src="${item.image}" alt="${item.name}" onerror="this.style.display='none'">
+                <div class="order-item-details">
+                  <h4>${item.name}</h4>
+                  <p>Quantity: ${item.quantity}</p>
+                </div>
+                <div class="order-price">₹${item.price.toLocaleString()}</div>
+              </div>
+            `).join('')}
+          </div>
+          <div class="order-footer">
+            <div class="order-total">Total: ₹${order.total.toLocaleString()}</div>
+            <div class="order-actions">
+              <button class="btn btn-outline btn-small" onclick="viewOrderDetails('${order.id}')">View Details</button>
+              <button class="btn btn-primary btn-small" onclick="reorderItems('${order.id}')">Reorder</button>
+              <button class="btn btn-outline btn-small" onclick="trackOrder('${order.id}')">Track Order</button>
+            </div>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    // Display sample orders for demo mode
+    function displaySampleOrders() {
+      const ordersContainer = document.getElementById('ordersContainer');
+      
+      const sampleOrders = [
+        {
+          id: 'MYMART-' + Date.now(),
+          userId: currentUser.id,
+          date: new Date().toISOString(),
+          status: 'delivered',
+          items: [
+            { 
+              id: 'prod_1', 
+              name: 'Wireless Headphones', 
+              price: 2999, 
+              quantity: 1, 
+              image: '/media/headphones.png' 
+            },
+            { 
+              id: 'prod_2', 
+              name: 'Phone Case', 
+              price: 499, 
+              quantity: 2, 
+              image: '/media/phonecase.png' 
+            }
+          ],
+          total: 3997,
+          shippingAddress: {
+            street: '123 Main Street',
+            city: 'Mumbai',
+            state: 'Maharashtra',
+            zipCode: '400001',
+            country: 'India'
+          }
+        },
+        {
+          id: 'MYMART-' + (Date.now() + 1),
+          userId: currentUser.id,
+          date: new Date(Date.now() - 7 * 24 * 60 * 60 * 1000).toISOString(),
+          status: 'shipped',
+          items: [
+            { 
+              id: 'prod_3', 
+              name: 'Smart Watch', 
+              price: 7999, 
+              quantity: 1, 
+              image: '/media/smartwatch.png' 
+            }
+          ],
+          total: 7999,
+          shippingAddress: {
+            street: '456 Oak Avenue',
+            city: 'Delhi',
+            state: 'Delhi',
+            zipCode: '110001',
+            country: 'India'
+          }
+        }
+      ];
+      
+      // Display sample orders
+      ordersContainer.innerHTML = sampleOrders.map(order => `
+        <div class="order-card">
+          <div class="order-header">
+            <div>
+              <span class="order-id">Order #${order.id}</span>
+              <span class="order-date">Placed on ${new Date(order.date).toLocaleDateString()}</span>
+            </div>
+            <span class="order-status status-${order.status}">${order.status.charAt(0).toUpperCase() + order.status.slice(1)}</span>
+          </div>
+          <div class="order-items">
+            ${order.items.map(item => `
+              <div class="order-item">
+                <img src="${item.image}" alt="${item.name}" onerror="this.style.display='none'">
+                <div class="order-item-details">
+                  <h4>${item.name}</h4>
+                  <p>Quantity: ${item.quantity}</p>
+                </div>
+                <div class="order-price">₹${item.price.toLocaleString()}</div>
+              </div>
+            `).join('')}
+          </div>
+          <div class="order-footer">
+            <div class="order-total">Total: ₹${order.total.toLocaleString()}</div>
+            <div class="order-actions">
+              <button class="btn btn-outline btn-small" onclick="viewOrderDetails('${order.id}', true)">View Details</button>
+              <button class="btn btn-primary btn-small" onclick="reorderItems('${order.id}', true)">Reorder</button>
+              <button class="btn btn-outline btn-small" onclick="trackOrder('${order.id}', true)">Track Order</button>
+            </div>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    // Load addresses
+    function loadAddresses() {
+      const addressesContainer = document.getElementById('addressesContainer');
+      const addresses = JSON.parse(localStorage.getItem('addresses')) || [];
+      const userAddresses = addresses.filter(address => address.userId === currentUser.id);
+      
+      // If no addresses and demo mode is active, show sample data
+      if (userAddresses.length === 0 && isDemoMode) {
+        displaySampleAddresses();
+        return;
+      }
+      
+      if (userAddresses.length === 0) {
+        addressesContainer.innerHTML = `
+          <div class="empty-state" style="grid-column: 1 / -1;">
+            <div class="empty-state-icon">🏠</div>
+            <h3>No Addresses Saved</h3>
+            <p>You haven't added any addresses yet. Add your first address to make checkout easier.</p>
+          </div>
+          <div class="add-address-card" onclick="openAddAddressModal()">
+            <div class="add-icon">+</div>
+            <p>Add New Address</p>
+          </div>
+        `;
+        return;
+      }
+      
+      // Display addresses
+      addressesContainer.innerHTML = userAddresses.map(address => `
+        <div class="address-card ${address.isDefault ? 'default' : ''}">
+          <div class="address-header">
+            <span class="address-title">${address.title}</span>
+            ${address.isDefault ? '<span class="default-badge">Default</span>' : ''}
+          </div>
+          <div class="address-details">
+            <p><strong>${address.firstName} ${address.lastName}</strong></p>
+            <p>${address.street}</p>
+            ${address.apartment ? `<p>${address.apartment}</p>` : ''}
+            <p>${address.city}, ${address.state} ${address.zipCode}</p>
+            <p>${address.country}</p>
+            <p>Phone: ${address.phone}</p>
+          </div>
+          <div class="address-actions">
+            <button class="btn btn-outline btn-small" onclick="editAddress('${address.id}')">Edit</button>
+            ${!address.isDefault ? `<button class="btn btn-outline btn-small" onclick="setDefaultAddress('${address.id}')">Set as Default</button>` : ''}
+            <button class="btn btn-outline btn-small" onclick="deleteAddress('${address.id}')">Remove</button>
+          </div>
+        </div>
+      `).join('') + `
+        <div class="add-address-card" onclick="openAddAddressModal()">
+          <div class="add-icon">+</div>
+          <p>Add New Address</p>
+        </div>
+      `;
+    }
+
+    // Display sample addresses for demo mode
+    function displaySampleAddresses() {
+      const addressesContainer = document.getElementById('addressesContainer');
+      
+      const sampleAddresses = [
+        {
+          id: 'addr_' + Date.now(),
+          userId: currentUser.id,
+          title: 'Home',
+          firstName: userProfile.firstName || 'John',
+          lastName: userProfile.lastName || 'Doe',
+          street: '123 Main Street',
+          apartment: 'Apt 4B',
+          city: 'Mumbai',
+          state: 'Maharashtra',
+          zipCode: '400001',
+          country: 'India',
+          phone: userProfile.phone || '+91 9876543210',
+          isDefault: true
+        }
+      ];
+      
+      // Display sample addresses
+      addressesContainer.innerHTML = sampleAddresses.map(address => `
+        <div class="address-card ${address.isDefault ? 'default' : ''}">
+          <div class="address-header">
+            <span class="address-title">${address.title}</span>
+            ${address.isDefault ? '<span class="default-badge">Default</span>' : ''}
+          </div>
+          <div class="address-details">
+            <p><strong>${address.firstName} ${address.lastName}</strong></p>
+            <p>${address.street}</p>
+            ${address.apartment ? `<p>${address.apartment}</p>` : ''}
+            <p>${address.city}, ${address.state} ${address.zipCode}</p>
+            <p>${address.country}</p>
+            <p>Phone: ${address.phone}</p>
+          </div>
+          <div class="address-actions">
+            <button class="btn btn-outline btn-small" onclick="editAddress('${address.id}')">Edit</button>
+            ${!address.isDefault ? `<button class="btn btn-outline btn-small" onclick="setDefaultAddress('${address.id}')">Set as Default</button>` : ''}
+            <button class="btn btn-outline btn-small" onclick="deleteAddress('${address.id}')">Remove</button>
+          </div>
+        </div>
+      `).join('') + `
+        <div class="add-address-card" onclick="openAddAddressModal()">
+          <div class="add-icon">+</div>
+          <p>Add New Address</p>
+        </div>
+      `;
+    }
+
+    // Load wishlist
+    function loadWishlist() {
+      const wishlistContainer = document.getElementById('wishlistContainer');
+      const wishlist = JSON.parse(localStorage.getItem('wishlist')) || [];
+      const userWishlist = wishlist.filter(item => item.userId === currentUser.id);
+      
+      // If no wishlist items and demo mode is active, show sample data
+      if (userWishlist.length === 0 && isDemoMode) {
+        displaySampleWishlist();
+        return;
+      }
+      
+      if (userWishlist.length === 0) {
+        wishlistContainer.innerHTML = `
+          <div class="empty-state" style="grid-column: 1 / -1;">
+            <div class="empty-state-icon">❤️</div>
+            <h3>Your Wishlist is Empty</h3>
+            <p>You haven't added any items to your wishlist yet. Start browsing to save your favorite items.</p>
+            <a href="shop.html" class="btn btn-primary">Browse Products</a>
+          </div>
+        `;
+        return;
+      }
+      
+      // Display wishlist items
+      wishlistContainer.innerHTML = userWishlist.map(item => `
+        <div class="wishlist-item">
+          <img src="${item.image}" alt="${item.name}" onerror="this.style.display='none'">
+          <div class="wishlist-item-details">
+            <h4>${item.name}</h4>
+            <p>₹${item.price.toLocaleString()}</p>
+            <div class="wishlist-actions">
+              <button class="btn btn-outline btn-small" onclick="removeFromWishlist('${item.id}')">Remove</button>
+              <button class="btn btn-primary btn-small" onclick="addToCartFromWishlist('${item.id}')">Add to Cart</button>
+            </div>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    // Display sample wishlist for demo mode
+    function displaySampleWishlist() {
+      const wishlistContainer = document.getElementById('wishlistContainer');
+      
+      const sampleWishlist = [
+        {
+          id: 'wish_' + Date.now(),
+          userId: currentUser.id,
+          name: 'Smart Watch',
+          price: 7999,
+          image: '/media/smartwatch.png',
+          category: 'Electronics'
+        },
+        {
+          id: 'wish_' + (Date.now() + 1),
+          userId: currentUser.id,
+          name: 'Running Shoes',
+          price: 3499,
+          image: '/media/shoes.png',
+          category: 'Sports'
+        },
+        {
+          id: 'wish_' + (Date.now() + 2),
+          userId: currentUser.id,
+          name: 'Backpack',
+          price: 1999,
+          image: '/media/backpack.png',
+          category: 'Accessories'
+        }
+      ];
+      
+      // Display sample wishlist items
+      wishlistContainer.innerHTML = sampleWishlist.map(item => `
+        <div class="wishlist-item">
+          <img src="${item.image}" alt="${item.name}" onerror="this.style.display='none'">
+          <div class="wishlist-item-details">
+            <h4>${item.name}</h4>
+            <p>₹${item.price.toLocaleString()}</p>
+            <div class="wishlist-actions">
+              <button class="btn btn-outline btn-small" onclick="removeFromWishlist('${item.id}')">Remove</button>
+              <button class="btn btn-primary btn-small" onclick="addToCartFromWishlist('${item.id}')">Add to Cart</button>
+            </div>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    // Open add address modal
+    function openAddAddressModal() {
+      editingAddressId = null;
+      document.getElementById('modalTitle').textContent = 'Add New Address';
+      document.getElementById('saveAddressBtn').textContent = 'Save Address';
+      
+      // Pre-fill with user's name and phone
+      document.getElementById('addressFirstName').value = userProfile.firstName || '';
+      document.getElementById('addressLastName').value = userProfile.lastName || '';
+      document.getElementById('addressPhone').value = userProfile.phone || '';
+      
+      // Reset form
+      document.getElementById('addressTitle').value = '';
+      document.getElementById('addressStreet').value = '';
+      document.getElementById('addressApartment').value = '';
+      document.getElementById('addressCity').value = '';
+      document.getElementById('addressState').value = '';
+      document.getElementById('addressZip').value = '';
+      document.getElementById('addressCountry').value = '';
+      document.getElementById('setAsDefault').checked = false;
+      
+      document.getElementById('addAddressModal').style.display = 'flex';
+    }
+
+    // Close add address modal
+    function closeAddAddressModal() {
+      document.getElementById('addAddressModal').style.display = 'none';
+      editingAddressId = null;
+    }
+
+    // Save address (both add and edit)
+    function saveAddress() {
+      const addressData = {
+        title: document.getElementById('addressTitle').value,
+        firstName: document.getElementById('addressFirstName').value,
+        lastName: document.getElementById('addressLastName').value,
+        street: document.getElementById('addressStreet').value,
+        apartment: document.getElementById('addressApartment').value,
+        city: document.getElementById('addressCity').value,
+        state: document.getElementById('addressState').value,
+        zipCode: document.getElementById('addressZip').value,
+        country: document.getElementById('addressCountry').value,
+        phone: document.getElementById('addressPhone').value,
+        isDefault: document.getElementById('setAsDefault').checked
+      };
+
+      // Validate required fields
+      if (!addressData.title || !addressData.firstName || !addressData.lastName || 
+          !addressData.street || !addressData.city || !addressData.state || 
+          !addressData.zipCode || !addressData.country || !addressData.phone) {
+        showToast('Please fill in all required fields');
+        return;
+      }
+
+      const addresses = JSON.parse(localStorage.getItem('addresses')) || [];
+      
+      let address;
+      
+      if (editingAddressId) {
+        // Edit existing address
+        const addressIndex = addresses.findIndex(addr => addr.id === editingAddressId);
+        if (addressIndex !== -1) {
+          address = {
+            ...addresses[addressIndex],
+            ...addressData
+          };
+          addresses[addressIndex] = address;
+        }
+      } else {
+        // Add new address
+        address = {
+          id: 'addr_' + Date.now(),
+          userId: currentUser.id,
+          ...addressData
+        };
+        addresses.push(address);
+      }
+
+      // If this is set as default, remove default from others
+      if (addressData.isDefault) {
+        addresses.forEach(addr => {
+          if (addr.userId === currentUser.id && addr.id !== address.id) {
+            addr.isDefault = false;
+          }
+        });
+      }
+
+      localStorage.setItem('addresses', JSON.stringify(addresses));
+      closeAddAddressModal();
+      loadAddresses();
+      showToast(editingAddressId ? 'Address updated successfully!' : 'New address added successfully!');
+    }
+
+    // Edit address
+    function editAddress(addressId) {
+      const addresses = JSON.parse(localStorage.getItem('addresses')) || [];
+      const address = addresses.find(addr => addr.id === addressId);
+      
+      if (address) {
+        editingAddressId = addressId;
+        document.getElementById('modalTitle').textContent = 'Edit Address';
+        document.getElementById('saveAddressBtn').textContent = 'Update Address';
+        
+        // Pre-fill the form with existing address data
+        document.getElementById('addressTitle').value = address.title;
+        document.getElementById('addressFirstName').value = address.firstName;
+        document.getElementById('addressLastName').value = address.lastName;
+        document.getElementById('addressStreet').value = address.street;
+        document.getElementById('addressApartment').value = address.apartment || '';
+        document.getElementById('addressCity').value = address.city;
+        document.getElementById('addressState').value = address.state;
+        document.getElementById('addressZip').value = address.zipCode;
+        document.getElementById('addressCountry').value = address.country;
+        document.getElementById('addressPhone').value = address.phone;
+        document.getElementById('setAsDefault').checked = address.isDefault;
+        
+        // Open modal for editing
+        document.getElementById('addAddressModal').style.display = 'flex';
+        showToast('Edit your address details');
+      }
+    }
+
+    // Set default address
+    function setDefaultAddress(addressId) {
+      const addresses = JSON.parse(localStorage.getItem('addresses')) || [];
+      
+      addresses.forEach(address => {
+        if (address.userId === currentUser.id) {
+          address.isDefault = address.id === addressId;
+        }
+      });
+      
+      localStorage.setItem('addresses', JSON.stringify(addresses));
+      loadAddresses();
+      showToast('Default address updated!');
+    }
+
+    // Delete address
+    function deleteAddress(addressId) {
+      if (confirm('Are you sure you want to delete this address?')) {
+        const addresses = JSON.parse(localStorage.getItem('addresses')) || [];
+        const filteredAddresses = addresses.filter(address => address.id !== addressId);
+        localStorage.setItem('addresses', JSON.stringify(filteredAddresses));
+        loadAddresses();
+        showToast('Address deleted successfully!');
+      }
+    }
+
+    // Remove from wishlist
+    function removeFromWishlist(itemId) {
+      if (confirm('Are you sure you want to remove this item from your wishlist?')) {
+        const wishlist = JSON.parse(localStorage.getItem('wishlist')) || [];
+        const filteredWishlist = wishlist.filter(item => item.id !== itemId);
+        localStorage.setItem('wishlist', JSON.stringify(filteredWishlist));
+        loadWishlist();
+        showToast('Item removed from wishlist!');
+      }
+    }
+
+    // Add to cart from wishlist
+    function addToCartFromWishlist(itemId) {
+      const wishlist = JSON.parse(localStorage.getItem('wishlist')) || [];
+      const item = wishlist.find(item => item.id === itemId);
+      
+      if (item) {
+        const cart = JSON.parse(localStorage.getItem('cart')) || [];
+        const existingItem = cart.find(cartItem => cartItem.id === itemId);
+        
+        if (existingItem) {
+          existingItem.quantity += 1;
+        } else {
+          cart.push({
+            ...item,
+            quantity: 1
+          });
+        }
+        
+        localStorage.setItem('cart', JSON.stringify(cart));
+        updateCartCount();
+        showToast('Item added to cart!');
+      }
+    }
+
+    // Order functionality
+    function viewOrderDetails(orderId, isSample = false) {
+      let order;
+      
+      if (isSample) {
+        // For sample orders, create a temporary order object
+        order = {
+          id: orderId,
+          date: new Date().toISOString(),
+          status: 'delivered',
+          items: [
+            { 
+              id: 'prod_1', 
+              name: 'Wireless Headphones', 
+              price: 2999, 
+              quantity: 1, 
+              image: '/media/headphones.png' 
+            },
+            { 
+              id: 'prod_2', 
+              name: 'Phone Case', 
+              price: 499, 
+              quantity: 2, 
+              image: '/media/phonecase.png' 
+            }
+          ],
+          total: 3997,
+          shippingAddress: {
+            street: '123 Main Street',
+            city: 'Mumbai',
+            state: 'Maharashtra',
+            zipCode: '400001',
+            country: 'India'
+          }
+        };
+      } else {
+        // For real orders, find in localStorage
+        const orders = JSON.parse(localStorage.getItem('orders')) || [];
+        order = orders.find(o => o.id === orderId);
+      }
+      
+      if (order) {
+        currentOrderDetails = order;
+        displayOrderDetailsModal(order);
+      } else {
+        showToast('Order not found!');
+      }
+    }
+
+    // Display order details in modal
+    function displayOrderDetailsModal(order) {
+      document.getElementById('orderModalTitle').textContent = `Order #${order.id}`;
+      
+      const orderDetailsContent = document.getElementById('orderDetailsContent');
+      orderDetailsContent.innerHTML = `
+        <div class="order-card" style="border: none; box-shadow: none;">
+          <div class="order-header" style="background: transparent; padding: 0 0 15px 0;">
+            <div>
+              <span class="order-id">Order #${order.id}</span>
+              <span class="order-date">Placed on ${new Date(order.date).toLocaleDateString()}</span>
+            </div>
+            <span class="order-status status-${order.status}">${order.status.charAt(0).toUpperCase() + order.status.slice(1)}</span>
+          </div>
+          <div class="order-items" style="padding: 0;">
+            ${order.items.map(item => `
+              <div class="order-item">
+                <img src="${item.image}" alt="${item.name}" onerror="this.style.display='none'">
+                <div class="order-item-details">
+                  <h4>${item.name}</h4>
+                  <p>Quantity: ${item.quantity}</p>
+                </div>
+                <div class="order-price">₹${item.price.toLocaleString()}</div>
+              </div>
+            `).join('')}
+          </div>
+          <div class="order-footer" style="background: transparent; padding: 15px 0 0 0;">
+            <div class="order-total">Total: ₹${order.total.toLocaleString()}</div>
+          </div>
+        </div>
+        
+        ${order.shippingAddress ? `
+          <div style="margin-top: 20px;">
+            <h3 style="margin-bottom: 10px;">Shipping Address</h3>
+            <div style="background: #f9f9f9; padding: 15px; border-radius: 8px;">
+              <p><strong>${order.shippingAddress.street}</strong></p>
+              <p>${order.shippingAddress.city}, ${order.shippingAddress.state} ${order.shippingAddress.zipCode}</p>
+              <p>${order.shippingAddress.country}</p>
+            </div>
+          </div>
+        ` : ''}
+      `;
+      
+      document.getElementById('orderDetailsModal').style.display = 'flex';
+    }
+
+    // Close order details modal
+    function closeOrderDetailsModal() {
+      document.getElementById('orderDetailsModal').style.display = 'none';
+      currentOrderDetails = null;
+    }
+
+    // Track order from modal
+    function trackOrderFromModal() {
+      if (currentOrderDetails) {
+        closeOrderDetailsModal();
+        trackOrder(currentOrderDetails.id);
+      }
+    }
+
+    function reorderItems(orderId, isSample = false) {
+      let order;
+      
+      if (isSample) {
+        // For sample orders, create a temporary order object
+        order = {
+          items: [
+            { 
+              id: 'prod_1', 
+              name: 'Wireless Headphones', 
+              price: 2999, 
+              quantity: 1
+            },
+            { 
+              id: 'prod_2', 
+              name: 'Phone Case', 
+              price: 499, 
+              quantity: 2
+            }
+          ]
+        };
+      } else {
+        // For real orders, find in localStorage
+        const orders = JSON.parse(localStorage.getItem('orders')) || [];
+        order = orders.find(o => o.id === orderId);
+      }
+      
+      if (order) {
+        const cart = JSON.parse(localStorage.getItem('cart')) || [];
+        
+        order.items.forEach(item => {
+          const existingItem = cart.find(cartItem => cartItem.id === item.id);
+          if (existingItem) {
+            existingItem.quantity += item.quantity;
+          } else {
+            cart.push({
+              ...item,
+              quantity: item.quantity
+            });
+          }
+        });
+        
+        localStorage.setItem('cart', JSON.stringify(cart));
+        updateCartCount();
+        showToast('All items from this order have been added to your cart!');
+      }
+    }
+
+    function trackOrder(orderId, isSample = false) {
+      // Navigate to tracking page
+      window.location.href = `order-tracking.html?orderId=${orderId}`;
+    }
+
+    // Demo mode functionality
+    function toggleDemoMode() {
+      isDemoMode = !isDemoMode;
+      localStorage.setItem('demoMode', isDemoMode.toString());
+      updateDemoModeUI();
+      
+      if (isDemoMode) {
+        showToast('Demo mode enabled. Sample data is now visible.');
+        // Reload data to show sample content
+        loadOrders();
+        loadAddresses();
+        loadWishlist();
+      } else {
+        showToast('Demo mode disabled. Only your actual data is shown.');
+        // Reload data to show only real content
+        loadOrders();
+        loadAddresses();
+        loadWishlist();
+      }
+    }
+
+    // Update demo mode UI
+    function updateDemoModeUI() {
+      const demoBanner = document.getElementById('demoBanner');
+      const demoModeToggle = document.getElementById('demoModeToggle');
+      
+      if (isDemoMode) {
+        demoBanner.style.display = 'flex';
+        demoModeToggle.textContent = 'Disable Demo Mode';
+        demoModeToggle.classList.remove('btn-secondary');
+        demoModeToggle.classList.add('btn-danger');
+      } else {
+        demoBanner.style.display = 'none';
+        demoModeToggle.textContent = 'Enable Demo Mode';
+        demoModeToggle.classList.remove('btn-danger');
+        demoModeToggle.classList.add('btn-secondary');
+      }
+    }
+
+    // Clear demo data
+    function clearDemoData() {
+      if (confirm('This will remove all demo data. Continue?')) {
+        // Clear demo mode
+        isDemoMode = false;
+        localStorage.setItem('demoMode', 'false');
+        updateDemoModeUI();
+        
+        // Reload data to show only real content
+        loadOrders();
+        loadAddresses();
+        loadWishlist();
+        
+        showToast('Demo data cleared!');
+      }
+    }
+
+    // Search products
+    function searchProducts() {
+      const searchTerm = document.getElementById('searchInput').value.toLowerCase();
+      
+      if (searchTerm) {
+        window.location.href = `shop.html?search=${encodeURIComponent(searchTerm)}`;
+      } else {
+        window.location.href = 'shop.html';
+      }
+    }
+
+    // Show toast notification
+    function showToast(message) {
+      const toast = document.getElementById('toast');
+      toast.textContent = message;
+      toast.classList.add('show');
+      
+      setTimeout(() => {
+        toast.classList.remove('show');
+      }, 3000);
+    }
+
+    // Allow search on Enter key
+    document.getElementById('searchInput').addEventListener('keypress', function(e) {
+      if (e.key === 'Enter') {
+        searchProducts();
+      }
+    });
+
+    // Close modal when clicking outside
+    window.onclick = function(event) {
+      const addAddressModal = document.getElementById('addAddressModal');
+      const orderDetailsModal = document.getElementById('orderDetailsModal');
+      
+      if (event.target === addAddressModal) {
+        closeAddAddressModal();
+      }
+      
+      if (event.target === orderDetailsModal) {
+        closeOrderDetailsModal();
+      }
+    }
+
+    // Logout functionality
+    document.getElementById('logoutBtn').addEventListener('click', function(e) {
+      e.preventDefault();
+      
+      // Clear current user session
+      localStorage.removeItem('currentUser');
+      
+      // Redirect to login page
+      window.location.href = 'login.html';
+    });
+  </script>
+</body>
+</html>

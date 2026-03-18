@@ -1,0 +1,950 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" type="image/png" href="/media/logo.png">
+  <title>Sign Up - myMart</title>
+  <style>
+    /* ===== General Styles ===== */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    body {
+      background: linear-gradient(135deg, #AED6CF 0%, #91ADC8 100%);
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+    }
+
+    /* ===== Signup Container ===== */
+    .signup-container {
+      background: #fff;
+      border-radius: 16px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+      overflow: hidden;
+      width: 100%;
+      max-width: 480px;
+      padding: 40px 30px;
+      position: relative;
+      animation: slideUp 0.5s ease-out;
+    }
+
+    /* ===== Logo Section ===== */
+    .logo-section {
+      text-align: center;
+      margin-bottom: 25px;
+    }
+
+    .logo {
+      width: 120px;
+      height: auto;
+      margin-bottom: 15px;
+    }
+
+    .logo-section h1 {
+      color: #ff7a18;
+      font-size: 28px;
+      margin-bottom: 8px;
+    }
+
+    .logo-section p {
+      color: #666;
+      font-size: 16px;
+    }
+
+    /* ===== Form Styles ===== */
+    .signup-form {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .form-group {
+      margin-bottom: 20px;
+      position: relative;
+    }
+
+    .form-group label {
+      display: block;
+      margin-bottom: 8px;
+      font-weight: 600;
+      color: #333;
+    }
+
+    .form-group input {
+      width: 100%;
+      padding: 14px 16px;
+      border: 2px solid #e1e5e9;
+      border-radius: 8px;
+      font-size: 16px;
+      transition: all 0.3s;
+    }
+
+    .form-group input:focus {
+      border-color: #ff7a18;
+      outline: none;
+      box-shadow: 0 0 0 3px rgba(255, 122, 24, 0.2);
+    }
+
+    .form-group.success input {
+      border-color: #2ecc71;
+    }
+
+    .form-group.error input {
+      border-color: #e74c3c;
+    }
+
+    .form-group.checking input {
+      border-color: #3498db;
+    }
+
+    .checking-indicator {
+      position: absolute;
+      right: 45px;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 16px;
+      height: 16px;
+      border: 2px solid #3498db;
+      border-top-color: transparent;
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+      display: none;
+    }
+
+    .availability-status {
+      font-size: 12px;
+      margin-top: 5px;
+      display: none;
+    }
+
+    .available {
+      color: #2ecc71;
+    }
+
+    .unavailable {
+      color: #e74c3c;
+    }
+
+    .password-container {
+      position: relative;
+    }
+
+    .toggle-password {
+      position: absolute;
+      right: 15px;
+      top: 50%;
+      transform: translateY(-50%);
+      background: none;
+      border: none;
+      color: #666;
+      cursor: pointer;
+      font-size: 18px;
+    }
+
+    .password-strength {
+      height: 5px;
+      border-radius: 5px;
+      margin-top: 8px;
+      background: #eee;
+      overflow: hidden;
+    }
+
+    .strength-meter {
+      height: 100%;
+      width: 0%;
+      transition: all 0.3s;
+    }
+
+    .strength-weak {
+      background: #e74c3c;
+      width: 33%;
+    }
+
+    .strength-medium {
+      background: #f39c12;
+      width: 66%;
+    }
+
+    .strength-strong {
+      background: #2ecc71;
+      width: 100%;
+    }
+
+    .strength-text {
+      font-size: 12px;
+      margin-top: 5px;
+      color: #666;
+    }
+
+    /* ===== Terms & Conditions ===== */
+    .terms {
+      display: flex;
+      align-items: flex-start;
+      margin-bottom: 25px;
+    }
+
+    .terms input {
+      margin-right: 10px;
+      margin-top: 3px;
+    }
+
+    .terms label {
+      font-size: 14px;
+      color: #666;
+      line-height: 1.4;
+    }
+
+    .terms a {
+      color: #ff7a18;
+      text-decoration: none;
+    }
+
+    .terms a:hover {
+      text-decoration: underline;
+    }
+
+    /* ===== Submit Button ===== */
+    .submit-btn {
+      background: #ff7a18;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      padding: 16px;
+      font-size: 18px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s;
+      margin-bottom: 20px;
+      position: relative;
+    }
+
+    .submit-btn:hover:not(:disabled) {
+      background: #e26500;
+      transform: translateY(-1px);
+    }
+
+    .submit-btn:active:not(:disabled) {
+      transform: translateY(0);
+    }
+
+    .submit-btn:disabled {
+      background: #cccccc;
+      cursor: not-allowed;
+    }
+
+    .submit-btn.loading {
+      color: transparent;
+    }
+
+    .submit-btn.loading::after {
+      content: "";
+      position: absolute;
+      width: 20px;
+      height: 20px;
+      top: 50%;
+      left: 50%;
+      margin-left: -10px;
+      margin-top: -10px;
+      border: 2px solid #ffffff;
+      border-radius: 50%;
+      border-top-color: transparent;
+      animation: spin 0.8s ease infinite;
+    }
+
+    /* ===== Divider ===== */
+    .divider {
+      display: flex;
+      align-items: center;
+      margin: 25px 0;
+    }
+
+    .divider::before,
+    .divider::after {
+      content: "";
+      flex: 1;
+      height: 1px;
+      background: #e1e5e9;
+    }
+
+    .divider span {
+      padding: 0 15px;
+      color: #666;
+      font-size: 14px;
+    }
+
+    /* ===== Social Signup ===== */
+    .social-signup {
+      display: flex;
+      justify-content: center;
+      gap: 15px;
+      margin-bottom: 25px;
+    }
+
+    .social-btn {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      border: 2px solid #e1e5e9;
+      background: white;
+      cursor: pointer;
+      transition: all 0.3s;
+      font-size: 20px;
+    }
+
+    .social-btn:hover {
+      border-color: #ff7a18;
+      transform: translateY(-2px);
+    }
+
+    .google { 
+      color: #DB4437; 
+      background: white;
+    }
+    .facebook { 
+      color: #4267B2; 
+      background: white;
+    }
+    .twitter { 
+      color: #1DA1F2; 
+      background: white;
+    }
+
+    /* ===== Login Link ===== */
+    .login-link {
+      text-align: center;
+      color: #666;
+    }
+
+    .login-link a {
+      color: #ff7a18;
+      text-decoration: none;
+      font-weight: 600;
+      margin-left: 5px;
+      transition: color 0.3s;
+    }
+
+    .login-link a:hover {
+      color: #e26500;
+      text-decoration: underline;
+    }
+
+    /* ===== Error Message ===== */
+    .error-message {
+      background: #ffe6e6;
+      color: #d63031;
+      padding: 12px 16px;
+      border-radius: 8px;
+      margin-bottom: 20px;
+      display: none;
+      font-size: 14px;
+      border-left: 4px solid #d63031;
+      animation: shake 0.5s ease-in-out;
+    }
+
+    .field-error {
+      color: #e74c3c;
+      font-size: 12px;
+      margin-top: 5px;
+      display: none;
+    }
+
+    /* ===== Success Message ===== */
+    .success-message {
+      background: #e6ffe6;
+      color: #2e7d32;
+      padding: 12px 16px;
+      border-radius: 8px;
+      margin-bottom: 20px;
+      display: none;
+      font-size: 14px;
+      border-left: 4px solid #2e7d32;
+      animation: slideDown 0.5s ease-out;
+    }
+
+    /* ===== Animations ===== */
+    @keyframes slideUp {
+      from {
+        opacity: 0;
+        transform: translateY(30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes slideDown {
+      from {
+        opacity: 0;
+        transform: translateY(-20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+
+    @keyframes shake {
+      0%, 100% { transform: translateX(0); }
+      25% { transform: translateX(-5px); }
+      75% { transform: translateX(5px); }
+    }
+
+    /* ===== Responsive Design ===== */
+    @media (max-width: 480px) {
+      .signup-container {
+        padding: 30px 20px;
+      }
+      
+      .logo {
+        width: 100px;
+      }
+      
+      .logo-section h1 {
+        font-size: 24px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="signup-container">
+    <!-- Logo Section -->
+    <div class="logo-section">
+      <img src="/media/logo.png" alt="myMart Logo" class="logo">
+      <h1>Join myMart</h1>
+      <p>Create your account to start shopping</p>
+    </div>
+
+    <!-- Error Message (hidden by default) -->
+    <div class="error-message" id="errorMessage">
+      Please fix the errors below to continue.
+    </div>
+
+    <!-- Success Message (hidden by default) -->
+    <div class="success-message" id="successMessage">
+      Account created successfully! Redirecting to login...
+    </div>
+
+    <!-- Signup Form -->
+    <form class="signup-form" id="signupForm">
+      <div class="form-group">
+        <label for="fullName">Full Name</label>
+        <input type="text" id="fullName" placeholder="Enter your full name" required>
+        <div class="field-error" id="fullNameError">Please enter your full name</div>
+      </div>
+
+      <div class="form-group">
+        <label for="email">Email Address</label>
+        <input type="email" id="email" placeholder="Enter your email" required>
+        <div class="checking-indicator" id="emailChecking"></div>
+        <div class="availability-status" id="emailStatus"></div>
+        <div class="field-error" id="emailError">Please enter a valid email address</div>
+      </div>
+
+      <div class="form-group">
+        <label for="mobile">Mobile Number</label>
+        <input type="tel" id="mobile" placeholder="Enter your mobile number" required>
+        <div class="checking-indicator" id="mobileChecking"></div>
+        <div class="availability-status" id="mobileStatus"></div>
+        <div class="field-error" id="mobileError">Please enter a valid mobile number</div>
+      </div>
+
+      <div class="form-group">
+        <label for="password">Password</label>
+        <div class="password-container">
+          <input type="password" id="password" placeholder="Create a password" required>
+          <button type="button" class="toggle-password" id="togglePassword">👁️</button>
+        </div>
+        <div class="password-strength">
+          <div class="strength-meter" id="strengthMeter"></div>
+        </div>
+        <div class="strength-text" id="strengthText">Password strength</div>
+        <div class="field-error" id="passwordError">Password must be at least 8 characters</div>
+      </div>
+
+      <div class="form-group">
+        <label for="confirmPassword">Confirm Password</label>
+        <div class="password-container">
+          <input type="password" id="confirmPassword" placeholder="Confirm your password" required>
+          <button type="button" class="toggle-password" id="toggleConfirmPassword">👁️</button>
+        </div>
+        <div class="field-error" id="confirmPasswordError">Passwords do not match</div>
+      </div>
+
+      <div class="terms">
+        <input type="checkbox" id="terms" required>
+        <label for="terms">I agree to the <a href="#">Terms of Service</a> and <a href="#">Privacy Policy</a></label>
+      </div>
+
+      <button type="submit" class="submit-btn" id="submitBtn">Create Account</button>
+    </form>
+
+    <!-- Login Link -->
+    <div class="login-link">
+      Already have an account? <a href="login.html">Sign In</a>
+    </div>
+  </div>
+
+  <script>
+    // Configuration
+    const VALIDATION_CONFIG = {
+      debounceDelay: 500, // Delay for real-time validation
+      checkTimeout: 2000, // Simulate server response time
+      minPasswordLength: 8
+    };
+
+    // State management
+    let validationState = {
+      email: { valid: false, checking: false, available: false },
+      mobile: { valid: false, checking: false, available: false },
+      formValid: false
+    };
+
+    // Initialize users array in localStorage if it doesn't exist
+    function initializeUsers() {
+      if (!localStorage.getItem('users')) {
+        localStorage.setItem('users', JSON.stringify([]));
+      }
+    }
+
+    // Toggle password visibility
+    document.getElementById('togglePassword').addEventListener('click', function() {
+      const passwordInput = document.getElementById('password');
+      const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
+      passwordInput.setAttribute('type', type);
+      this.textContent = type === 'password' ? '👁️' : '🔒';
+    });
+
+    document.getElementById('toggleConfirmPassword').addEventListener('click', function() {
+      const confirmPasswordInput = document.getElementById('confirmPassword');
+      const type = confirmPasswordInput.getAttribute('type') === 'password' ? 'text' : 'password';
+      confirmPasswordInput.setAttribute('type', type);
+      this.textContent = type === 'password' ? '👁️' : '🔒';
+    });
+
+    // Password strength indicator
+    document.getElementById('password').addEventListener('input', function() {
+      const password = this.value;
+      const strengthMeter = document.getElementById('strengthMeter');
+      const strengthText = document.getElementById('strengthText');
+      
+      // Reset
+      strengthMeter.className = 'strength-meter';
+      
+      if (password.length === 0) {
+        strengthText.textContent = 'Password strength';
+        strengthText.style.color = '#666';
+        return;
+      }
+      
+      // Calculate strength
+      let strength = 0;
+      
+      // Length check
+      if (password.length >= 8) strength++;
+      
+      // Contains lowercase
+      if (/[a-z]/.test(password)) strength++;
+      
+      // Contains uppercase
+      if (/[A-Z]/.test(password)) strength++;
+      
+      // Contains numbers
+      if (/[0-9]/.test(password)) strength++;
+      
+      // Contains special characters
+      if (/[^A-Za-z0-9]/.test(password)) strength++;
+      
+      // Update UI based on strength
+      if (strength <= 2) {
+        strengthMeter.classList.add('strength-weak');
+        strengthText.textContent = 'Weak password';
+        strengthText.style.color = '#e74c3c';
+      } else if (strength <= 4) {
+        strengthMeter.classList.add('strength-medium');
+        strengthText.textContent = 'Medium strength password';
+        strengthText.style.color = '#f39c12';
+      } else {
+        strengthMeter.classList.add('strength-strong');
+        strengthText.textContent = 'Strong password';
+        strengthText.style.color = '#2ecc71';
+      }
+    });
+
+    // Simulate server-side email availability check
+    async function checkEmailAvailability(email) {
+      return new Promise((resolve) => {
+        // Simulate network delay
+        setTimeout(() => {
+          const users = JSON.parse(localStorage.getItem('users')) || [];
+          const isAvailable = !users.some(user => 
+            user.email.toLowerCase() === email.toLowerCase()
+          );
+          resolve(isAvailable);
+        }, VALIDATION_CONFIG.checkTimeout);
+      });
+    }
+
+    // Simulate server-side mobile availability check
+    async function checkMobileAvailability(mobile) {
+      return new Promise((resolve) => {
+        // Simulate network delay
+        setTimeout(() => {
+          const users = JSON.parse(localStorage.getItem('users')) || [];
+          const isAvailable = !users.some(user => user.mobile === mobile);
+          resolve(isAvailable);
+        }, VALIDATION_CONFIG.checkTimeout);
+      });
+    }
+
+    // Debounce function for real-time validation
+    function debounce(func, delay) {
+      let timeoutId;
+      return function(...args) {
+        clearTimeout(timeoutId);
+        timeoutId = setTimeout(() => func.apply(this, args), delay);
+      };
+    }
+
+    // Email validation with real-time availability check
+    const validateEmail = debounce(async function(email) {
+      const emailInput = document.getElementById('email');
+      const emailStatus = document.getElementById('emailStatus');
+      const emailChecking = document.getElementById('emailChecking');
+      const emailError = document.getElementById('emailError');
+      
+      // Basic email validation
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      if (!emailRegex.test(email)) {
+        validationState.email.valid = false;
+        validationState.email.available = false;
+        hideFieldError('emailError');
+        hideAvailabilityStatus('emailStatus');
+        emailChecking.style.display = 'none';
+        emailInput.closest('.form-group').classList.remove('checking');
+        return;
+      }
+      
+      // Show checking indicator
+      validationState.email.checking = true;
+      emailChecking.style.display = 'block';
+      emailInput.closest('.form-group').classList.add('checking');
+      hideAvailabilityStatus('emailStatus');
+      hideFieldError('emailError');
+      
+      try {
+        const isAvailable = await checkEmailAvailability(email);
+        
+        validationState.email.valid = true;
+        validationState.email.available = isAvailable;
+        validationState.email.checking = false;
+        
+        emailChecking.style.display = 'none';
+        emailInput.closest('.form-group').classList.remove('checking');
+        
+        if (isAvailable) {
+          showAvailabilityStatus('emailStatus', 'Email is available', 'available');
+          emailInput.closest('.form-group').classList.add('success');
+          emailInput.closest('.form-group').classList.remove('error');
+        } else {
+          showAvailabilityStatus('emailStatus', 'Email is already registered', 'unavailable');
+          emailInput.closest('.form-group').classList.add('error');
+          emailInput.closest('.form-group').classList.remove('success');
+        }
+      } catch (error) {
+        console.error('Email validation error:', error);
+        validationState.email.checking = false;
+        emailChecking.style.display = 'none';
+        emailInput.closest('.form-group').classList.remove('checking');
+      }
+      
+      updateFormValidity();
+    }, VALIDATION_CONFIG.debounceDelay);
+
+    // Mobile validation with real-time availability check
+    const validateMobile = debounce(async function(mobile) {
+      const mobileInput = document.getElementById('mobile');
+      const mobileStatus = document.getElementById('mobileStatus');
+      const mobileChecking = document.getElementById('mobileChecking');
+      const mobileError = document.getElementById('mobileError');
+      
+      // Basic mobile validation
+      const mobileRegex = /^[0-9]{10}$/;
+      if (!mobileRegex.test(mobile)) {
+        validationState.mobile.valid = false;
+        validationState.mobile.available = false;
+        hideFieldError('mobileError');
+        hideAvailabilityStatus('mobileStatus');
+        mobileChecking.style.display = 'none';
+        mobileInput.closest('.form-group').classList.remove('checking');
+        return;
+      }
+      
+      // Show checking indicator
+      validationState.mobile.checking = true;
+      mobileChecking.style.display = 'block';
+      mobileInput.closest('.form-group').classList.add('checking');
+      hideAvailabilityStatus('mobileStatus');
+      hideFieldError('mobileError');
+      
+      try {
+        const isAvailable = await checkMobileAvailability(mobile);
+        
+        validationState.mobile.valid = true;
+        validationState.mobile.available = isAvailable;
+        validationState.mobile.checking = false;
+        
+        mobileChecking.style.display = 'none';
+        mobileInput.closest('.form-group').classList.remove('checking');
+        
+        if (isAvailable) {
+          showAvailabilityStatus('mobileStatus', 'Mobile number is available', 'available');
+          mobileInput.closest('.form-group').classList.add('success');
+          mobileInput.closest('.form-group').classList.remove('error');
+        } else {
+          showAvailabilityStatus('mobileStatus', 'Mobile number is already registered', 'unavailable');
+          mobileInput.closest('.form-group').classList.add('error');
+          mobileInput.closest('.form-group').classList.remove('success');
+        }
+      } catch (error) {
+        console.error('Mobile validation error:', error);
+        validationState.mobile.checking = false;
+        mobileChecking.style.display = 'none';
+        mobileInput.closest('.form-group').classList.remove('checking');
+      }
+      
+      updateFormValidity();
+    }, VALIDATION_CONFIG.debounceDelay);
+
+    // Update overall form validity
+    function updateFormValidity() {
+      const fullName = document.getElementById('fullName').value.trim();
+      const password = document.getElementById('password').value;
+      const confirmPassword = document.getElementById('confirmPassword').value;
+      const terms = document.getElementById('terms').checked;
+      
+      const basicValidation = (
+        fullName.length >= 2 &&
+        password.length >= VALIDATION_CONFIG.minPasswordLength &&
+        password === confirmPassword &&
+        terms
+      );
+      
+      const availabilityValidation = (
+        validationState.email.valid && 
+        validationState.email.available &&
+        validationState.mobile.valid && 
+        validationState.mobile.available
+      );
+      
+      validationState.formValid = basicValidation && availabilityValidation;
+      
+      // Update submit button state
+      const submitBtn = document.getElementById('submitBtn');
+      submitBtn.disabled = !validationState.formValid || 
+                          validationState.email.checking || 
+                          validationState.mobile.checking;
+    }
+
+    // Form validation and submission
+    document.getElementById('signupForm').addEventListener('submit', async function(e) {
+      e.preventDefault();
+      
+      if (!validationState.formValid) {
+        showMessage('errorMessage', 'Please fix all validation errors before submitting.');
+        return;
+      }
+      
+      const fullName = document.getElementById('fullName').value.trim();
+      const email = document.getElementById('email').value.trim();
+      const mobile = document.getElementById('mobile').value.trim();
+      const password = document.getElementById('password').value;
+      
+      await registerUser(fullName, email, mobile, password);
+    });
+
+    function resetErrors() {
+      // Hide all error messages
+      document.getElementById('errorMessage').style.display = 'none';
+      document.getElementById('successMessage').style.display = 'none';
+      
+      const fieldErrors = document.querySelectorAll('.field-error');
+      fieldErrors.forEach(error => {
+        error.style.display = 'none';
+      });
+      
+      // Reset form group classes
+      const formGroups = document.querySelectorAll('.form-group');
+      formGroups.forEach(group => {
+        group.classList.remove('error', 'success', 'checking');
+      });
+      
+      // Reset availability status
+      hideAvailabilityStatus('emailStatus');
+      hideAvailabilityStatus('mobileStatus');
+      
+      // Hide checking indicators
+      document.getElementById('emailChecking').style.display = 'none';
+      document.getElementById('mobileChecking').style.display = 'none';
+    }
+
+    function showFieldError(fieldId, message) {
+      const fieldError = document.getElementById(fieldId);
+      fieldError.textContent = message;
+      fieldError.style.display = 'block';
+      
+      // Add error class to parent form group
+      const formGroup = fieldError.closest('.form-group');
+      formGroup.classList.add('error');
+      formGroup.classList.remove('success');
+    }
+
+    function hideFieldError(fieldId) {
+      const fieldError = document.getElementById(fieldId);
+      fieldError.style.display = 'none';
+    }
+
+    function showAvailabilityStatus(elementId, message, type) {
+      const element = document.getElementById(elementId);
+      element.textContent = message;
+      element.className = `availability-status ${type}`;
+      element.style.display = 'block';
+    }
+
+    function hideAvailabilityStatus(elementId) {
+      const element = document.getElementById(elementId);
+      element.style.display = 'none';
+    }
+
+    function showMessage(elementId, message) {
+      const element = document.getElementById(elementId);
+      element.textContent = message;
+      element.style.display = 'block';
+    }
+
+    function setLoadingState(button, isLoading) {
+      if (isLoading) {
+        button.disabled = true;
+        button.classList.add('loading');
+      } else {
+        button.disabled = !validationState.formValid;
+        button.classList.remove('loading');
+      }
+    }
+
+    async function registerUser(fullName, email, mobile, password) {
+      const submitBtn = document.getElementById('submitBtn');
+      setLoadingState(submitBtn, true);
+      
+      try {
+        // Final server-side validation (simulated)
+        const finalEmailCheck = await checkEmailAvailability(email);
+        const finalMobileCheck = await checkMobileAvailability(mobile);
+        
+        if (!finalEmailCheck || !finalMobileCheck) {
+          showMessage('errorMessage', 'Email or mobile number is no longer available. Please refresh and try again.');
+          setLoadingState(submitBtn, false);
+          return;
+        }
+        
+        // Simulate API call delay
+        await new Promise(resolve => setTimeout(resolve, 1000));
+        
+        // Get existing users or initialize empty array
+        const users = JSON.parse(localStorage.getItem('users')) || [];
+        
+        // Create new user object
+        const newUser = {
+          id: 'user_' + Date.now(),
+          fullName: fullName,
+          email: email.toLowerCase(),
+          mobile: mobile,
+          password: password, // In real app, this should be hashed
+          createdAt: new Date().toISOString(),
+          lastLogin: null,
+          profile: {
+            firstName: fullName.split(' ')[0] || '',
+            lastName: fullName.split(' ').slice(1).join(' ') || '',
+            email: email,
+            phone: mobile,
+            birthdate: '',
+            gender: '',
+            emailNotifications: true,
+            smsNotifications: false
+          }
+        };
+        
+        // Add new user to users array
+        users.push(newUser);
+        
+        // Save to localStorage
+        localStorage.setItem('users', JSON.stringify(users));
+        
+        // Show success message
+        showMessage('successMessage', 'Account created successfully! Redirecting to login...');
+        document.getElementById('errorMessage').style.display = 'none';
+        
+        // Reset form
+        document.getElementById('signupForm').reset();
+        
+        // Reset validation state
+        validationState = {
+          email: { valid: false, checking: false, available: false },
+          mobile: { valid: false, checking: false, available: false },
+          formValid: false
+        };
+        
+        // Redirect to login after a delay
+        setTimeout(() => {
+          window.location.href = 'login.html';
+        }, 2000);
+        
+      } catch (error) {
+        console.error('Registration error:', error);
+        showMessage('errorMessage', 'Registration failed. Please try again.');
+        setLoadingState(submitBtn, false);
+      }
+    }
+
+    // Event listeners for real-time validation
+    document.getElementById('email').addEventListener('input', function() {
+      const email = this.value.trim();
+      validateEmail(email);
+      updateFormValidity();
+    });
+
+    document.getElementById('mobile').addEventListener('input', function() {
+      const mobile = this.value.trim();
+      validateMobile(mobile);
+      updateFormValidity();
+    });
+
+    document.getElementById('fullName').addEventListener('input', updateFormValidity);
+    document.getElementById('password').addEventListener('input', updateFormValidity);
+    document.getElementById('confirmPassword').addEventListener('input', updateFormValidity);
+    document.getElementById('terms').addEventListener('change', updateFormValidity);
+
+    // Initialize the application
+    document.addEventListener('DOMContentLoaded', function() {
+      initializeUsers();
+      resetErrors();
+      updateFormValidity();
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,964 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" type="image/png" href="/media/logo.png">
+  <title>Login - myMart</title>
+  <style>
+    /* ===== General Styles ===== */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    body {
+      background: linear-gradient(135deg, #AED6CF 0%, #91ADC8 100%);
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+    }
+
+    /* ===== Login Container ===== */
+    .login-container {
+      background: #fff;
+      border-radius: 16px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+      overflow: hidden;
+      width: 100%;
+      max-width: 450px;
+      padding: 40px 35px;
+      position: relative;
+      animation: slideUp 0.5s ease-out;
+    }
+
+    /* ===== Logo Section ===== */
+    .logo-section {
+      text-align: center;
+      margin-bottom: 30px;
+    }
+
+    .logo {
+      width: 120px;
+      height: auto;
+      margin-bottom: 15px;
+    }
+
+    .logo-section h1 {
+      color: #ff7a18;
+      font-size: 28px;
+      margin-bottom: 8px;
+    }
+
+    .logo-section p {
+      color: #666;
+      font-size: 16px;
+    }
+
+    /* ===== Form Styles ===== */
+    .login-form {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .form-group {
+      margin-bottom: 20px;
+      position: relative;
+    }
+
+    .form-group label {
+      display: block;
+      margin-bottom: 8px;
+      font-weight: 600;
+      color: #333;
+    }
+
+    .form-group input {
+      width: 100%;
+      padding: 14px 16px;
+      border: 2px solid #e1e5e9;
+      border-radius: 8px;
+      font-size: 16px;
+      transition: all 0.3s;
+    }
+
+    .form-group input:focus {
+      border-color: #ff7a18;
+      outline: none;
+      box-shadow: 0 0 0 3px rgba(255, 122, 24, 0.2);
+    }
+
+    .form-group.error input {
+      border-color: #e74c3c;
+    }
+
+    .form-group.success input {
+      border-color: #2ecc71;
+    }
+
+    .password-container {
+      position: relative;
+    }
+
+    .toggle-password {
+      position: absolute;
+      right: 15px;
+      top: 50%;
+      transform: translateY(-50%);
+      background: none;
+      border: none;
+      color: #666;
+      cursor: pointer;
+      font-size: 18px;
+      transition: color 0.3s;
+    }
+
+    .toggle-password:hover {
+      color: #ff7a18;
+    }
+
+    .field-error {
+      color: #e74c3c;
+      font-size: 12px;
+      margin-top: 5px;
+      display: none;
+    }
+
+    /* ===== Remember Me & Forgot Password ===== */
+    .form-options {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 25px;
+    }
+
+    .remember-me {
+      display: flex;
+      align-items: center;
+    }
+
+    .remember-me input {
+      margin-right: 8px;
+      accent-color: #ff7a18;
+    }
+
+    .remember-me label {
+      color: #666;
+      font-size: 14px;
+      cursor: pointer;
+    }
+
+    .forgot-password {
+      color: #ff7a18;
+      text-decoration: none;
+      font-weight: 500;
+      font-size: 14px;
+      transition: color 0.3s;
+    }
+
+    .forgot-password:hover {
+      color: #e26500;
+      text-decoration: underline;
+    }
+
+    /* ===== Submit Button ===== */
+    .submit-btn {
+      background: #ff7a18;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      padding: 16px;
+      font-size: 18px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s;
+      margin-bottom: 20px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .submit-btn:hover {
+      background: #e26500;
+      transform: translateY(-1px);
+      box-shadow: 0 4px 12px rgba(255, 122, 24, 0.3);
+    }
+
+    .submit-btn:active {
+      transform: translateY(0);
+    }
+
+    .submit-btn:disabled {
+      background: #cccccc;
+      cursor: not-allowed;
+      transform: none;
+      box-shadow: none;
+    }
+
+    .submit-btn.loading {
+      color: transparent;
+    }
+
+    .submit-btn.loading::after {
+      content: "";
+      position: absolute;
+      width: 20px;
+      height: 20px;
+      top: 50%;
+      left: 50%;
+      margin-left: -10px;
+      margin-top: -10px;
+      border: 2px solid #ffffff;
+      border-radius: 50%;
+      border-top-color: transparent;
+      animation: spin 0.8s ease infinite;
+    }
+
+    /* ===== Divider ===== */
+    .divider {
+      display: flex;
+      align-items: center;
+      margin: 30px 0;
+      color: #666;
+    }
+
+    .divider::before,
+    .divider::after {
+      content: "";
+      flex: 1;
+      height: 1px;
+      background: #e1e5e9;
+    }
+
+    .divider span {
+      padding: 0 15px;
+      font-size: 14px;
+    }
+
+    /* ===== Social Login ===== */
+    .social-login {
+      display: flex;
+      justify-content: center;
+      gap: 15px;
+      margin-bottom: 25px;
+    }
+
+    .social-btn {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 55px;
+      height: 55px;
+      border-radius: 50%;
+      border: 2px solid #e1e5e9;
+      background: white;
+      cursor: pointer;
+      transition: all 0.3s;
+      font-size: 20px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .social-btn:hover {
+      border-color: #ff7a18;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    }
+
+    .social-btn:active {
+      transform: translateY(0);
+    }
+
+    .social-btn.loading {
+      pointer-events: none;
+    }
+
+    .social-btn.loading::after {
+      content: "";
+      position: absolute;
+      width: 20px;
+      height: 20px;
+      border: 2px solid;
+      border-radius: 50%;
+      border-top-color: transparent;
+      animation: spin 0.8s ease infinite;
+    }
+
+    .google { 
+      color: #DB4437; 
+    }
+    .google.loading::after {
+      border-color: #DB4437;
+      border-top-color: transparent;
+    }
+
+    .facebook { 
+      color: #4267B2; 
+    }
+    .facebook.loading::after {
+      border-color: #4267B2;
+      border-top-color: transparent;
+    }
+
+    .twitter { 
+      color: #1DA1F2; 
+    }
+    .twitter.loading::after {
+      border-color: #1DA1F2;
+      border-top-color: transparent;
+    }
+
+    /* ===== Sign Up Link ===== */
+    .signup-link {
+      text-align: center;
+      color: #666;
+      margin-bottom: 15px;
+    }
+
+    .signup-link a {
+      color: #ff7a18;
+      text-decoration: none;
+      font-weight: 600;
+      margin-left: 5px;
+      transition: color 0.3s;
+    }
+
+    .signup-link a:hover {
+      color: #e26500;
+      text-decoration: underline;
+    }
+
+    /* ===== Home Link ===== */
+    .home-link {
+      text-align: center;
+      margin-top: 15px;
+    }
+
+    .home-link a {
+      color: #666;
+      text-decoration: none;
+      font-size: 14px;
+      transition: color 0.3s;
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+    }
+
+    .home-link a:hover {
+      color: #ff7a18;
+    }
+
+    /* ===== Error Message ===== */
+    .error-message {
+      background: #ffe6e6;
+      color: #d63031;
+      padding: 12px 16px;
+      border-radius: 8px;
+      margin-bottom: 20px;
+      display: none;
+      font-size: 14px;
+      border-left: 4px solid #d63031;
+      animation: shake 0.5s ease-in-out;
+    }
+
+    /* ===== Success Message ===== */
+    .success-message {
+      background: #e6ffe6;
+      color: #2e7d32;
+      padding: 12px 16px;
+      border-radius: 8px;
+      margin-bottom: 20px;
+      display: none;
+      font-size: 14px;
+      border-left: 4px solid #2e7d32;
+      animation: slideDown 0.5s ease-out;
+    }
+
+    /* ===== Security Notice ===== */
+    .security-notice {
+      background: #fff3cd;
+      color: #856404;
+      padding: 12px 16px;
+      border-radius: 8px;
+      margin-bottom: 20px;
+      font-size: 12px;
+      border-left: 4px solid #ffc107;
+      text-align: center;
+    }
+
+    /* ===== Animations ===== */
+    @keyframes slideUp {
+      from {
+        opacity: 0;
+        transform: translateY(30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes slideDown {
+      from {
+        opacity: 0;
+        transform: translateY(-20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+
+    @keyframes shake {
+      0%, 100% { transform: translateX(0); }
+      25% { transform: translateX(-5px); }
+      75% { transform: translateX(5px); }
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    /* ===== Responsive Design ===== */
+    @media (max-width: 480px) {
+      .login-container {
+        padding: 30px 20px;
+        margin: 10px;
+      }
+      
+      .logo {
+        width: 100px;
+      }
+      
+      .logo-section h1 {
+        font-size: 24px;
+      }
+      
+      .form-options {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 15px;
+      }
+
+      .social-login {
+        gap: 12px;
+      }
+
+      .social-btn {
+        width: 50px;
+        height: 50px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="login-container">
+    <!-- Logo Section -->
+    <div class="logo-section">
+      <img src="/media/logo.png" alt="myMart Logo" class="logo">
+      <h1>Welcome Back</h1>
+      <p>Sign in to your account to continue shopping</p>
+    </div>
+
+    <!-- Security Notice -->
+    <div class="security-notice">
+      🔒 Secure login - Your credentials are protected
+    </div>
+
+    <!-- Error Message (hidden by default) -->
+    <div class="error-message" id="errorMessage">
+      Invalid email or password. Please try again.
+    </div>
+
+    <!-- Success Message (hidden by default) -->
+    <div class="success-message" id="successMessage">
+      Login successful! Redirecting...
+    </div>
+
+    <!-- Login Form -->
+    <form class="login-form" id="loginForm">
+      <div class="form-group">
+        <label for="loginId">Email or Mobile Number</label>
+        <input type="text" id="loginId" placeholder="Enter your email or mobile number" required>
+        <div class="field-error" id="loginIdError">Please enter a valid email or 10-digit mobile number</div>
+      </div>
+
+      <div class="form-group">
+        <label for="password">Password</label>
+        <div class="password-container">
+          <input type="password" id="password" placeholder="Enter your password" required>
+          <button type="button" class="toggle-password" id="togglePassword">👁️</button>
+        </div>
+        <div class="field-error" id="passwordError">Please enter your password</div>
+      </div>
+
+      <div class="form-options">
+        <div class="remember-me">
+          <input type="checkbox" id="remember">
+          <label for="remember">Remember me</label>
+        </div>
+        <a href="#" class="forgot-password" id="forgotPassword">Forgot password?</a>
+      </div>
+
+      <button type="submit" class="submit-btn" id="submitBtn">
+        Sign In
+      </button>
+    </form>
+
+    <!-- Sign Up Link -->
+    <div class="signup-link">
+      Don't have an account? <a href="signup.html">Sign Up</a>
+    </div>
+
+    <!-- Home Link -->
+    <div class="home-link">
+      <a href="index.html">← Back to Home</a>
+    </div>
+  </div>
+
+  <script>
+    // DOM Elements
+    const loginForm = document.getElementById('loginForm');
+    const loginIdInput = document.getElementById('loginId');
+    const passwordInput = document.getElementById('password');
+    const togglePasswordBtn = document.getElementById('togglePassword');
+    const submitBtn = document.getElementById('submitBtn');
+    const errorMessage = document.getElementById('errorMessage');
+    const successMessage = document.getElementById('successMessage');
+    const loginIdError = document.getElementById('loginIdError');
+    const passwordError = document.getElementById('passwordError');
+    const rememberCheckbox = document.getElementById('remember');
+    const forgotPasswordLink = document.getElementById('forgotPassword');
+
+    // Security configuration
+    const SECURITY_CONFIG = {
+      maxLoginAttempts: 5,
+      lockoutTime: 15 * 60 * 1000, // 15 minutes
+      sessionTimeout: 30 * 60 * 1000 // 30 minutes
+    };
+
+    // Initialize users array in localStorage if it doesn't exist
+    function initializeUsers() {
+      if (!localStorage.getItem('users')) {
+        localStorage.setItem('users', JSON.stringify([]));
+        console.log('Initialized empty users array in localStorage');
+      }
+    }
+
+    // Enhanced user lookup function
+    function findUser(loginId, password) {
+      const users = JSON.parse(localStorage.getItem('users')) || [];
+      
+      // Security: Don't log user data in production
+      if (window.location.hostname !== 'localhost' && window.location.hostname !== '127.0.0.1') {
+        console.log('User lookup performed');
+      } else {
+        console.log('Available users:', users);
+      }
+      
+      const isEmail = loginId.includes('@');
+      const isMobile = /^[0-9]{10}$/.test(loginId);
+      
+      let foundUser = null;
+      
+      if (isEmail) {
+        foundUser = users.find(user => 
+          user.email.toLowerCase() === loginId.toLowerCase() && 
+          user.password === password
+        );
+      } else if (isMobile) {
+        foundUser = users.find(user => 
+          user.mobile === loginId && 
+          user.password === password
+        );
+      }
+      
+      return foundUser;
+    }
+
+    // Enhanced validation for login ID
+    function validateLoginId(loginId) {
+      const isEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(loginId);
+      const isMobile = /^[0-9]{10}$/.test(loginId);
+      
+      if (!loginId) {
+        return { isValid: false, message: 'Please enter your email or mobile number' };
+      }
+      
+      if (!isEmail && !isMobile) {
+        return { isValid: false, message: 'Please enter a valid email or 10-digit mobile number' };
+      }
+      
+      return { isValid: true };
+    }
+
+    // Check if user exists (for real-time validation)
+    function checkUserExists(loginId) {
+      const users = JSON.parse(localStorage.getItem('users')) || [];
+      const isEmail = loginId.includes('@');
+      const isMobile = /^[0-9]{10}$/.test(loginId);
+      
+      if (isEmail) {
+        return users.some(user => user.email.toLowerCase() === loginId.toLowerCase());
+      } else if (isMobile) {
+        return users.some(user => user.mobile === loginId);
+      }
+      
+      return false;
+    }
+
+    // Security: Check for brute force attempts
+    function checkSecurityLock() {
+      const loginAttempts = JSON.parse(localStorage.getItem('loginAttempts') || '{}');
+      const clientId = getClientIdentifier();
+      const clientAttempts = loginAttempts[clientId] || { count: 0, lastAttempt: 0 };
+      
+      // Reset attempts if lockout time has passed
+      if (Date.now() - clientAttempts.lastAttempt > SECURITY_CONFIG.lockoutTime) {
+        clientAttempts.count = 0;
+      }
+      
+      return clientAttempts.count >= SECURITY_CONFIG.maxLoginAttempts;
+    }
+
+    // Security: Record login attempt
+    function recordLoginAttempt(success) {
+      const loginAttempts = JSON.parse(localStorage.getItem('loginAttempts') || '{}');
+      const clientId = getClientIdentifier();
+      
+      if (!loginAttempts[clientId]) {
+        loginAttempts[clientId] = { count: 0, lastAttempt: 0 };
+      }
+      
+      if (success) {
+        loginAttempts[clientId].count = 0; // Reset on successful login
+      } else {
+        loginAttempts[clientId].count++;
+        loginAttempts[clientId].lastAttempt = Date.now();
+      }
+      
+      localStorage.setItem('loginAttempts', JSON.stringify(loginAttempts));
+    }
+
+    // Security: Get client identifier (simplified)
+    function getClientIdentifier() {
+      // In a real application, use a more sophisticated method
+      return 'client_' + (localStorage.getItem('clientId') || 
+             Math.random().toString(36).substr(2, 9));
+    }
+
+    // Toggle password visibility
+    togglePasswordBtn.addEventListener('click', function() {
+      const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
+      passwordInput.setAttribute('type', type);
+      this.textContent = type === 'password' ? '👁️' : '🔒';
+    });
+
+    // Validate form
+    function validateForm() {
+      let isValid = true;
+      const loginId = loginIdInput.value.trim();
+      const password = passwordInput.value;
+
+      hideFieldError('loginIdError');
+      hideFieldError('passwordError');
+      hideMessage('errorMessage');
+
+      // Check security lock first
+      if (checkSecurityLock()) {
+        showMessage('errorMessage', 'Too many failed login attempts. Please try again in 15 minutes.');
+        return false;
+      }
+
+      // Validate login ID
+      const loginIdValidation = validateLoginId(loginId);
+      if (!loginIdValidation.isValid) {
+        showFieldError('loginIdError', loginIdValidation.message);
+        isValid = false;
+      } else if (!checkUserExists(loginId)) {
+        showFieldError('loginIdError', 'No account found with this email or mobile number');
+        isValid = false;
+      }
+
+      // Validate password
+      if (!password) {
+        showFieldError('passwordError', 'Please enter your password');
+        isValid = false;
+      } else if (password.length < 8) {
+        showFieldError('passwordError', 'Password must be at least 8 characters');
+        isValid = false;
+      }
+
+      return isValid;
+    }
+
+    // Show field error
+    function showFieldError(fieldId, message) {
+      const fieldError = document.getElementById(fieldId);
+      fieldError.textContent = message;
+      fieldError.style.display = 'block';
+      
+      const formGroup = fieldError.closest('.form-group');
+      formGroup.classList.remove('success');
+      formGroup.classList.add('error');
+    }
+
+    // Hide field error
+    function hideFieldError(fieldId) {
+      const fieldError = document.getElementById(fieldId);
+      fieldError.style.display = 'none';
+      
+      const formGroup = fieldError.closest('.form-group');
+      formGroup.classList.remove('error');
+    }
+
+    // Show success state
+    function showFieldSuccess(fieldId) {
+      const fieldError = document.getElementById(fieldId);
+      fieldError.style.display = 'none';
+      
+      const formGroup = fieldError.closest('.form-group');
+      formGroup.classList.remove('error');
+      formGroup.classList.add('success');
+    }
+
+    // Show message
+    function showMessage(element, message) {
+      const messageElement = document.getElementById(element);
+      messageElement.textContent = message;
+      messageElement.style.display = 'block';
+    }
+
+    // Hide message
+    function hideMessage(element) {
+      document.getElementById(element).style.display = 'none';
+    }
+
+    // Set loading state
+    function setLoadingState(button, isLoading) {
+      if (isLoading) {
+        button.disabled = true;
+        button.classList.add('loading');
+      } else {
+        button.disabled = false;
+        button.classList.remove('loading');
+      }
+    }
+
+    // Form validation and submission
+    loginForm.addEventListener('submit', function(e) {
+      e.preventDefault();
+      
+      if (!validateForm()) {
+        return;
+      }
+      
+      const loginId = loginIdInput.value.trim();
+      const password = passwordInput.value;
+      
+      attemptLogin(loginId, password);
+    });
+
+    function attemptLogin(loginId, password) {
+      setLoadingState(submitBtn, true);
+      
+      // Simulate API call delay
+      setTimeout(() => {
+        const user = findUser(loginId, password);
+        
+        if (user) {
+          // Login successful
+          recordLoginAttempt(true);
+          showMessage('successMessage', 'Login successful! Redirecting...');
+          hideMessage('errorMessage');
+          
+          // Create user session
+          const userSession = {
+            id: user.id,
+            fullName: user.fullName,
+            email: user.email,
+            mobile: user.mobile,
+            profile: user.profile,
+            lastLogin: new Date().toISOString(),
+            sessionExpiry: Date.now() + SECURITY_CONFIG.sessionTimeout
+          };
+          
+          // Save to localStorage
+          localStorage.setItem('currentUser', JSON.stringify(userSession));
+          
+          // Update last login in users array
+          updateLastLogin(user.id);
+          
+          // Handle "Remember me" functionality
+          if (rememberCheckbox.checked) {
+            localStorage.setItem('rememberedLoginId', loginId);
+          } else {
+            localStorage.removeItem('rememberedLoginId');
+          }
+          
+          // Redirect to home page
+          setTimeout(() => {
+            window.location.href = 'homePage.html';
+          }, 1500);
+        } else {
+          // Login failed
+          recordLoginAttempt(false);
+          const attempts = getRemainingAttempts();
+          showMessage('errorMessage', 
+            `Invalid email/mobile or password. ${attempts} attempts remaining.`);
+          setLoadingState(submitBtn, false);
+          
+          // Clear password field
+          passwordInput.value = '';
+          passwordInput.focus();
+        }
+      }, 1500);
+    }
+
+    // Get remaining login attempts
+    function getRemainingAttempts() {
+      const loginAttempts = JSON.parse(localStorage.getItem('loginAttempts') || '{}');
+      const clientId = getClientIdentifier();
+      const clientAttempts = loginAttempts[clientId] || { count: 0 };
+      
+      return Math.max(0, SECURITY_CONFIG.maxLoginAttempts - clientAttempts.count);
+    }
+
+    // Update last login timestamp
+    function updateLastLogin(userId) {
+      const users = JSON.parse(localStorage.getItem('users')) || [];
+      const userIndex = users.findIndex(user => user.id === userId);
+      
+      if (userIndex !== -1) {
+        users[userIndex].lastLogin = new Date().toISOString();
+        localStorage.setItem('users', JSON.stringify(users));
+      }
+    }
+
+    // Forgot password functionality
+    forgotPasswordLink.addEventListener('click', function(e) {
+      e.preventDefault();
+      const loginId = loginIdInput.value.trim();
+      
+      if (!loginId) {
+        showMessage('errorMessage', 'Please enter your email or mobile number to reset password');
+        return;
+      }
+      
+      const loginIdValidation = validateLoginId(loginId);
+      if (!loginIdValidation.isValid) {
+        showMessage('errorMessage', loginIdValidation.message);
+        return;
+      }
+      
+      if (!checkUserExists(loginId)) {
+        showMessage('errorMessage', 'No account found with this email or mobile number');
+        return;
+      }
+      
+      // Simulate password reset process
+      showMessage('successMessage', 'Password reset instructions have been sent to your registered email/mobile');
+      
+      setTimeout(() => {
+        hideMessage('successMessage');
+      }, 5000);
+    });
+
+    // Real-time validation for better UX
+    loginIdInput.addEventListener('blur', function() {
+      const loginId = this.value.trim();
+      const validation = validateLoginId(loginId);
+      
+      if (!validation.isValid) {
+        showFieldError('loginIdError', validation.message);
+      } else if (!checkUserExists(loginId)) {
+        showFieldError('loginIdError', 'No account found with this email or mobile number');
+      } else {
+        showFieldSuccess('loginIdError');
+      }
+    });
+
+    loginIdInput.addEventListener('input', function() {
+      const loginId = this.value.trim();
+      if (loginId) {
+        hideFieldError('loginIdError');
+        const formGroup = this.closest('.form-group');
+        formGroup.classList.remove('error', 'success');
+      }
+    });
+
+    passwordInput.addEventListener('blur', function() {
+      if (!this.value) {
+        showFieldError('passwordError', 'Please enter your password');
+      } else if (this.value.length < 8) {
+        showFieldError('passwordError', 'Password must be at least 8 characters');
+      } else {
+        showFieldSuccess('passwordError');
+      }
+    });
+
+    passwordInput.addEventListener('input', function() {
+      if (this.value) {
+        hideFieldError('passwordError');
+        const formGroup = this.closest('.form-group');
+        formGroup.classList.remove('error', 'success');
+      }
+    });
+
+    // Check if user has previously selected "Remember me"
+    document.addEventListener('DOMContentLoaded', function() {
+      // Initialize users array
+      initializeUsers();
+      
+      const rememberedLoginId = localStorage.getItem('rememberedLoginId');
+      if (rememberedLoginId) {
+        loginIdInput.value = rememberedLoginId;
+        rememberCheckbox.checked = true;
+        
+        // Validate the remembered login ID
+        const validation = validateLoginId(rememberedLoginId);
+        if (validation.isValid && checkUserExists(rememberedLoginId)) {
+          showFieldSuccess('loginIdError');
+        }
+      }
+      
+      loginIdInput.focus();
+      
+      // Security: Initialize client ID if not exists
+      if (!localStorage.getItem('clientId')) {
+        localStorage.setItem('clientId', Math.random().toString(36).substr(2, 9));
+      }
+    });
+
+    // Save login ID if "Remember me" is checked
+    rememberCheckbox.addEventListener('change', function() {
+      const loginId = loginIdInput.value.trim();
+      if (this.checked && loginId) {
+        const validation = validateLoginId(loginId);
+        if (validation.isValid && checkUserExists(loginId)) {
+          localStorage.setItem('rememberedLoginId', loginId);
+        }
+      } else {
+        localStorage.removeItem('rememberedLoginId');
+      }
+    });
+
+    // Security: Clear sensitive data on page unload in development
+    if (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') {
+      window.addEventListener('beforeunload', function() {
+        // Clear any sensitive data that shouldn't persist
+        localStorage.removeItem('loginAttempts');
+      });
+    }
+  </script>
+</body>
+</html>

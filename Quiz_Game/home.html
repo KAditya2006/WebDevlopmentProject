@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>BrainBridge - Quiz App</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: "Poppins", sans-serif;
+    }
+
+    body {
+      background: linear-gradient(135deg, #4a90e2, #7b4397);
+      color: #fff;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+
+    .container {
+      text-align: center;
+      max-width: 500px;
+      padding: 40px 20px;
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 20px;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+      backdrop-filter: blur(10px);
+    }
+
+    .logo {
+      font-size: 3rem;
+      font-weight: 700;
+      margin-bottom: 15px;
+      color: #ffdd57;
+    }
+
+    .tagline {
+      font-size: 1.2rem;
+      margin-bottom: 30px;
+      opacity: 0.9;
+    }
+
+    .btn {
+      display: inline-block;
+      padding: 12px 30px;
+      margin: 10px;
+      font-size: 1rem;
+      font-weight: 600;
+      border: none;
+      border-radius: 30px;
+      cursor: pointer;
+      background: #ffdd57;
+      color: #333;
+      transition: 0.3s ease;
+      text-decoration: none;
+    }
+
+    .btn:hover {
+      background: #ffc107;
+      transform: translateY(-2px);
+    }
+
+    .features {
+      margin-top: 40px;
+      text-align: left;
+    }
+
+    .features h2 {
+      margin-bottom: 10px;
+      font-size: 1.4rem;
+      text-align: center;
+      color: #ffdd57;
+    }
+
+    .features ul {
+      list-style: none;
+    }
+
+    .features ul li {
+      margin: 8px 0;
+      font-size: 1rem;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="logo">🧠 BrainBridge</div>
+    <p class="tagline">Bridge the gap between knowledge and fun!</p>
+
+    <a href="quiz.html" class="btn">Start Quiz</a>
+    <a href="login.html" class="btn">Login</a>
+    <a href="register.html" class="btn">Register</a>
+
+    <div class="features">
+      <h2>Why BrainBridge?</h2>
+      <ul>
+        <li>✨ Fun & interactive quizzes</li>
+        <li>📊 Track your progress</li>
+        <li>🏆 Compete with friends</li>
+        <li>🎯 Learn while playing</li>
+      </ul>
+    </div>
+  </div>
+</body>
+</html>

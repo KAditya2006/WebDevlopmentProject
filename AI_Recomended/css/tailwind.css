@@ -1,0 +1,167 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;500&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@400&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  /* Primary Colors */
+  --color-primary: #2D5016; /* deep forest green */
+  --color-primary-50: #F0F4ED; /* very light green */
+  --color-primary-100: #D9E5CC; /* light green */
+  --color-primary-200: #B8D199; /* medium light green */
+  --color-primary-300: #97BD66; /* medium green */
+  --color-primary-400: #76A933; /* medium dark green */
+  --color-primary-500: #2D5016; /* primary green */
+  --color-primary-600: #244011; /* dark green */
+  --color-primary-700: #1B300C; /* darker green */
+  --color-primary-800: #122008; /* very dark green */
+  --color-primary-900: #091004; /* darkest green */
+
+  /* Secondary Colors */
+  --color-secondary: #8B4513; /* rich earth brown */
+  --color-secondary-50: #F5F1ED; /* very light brown */
+  --color-secondary-100: #E8DDD1; /* light brown */
+  --color-secondary-200: #D1BBA3; /* medium light brown */
+  --color-secondary-300: #BA9975; /* medium brown */
+  --color-secondary-400: #A37747; /* medium dark brown */
+  --color-secondary-500: #8B4513; /* secondary brown */
+  --color-secondary-600: #70370F; /* dark brown */
+  --color-secondary-700: #54290B; /* darker brown */
+  --color-secondary-800: #381B08; /* very dark brown */
+  --color-secondary-900: #1C0D04; /* darkest brown */
+
+  /* Accent Colors */
+  --color-accent: #FF8C00; /* warm harvest orange */
+  --color-accent-50: #FFF7ED; /* very light orange */
+  --color-accent-100: #FFEDD5; /* light orange */
+  --color-accent-200: #FED7AA; /* medium light orange */
+  --color-accent-300: #FDBA74; /* medium orange */
+  --color-accent-400: #FB923C; /* medium dark orange */
+  --color-accent-500: #FF8C00; /* accent orange */
+  --color-accent-600: #EA580C; /* dark orange */
+  --color-accent-700: #C2410C; /* darker orange */
+  --color-accent-800: #9A3412; /* very dark orange */
+  --color-accent-900: #7C2D12; /* darkest orange */
+
+  /* Background Colors */
+  --color-background: #FAFAF9; /* soft off-white */
+  --color-surface: #FFFFFF; /* pure white */
+
+  /* Text Colors */
+  --color-text-primary: #1A1A1A; /* near-black */
+  --color-text-secondary: #666666; /* medium gray */
+
+  /* Status Colors */
+  --color-success: #22C55E; /* vibrant green */
+  --color-success-50: #F0FDF4; /* very light success green */
+  --color-success-100: #DCFCE7; /* light success green */
+  --color-success-200: #BBF7D0; /* medium light success green */
+  --color-success-300: #86EFAC; /* medium success green */
+  --color-success-400: #4ADE80; /* medium dark success green */
+  --color-success-500: #22C55E; /* success green */
+  --color-success-600: #16A34A; /* dark success green */
+  --color-success-700: #15803D; /* darker success green */
+  --color-success-800: #166534; /* very dark success green */
+  --color-success-900: #14532D; /* darkest success green */
+
+  --color-warning: #F59E0B; /* golden amber */
+  --color-warning-50: #FFFBEB; /* very light warning */
+  --color-warning-100: #FEF3C7; /* light warning */
+  --color-warning-200: #FDE68A; /* medium light warning */
+  --color-warning-300: #FCD34D; /* medium warning */
+  --color-warning-400: #FBBF24; /* medium dark warning */
+  --color-warning-500: #F59E0B; /* warning amber */
+  --color-warning-600: #D97706; /* dark warning */
+  --color-warning-700: #B45309; /* darker warning */
+  --color-warning-800: #92400E; /* very dark warning */
+  --color-warning-900: #78350F; /* darkest warning */
+
+  --color-error: #DC2626; /* strong red */
+  --color-error-50: #FEF2F2; /* very light error red */
+  --color-error-100: #FEE2E2; /* light error red */
+  --color-error-200: #FECACA; /* medium light error red */
+  --color-error-300: #FCA5A5; /* medium error red */
+  --color-error-400: #F87171; /* medium dark error red */
+  --color-error-500: #DC2626; /* error red */
+  --color-error-600: #DC2626; /* dark error red */
+  --color-error-700: #B91C1C; /* darker error red */
+  --color-error-800: #991B1B; /* very dark error red */
+  --color-error-900: #7F1D1D; /* darkest error red */
+
+  /* Border Colors */
+  --color-border: #E5E7EB; /* muted earth tone */
+  --color-border-focus: #2D5016; /* primary green for focus */
+
+  /* Shadow Colors */
+  --shadow-primary: rgba(45, 80, 22, 0.1); /* warm shadow */
+  --shadow-secondary: rgba(45, 80, 22, 0.15); /* medium shadow */
+  --shadow-strong: rgba(45, 80, 22, 0.2); /* strong shadow */
+}
+
+/* Custom Animation Timing */
+.transition-agricultural {
+  transition-timing-function: cubic-bezier(0.4, 0.0, 0.2, 1);
+  transition-duration: 250ms;
+}
+
+/* Voice Activation Animation */
+@keyframes breathe {
+  0%, 100% { transform: scale(1); opacity: 0.8; }
+  50% { transform: scale(1.05); opacity: 1; }
+}
+
+.animate-breathe {
+  animation: breathe 2s ease-in-out infinite;
+}
+
+/* Progressive Data Revelation */
+.expand-card {
+  transition: height 300ms cubic-bezier(0.4, 0.0, 0.2, 1);
+}
+
+/* Ambient Weather Integration */
+.weather-sunny {
+  background: linear-gradient(135deg, #FAFAF9 0%, #FFF7ED 100%);
+}
+
+.weather-cloudy {
+  background: linear-gradient(135deg, #F9FAFB 0%, #F3F4F6 100%);
+}
+
+.weather-rainy {
+  background: linear-gradient(135deg, #F0F9FF 0%, #E0F2FE 100%);
+}
+
+/* Touch-Friendly Targets */
+.touch-target {
+  min-height: 48px;
+  min-width: 48px;
+}
+
+/* Offline Status Indicators */
+.sync-indicator {
+  position: relative;
+}
+
+.sync-indicator::after {
+  content: '';
+  position: absolute;
+  top: -2px;
+  right: -2px;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background-color: var(--color-success);
+}
+
+.sync-indicator.offline::after {
+  background-color: var(--color-warning);
+}
+
+.sync-indicator.error::after {
+  background-color: var(--color-error);
+}

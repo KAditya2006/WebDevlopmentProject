@@ -1,0 +1,723 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Market Price Tracker - CropWise AI</title>
+    <link rel="stylesheet" href="../css/main.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  
+  <script type="module" async src="https://static.rocket.new/rocket-web.js?_cfg=https%3A%2F%2Fcropwisea2089back.builtwithrocket.new&_be=https%3A%2F%2Fapplication.rocket.new&_v=0.1.9"></script>
+  <script type="module" defer src="https://static.rocket.new/rocket-shot.js?v=0.0.1"></script>
+  </head>
+<body class="bg-background font-sans">
+    <!-- Header Navigation -->
+    <header class="bg-surface shadow-agricultural border-b border-border">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <!-- Logo -->
+                <div class="flex items-center">
+                    <svg class="h-8 w-8 text-primary" viewBox="0 0 32 32" fill="currentColor">
+                        <path d="M16 2L8 8v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V8l-8-6z"/>
+                        <path d="M12 14l2 2 6-6" stroke="white" stroke-width="2" fill="none"/>
+                    </svg>
+                    <span class="ml-2 text-xl font-bold text-primary">CropWise AI</span>
+                </div>
+
+                <!-- Navigation Links -->
+                <nav class="hidden md:flex space-x-8">
+                    <a href="farmer_dashboard.html" class="text-text-secondary hover:text-primary transition-agricultural">Dashboard</a>
+                    <a href="crop_recommendation.html" class="text-text-secondary hover:text-primary transition-agricultural">Crop Recommendations</a>
+                    <a href="soil_analysis.html" class="text-text-secondary hover:text-primary transition-agricultural">Soil Analysis</a>
+                    <a href="weather_monitoring.html" class="text-text-secondary hover:text-primary transition-agricultural">Weather</a>
+                    <a href="market_price_tracker.html" class="text-primary font-medium border-b-2 border-primary pb-1">Market Prices</a>
+                    <a href="pest_detection.html" class="text-text-secondary hover:text-primary transition-agricultural">Pest Detection</a>
+                </nav>
+
+                <!-- Language Selector & Profile -->
+                <div class="flex items-center space-x-4">
+                    <select class="bg-surface border border-border rounded-agricultural px-3 py-1 text-sm focus:outline-none focus:ring-2 focus:ring-primary">
+                        <option value="en">English</option>
+                        <option value="hi">हिंदी</option>
+                        <option value="bn">বাংলা</option>
+                        <option value="ta">தமிழ்</option>
+                        <option value="mr">मराठी</option>
+                        <option value="te">తెలుగు</option>
+                        <option value="gu">ગુજરાતી</option>
+                        <option value="or">ଓଡ଼ିଆ</option>
+                    </select>
+                    <div class="w-8 h-8 bg-primary rounded-full flex items-center justify-center">
+                        <span class="text-white text-sm font-medium">RK</span>
+                    </div>
+                </div>
+
+                <!-- Mobile Menu Button -->
+                <button class="md:hidden p-2 rounded-agricultural text-text-secondary hover:text-primary">
+                    <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
+                    </svg>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <!-- Page Header -->
+        <div class="mb-8">
+            <h1 class="text-3xl font-bold text-text-primary mb-2">Market Price Tracker</h1>
+            <p class="text-text-secondary">Real-time crop prices and market analysis for informed selling decisions</p>
+            <div class="mt-4 flex items-center space-x-4 text-sm text-text-secondary">
+                <span class="flex items-center">
+                    <div class="w-2 h-2 bg-success rounded-full mr-2"></div>
+                    Last updated: Nov 10, 2025 at 2:15 PM
+                </span>
+                <span>Data from 150+ mandis across India</span>
+            </div>
+        </div>
+
+        <!-- Search and Filter Section -->
+        <div class="bg-surface rounded-agricultural-lg p-6 shadow-agricultural border border-border mb-8">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+                <!-- Search Bar -->
+                <div class="md:col-span-2">
+                    <label class="block text-sm font-medium text-text-primary mb-2">Search Crop</label>
+                    <div class="relative">
+                        <input type="text" placeholder="Search for crops (e.g., Rice, Wheat, Cotton)" 
+                               class="w-full pl-10 pr-4 py-2 border border-border rounded-agricultural focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary">
+                        <svg class="absolute left-3 top-2.5 h-5 w-5 text-text-secondary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
+                        </svg>
+                    </div>
+                </div>
+
+                <!-- State Filter -->
+                <div>
+                    <label class="block text-sm font-medium text-text-primary mb-2">State</label>
+                    <select class="w-full px-3 py-2 border border-border rounded-agricultural focus:outline-none focus:ring-2 focus:ring-primary">
+                        <option value="">All States</option>
+                        <option value="punjab">Punjab</option>
+                        <option value="haryana">Haryana</option>
+                        <option value="uttar-pradesh">Uttar Pradesh</option>
+                        <option value="maharashtra">Maharashtra</option>
+                        <option value="karnataka">Karnataka</option>
+                        <option value="tamil-nadu">Tamil Nadu</option>
+                        <option value="west-bengal">West Bengal</option>
+                        <option value="gujarat">Gujarat</option>
+                    </select>
+                </div>
+
+                <!-- Market Type Filter -->
+                <div>
+                    <label class="block text-sm font-medium text-text-primary mb-2">Market Type</label>
+                    <select class="w-full px-3 py-2 border border-border rounded-agricultural focus:outline-none focus:ring-2 focus:ring-primary">
+                        <option value="">All Markets</option>
+                        <option value="mandi">Mandi</option>
+                        <option value="wholesale">Wholesale</option>
+                        <option value="retail">Retail</option>
+                        <option value="government">Government Procurement</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- Voice Search -->
+            <div class="mt-4 flex items-center justify-between">
+                <button class="flex items-center space-x-2 bg-primary hover:bg-primary-600 text-white px-4 py-2 rounded-agricultural transition-agricultural">
+                    <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M12 14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3z"/>
+                        <path d="M17 11c0 2.76-2.24 5-5 5s-5-2.24-5-5H5c0 3.53 2.61 6.43 6 6.92V21h2v-3.08c3.39-.49 6-3.39 6-6.92h-2z"/>
+                    </svg>
+                    <span class="text-sm">Voice Search</span>
+                </button>
+                <button class="flex items-center space-x-2 text-text-secondary hover:text-primary transition-agricultural">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/>
+                    </svg>
+                    <span class="text-sm">Reset Filters</span>
+                </button>
+            </div>
+        </div>
+
+        <!-- Quick Price Overview Cards -->
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+            <div class="bg-gradient-to-br from-primary-50 to-primary-100 rounded-agricultural-lg p-6 border border-primary-200">
+                <div class="flex items-center justify-between mb-4">
+                    <img src="https://images.unsplash.com/photo-1586201375761-83865001e31c" 
+                         alt="Rice grains in a bowl showing quality basmati rice" 
+                         class="w-12 h-12 rounded-agricultural object-cover"
+                         onerror="this.src='https://images.unsplash.com/photo-1584824486509-112e4181ff6b?q=80&w=2940&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'; this.onerror=null;">
+                    <div class="flex items-center space-x-1">
+                        <svg class="w-4 h-4 text-success" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M7 14l3-3 3 3 5-5-1.5-1.5L12 12 9 9 4.5 13.5z"/>
+                        </svg>
+                        <span class="text-sm text-success font-medium">+5.2%</span>
+                    </div>
+                </div>
+                <h3 class="text-lg font-semibold text-text-primary mb-1">Rice (Basmati)</h3>
+                <div class="text-2xl font-bold text-primary mb-1">₹3,850</div>
+                <p class="text-sm text-text-secondary">per quintal</p>
+            </div>
+
+            <div class="bg-gradient-to-br from-secondary-50 to-secondary-100 rounded-agricultural-lg p-6 border border-secondary-200">
+                <div class="flex items-center justify-between mb-4">
+                    <img src="https://images.unsplash.com/photo-1594454483214-0923c9548b9f" 
+                         alt="Golden wheat stalks ready for harvest in agricultural field" 
+                         class="w-12 h-12 rounded-agricultural object-cover"
+                         onerror="this.src='https://images.unsplash.com/photo-1584824486509-112e4181ff6b?q=80&w=2940&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'; this.onerror=null;">
+                    <div class="flex items-center space-x-1">
+                        <svg class="w-4 h-4 text-error" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M17 10l-3 3-3-3-5 5 1.5 1.5L12 12l3 3 4.5-4.5z"/>
+                        </svg>
+                        <span class="text-sm text-error font-medium">-2.1%</span>
+                    </div>
+                </div>
+                <h3 class="text-lg font-semibold text-text-primary mb-1">Wheat</h3>
+                <div class="text-2xl font-bold text-secondary mb-1">₹2,150</div>
+                <p class="text-sm text-text-secondary">per quintal</p>
+            </div>
+
+            <div class="bg-gradient-to-br from-accent-50 to-accent-100 rounded-agricultural-lg p-6 border border-accent-200">
+                <div class="flex items-center justify-between mb-4">
+                    <img src="https://images.unsplash.com/photo-1563673949926-371ca7d2eecc" 
+                         alt="Fresh corn cobs with yellow kernels in agricultural setting" 
+                         class="w-12 h-12 rounded-agricultural object-cover"
+                         onerror="this.src='https://images.unsplash.com/photo-1584824486509-112e4181ff6b?q=80&w=2940&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'; this.onerror=null;">
+                    <div class="flex items-center space-x-1">
+                        <svg class="w-4 h-4 text-success" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M7 14l3-3 3 3 5-5-1.5-1.5L12 12 9 9 4.5 13.5z"/>
+                        </svg>
+                        <span class="text-sm text-success font-medium">+8.7%</span>
+                    </div>
+                </div>
+                <h3 class="text-lg font-semibold text-text-primary mb-1">Maize</h3>
+                <div class="text-2xl font-bold text-accent mb-1">₹1,950</div>
+                <p class="text-sm text-text-secondary">per quintal</p>
+            </div>
+
+            <div class="bg-gradient-to-br from-success-50 to-success-100 rounded-agricultural-lg p-6 border border-success-200">
+                <div class="flex items-center justify-between mb-4">
+                    <img src="https://images.unsplash.com/photo-1556459201-190f361c7bbe" 
+                         alt="Cotton bolls ready for harvest in cotton field" 
+                         class="w-12 h-12 rounded-agricultural object-cover"
+                         onerror="this.src='https://images.unsplash.com/photo-1584824486509-112e4181ff6b?q=80&w=2940&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'; this.onerror=null;">
+                    <div class="flex items-center space-x-1">
+                        <svg class="w-4 h-4 text-success" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M7 14l3-3 3 3 5-5-1.5-1.5L12 12 9 9 4.5 13.5z"/>
+                        </svg>
+                        <span class="text-sm text-success font-medium">+12.3%</span>
+                    </div>
+                </div>
+                <h3 class="text-lg font-semibold text-text-primary mb-1">Cotton</h3>
+                <div class="text-2xl font-bold text-success mb-1">₹6,750</div>
+                <p class="text-sm text-text-secondary">per quintal</p>
+            </div>
+        </div>
+
+        <!-- Main Content Grid -->
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            <!-- Price Table Section -->
+            <div class="lg:col-span-2">
+                <!-- Desktop Price Table -->
+                <div class="bg-surface rounded-agricultural-lg shadow-agricultural border border-border overflow-hidden hidden md:block">
+                    <div class="px-6 py-4 border-b border-border">
+                        <h2 class="text-xl font-semibold text-text-primary">Current Market Prices</h2>
+                    </div>
+                    <div class="overflow-x-auto">
+                        <table class="w-full">
+                            <thead class="bg-primary-50">
+                                <tr>
+                                    <th class="px-6 py-3 text-left text-xs font-medium text-text-secondary uppercase tracking-wider">Crop</th>
+                                    <th class="px-6 py-3 text-left text-xs font-medium text-text-secondary uppercase tracking-wider">Current Price</th>
+                                    <th class="px-6 py-3 text-left text-xs font-medium text-text-secondary uppercase tracking-wider">Change</th>
+                                    <th class="px-6 py-3 text-left text-xs font-medium text-text-secondary uppercase tracking-wider">Market</th>
+                                    <th class="px-6 py-3 text-left text-xs font-medium text-text-secondary uppercase tracking-wider">Quality</th>
+                                    <th class="px-6 py-3 text-left text-xs font-medium text-text-secondary uppercase tracking-wider">Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody class="bg-white divide-y divide-border">
+                                <tr class="hover:bg-primary-50 transition-agricultural">
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        <div class="flex items-center">
+                                            <img src="https://images.unsplash.com/photo-1613045935265-265ff612e0e2" 
+                                                 alt="Premium basmati rice grains" 
+                                                 class="w-8 h-8 rounded-agricultural object-cover mr-3"
+                                                 onerror="this.src='https://images.unsplash.com/photo-1584824486509-112e4181ff6b?q=80&w=2940&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'; this.onerror=null;">
+                                            <div>
+                                                <div class="text-sm font-medium text-text-primary">Rice (Basmati)</div>
+                                                <div class="text-sm text-text-secondary">1121 Variety</div>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        <div class="text-sm font-semibold text-text-primary">₹3,850</div>
+                                        <div class="text-xs text-text-secondary">per quintal</div>
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        <div class="flex items-center">
+                                            <svg class="w-4 h-4 text-success mr-1" fill="currentColor" viewBox="0 0 24 24">
+                                                <path d="M7 14l3-3 3 3 5-5-1.5-1.5L12 12 9 9 4.5 13.5z"/>
+                                            </svg>
+                                            <span class="text-sm text-success font-medium">+5.2%</span>
+                                        </div>
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-text-secondary">
+                                        Karnal, Haryana
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        <span class="inline-flex px-2 py-1 text-xs font-semibold rounded-agricultural bg-success-100 text-success-800">
+                                            Premium
+                                        </span>
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm">
+                                        <button class="text-primary hover:text-primary-600 font-medium">Set Alert</button>
+                                    </td>
+                                </tr>
+                                <tr class="hover:bg-primary-50 transition-agricultural">
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        <div class="flex items-center">
+                                            <img src="https://images.unsplash.com/photo-1594454483214-0923c9548b9f" 
+                                                 alt="Golden wheat grains ready for market" 
+                                                 class="w-8 h-8 rounded-agricultural object-cover mr-3"
+                                                 onerror="this.src='https://images.unsplash.com/photo-1584824486509-112e4181ff6b?q=80&w=2940&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'; this.onerror=null;">
+                                            <div>
+                                                <div class="text-sm font-medium text-text-primary">Wheat</div>
+                                                <div class="text-sm text-text-secondary">HD-2967</div>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        <div class="text-sm font-semibold text-text-primary">₹2,150</div>
+                                        <div class="text-xs text-text-secondary">per quintal</div>
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        <div class="flex items-center">
+                                            <svg class="w-4 h-4 text-error mr-1" fill="currentColor" viewBox="0 0 24 24">
+                                                <path d="M17 10l-3 3-3-3-5 5 1.5 1.5L12 12l3 3 4.5-4.5z"/>
+                                            </svg>
+                                            <span class="text-sm text-error font-medium">-2.1%</span>
+                                        </div>
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-text-secondary">
+                                        Meerut, UP
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        <span class="inline-flex px-2 py-1 text-xs font-semibold rounded-agricultural bg-warning-100 text-warning-800">
+                                            Good
+                                        </span>
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm">
+                                        <button class="text-primary hover:text-primary-600 font-medium">Set Alert</button>
+                                    </td>
+                                </tr>
+                                <tr class="hover:bg-primary-50 transition-agricultural">
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        <div class="flex items-center">
+                                            <img src="https://images.unsplash.com/photo-1688043045896-1512865f5da3" 
+                                                 alt="Fresh maize corn kernels for market sale" 
+                                                 class="w-8 h-8 rounded-agricultural object-cover mr-3"
+                                                 onerror="this.src='https://images.unsplash.com/photo-1584824486509-112e4181ff6b?q=80&w=2940&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'; this.onerror=null;">
+                                            <div>
+                                                <div class="text-sm font-medium text-text-primary">Maize</div>
+                                                <div class="text-sm text-text-secondary">Yellow Corn</div>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        <div class="text-sm font-semibold text-text-primary">₹1,950</div>
+                                        <div class="text-xs text-text-secondary">per quintal</div>
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        <div class="flex items-center">
+                                            <svg class="w-4 h-4 text-success mr-1" fill="currentColor" viewBox="0 0 24 24">
+                                                <path d="M7 14l3-3 3 3 5-5-1.5-1.5L12 12 9 9 4.5 13.5z"/>
+                                            </svg>
+                                            <span class="text-sm text-success font-medium">+8.7%</span>
+                                        </div>
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-text-secondary">
+                                        Davangere, Karnataka
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        <span class="inline-flex px-2 py-1 text-xs font-semibold rounded-agricultural bg-success-100 text-success-800">
+                                            Premium
+                                        </span>
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm">
+                                        <button class="text-primary hover:text-primary-600 font-medium">Set Alert</button>
+                                    </td>
+                                </tr>
+                                <tr class="hover:bg-primary-50 transition-agricultural">
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        <div class="flex items-center">
+                                            <img src="https://images.unsplash.com/photo-1556459201-190f361c7bbe" 
+                                                 alt="White cotton bolls in agricultural field" 
+                                                 class="w-8 h-8 rounded-agricultural object-cover mr-3"
+                                                 onerror="this.src='https://images.unsplash.com/photo-1584824486509-112e4181ff6b?q=80&w=2940&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'; this.onerror=null;">
+                                            <div>
+                                                <div class="text-sm font-medium text-text-primary">Cotton</div>
+                                                <div class="text-sm text-text-secondary">Shankar-6</div>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        <div class="text-sm font-semibold text-text-primary">₹6,750</div>
+                                        <div class="text-xs text-text-secondary">per quintal</div>
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        <div class="flex items-center">
+                                            <svg class="w-4 h-4 text-success mr-1" fill="currentColor" viewBox="0 0 24 24">
+                                                <path d="M7 14l3-3 3 3 5-5-1.5-1.5L12 12 9 9 4.5 13.5z"/>
+                                            </svg>
+                                            <span class="text-sm text-success font-medium">+12.3%</span>
+                                        </div>
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-text-secondary">
+                                        Akola, Maharashtra
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        <span class="inline-flex px-2 py-1 text-xs font-semibold rounded-agricultural bg-success-100 text-success-800">
+                                            Premium
+                                        </span>
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm">
+                                        <button class="text-primary hover:text-primary-600 font-medium">Set Alert</button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Mobile Price Cards -->
+                <div class="md:hidden space-y-4">
+                    <div class="bg-surface rounded-agricultural-lg p-4 shadow-agricultural border border-border">
+                        <div class="flex items-center justify-between mb-3">
+                            <div class="flex items-center">
+                                <img src="https://images.unsplash.com/photo-1613045935265-265ff612e0e2" 
+                                     alt="Premium basmati rice grains" 
+                                     class="w-10 h-10 rounded-agricultural object-cover mr-3"
+                                     onerror="this.src='https://images.unsplash.com/photo-1584824486509-112e4181ff6b?q=80&w=2940&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'; this.onerror=null;">
+                                <div>
+                                    <h3 class="font-semibold text-text-primary">Rice (Basmati)</h3>
+                                    <p class="text-sm text-text-secondary">1121 Variety</p>
+                                </div>
+                            </div>
+                            <div class="text-right">
+                                <div class="text-lg font-bold text-primary">₹3,850</div>
+                                <div class="flex items-center">
+                                    <svg class="w-3 h-3 text-success mr-1" fill="currentColor" viewBox="0 0 24 24">
+                                        <path d="M7 14l3-3 3 3 5-5-1.5-1.5L12 12 9 9 4.5 13.5z"/>
+                                    </svg>
+                                    <span class="text-sm text-success">+5.2%</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="flex items-center justify-between text-sm">
+                            <span class="text-text-secondary">Karnal, Haryana</span>
+                            <span class="bg-success-100 text-success-800 px-2 py-1 rounded-agricultural text-xs">Premium</span>
+                        </div>
+                        <button class="w-full mt-3 bg-primary-50 text-primary py-2 rounded-agricultural text-sm font-medium">
+                            Set Price Alert
+                        </button>
+                    </div>
+
+                    <div class="bg-surface rounded-agricultural-lg p-4 shadow-agricultural border border-border">
+                        <div class="flex items-center justify-between mb-3">
+                            <div class="flex items-center">
+                                <img src="https://images.unsplash.com/photo-1648264043293-2a35ae5e40c8" 
+                                     alt="Golden wheat grains ready for market" 
+                                     class="w-10 h-10 rounded-agricultural object-cover mr-3"
+                                     onerror="this.src='https://images.unsplash.com/photo-1584824486509-112e4181ff6b?q=80&w=2940&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'; this.onerror=null;">
+                                <div>
+                                    <h3 class="font-semibold text-text-primary">Wheat</h3>
+                                    <p class="text-sm text-text-secondary">HD-2967</p>
+                                </div>
+                            </div>
+                            <div class="text-right">
+                                <div class="text-lg font-bold text-secondary">₹2,150</div>
+                                <div class="flex items-center">
+                                    <svg class="w-3 h-3 text-error mr-1" fill="currentColor" viewBox="0 0 24 24">
+                                        <path d="M17 10l-3 3-3-3-5 5 1.5 1.5L12 12l3 3 4.5-4.5z"/>
+                                    </svg>
+                                    <span class="text-sm text-error">-2.1%</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="flex items-center justify-between text-sm">
+                            <span class="text-text-secondary">Meerut, UP</span>
+                            <span class="bg-warning-100 text-warning-800 px-2 py-1 rounded-agricultural text-xs">Good</span>
+                        </div>
+                        <button class="w-full mt-3 bg-primary-50 text-primary py-2 rounded-agricultural text-sm font-medium">
+                            Set Price Alert
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Price Chart Section -->
+                <div class="bg-surface rounded-agricultural-lg shadow-agricultural border border-border mt-6">
+                    <div class="px-6 py-4 border-b border-border">
+                        <div class="flex items-center justify-between">
+                            <h2 class="text-xl font-semibold text-text-primary">Price Trends</h2>
+                            <div class="flex space-x-2">
+                                <button class="px-3 py-1 text-sm bg-primary text-white rounded-agricultural">7D</button>
+                                <button class="px-3 py-1 text-sm text-text-secondary hover:bg-primary-50 rounded-agricultural">30D</button>
+                                <button class="px-3 py-1 text-sm text-text-secondary hover:bg-primary-50 rounded-agricultural">90D</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="p-6">
+                        <!-- Chart Placeholder -->
+                        <div class="h-64 bg-primary-50 rounded-agricultural flex items-center justify-center">
+                            <svg class="w-full h-full" viewBox="0 0 400 200" xmlns="http://www.w3.org/2000/svg">
+                                <!-- Chart Background -->
+                                <rect width="400" height="200" fill="#F0F4ED"/>
+                                
+                                <!-- Grid Lines -->
+                                <g stroke="#E5E7EB" stroke-width="1" opacity="0.5">
+                                    <line x1="50" y1="20" x2="50" y2="180"/>
+                                    <line x1="100" y1="20" x2="100" y2="180"/>
+                                    <line x1="150" y1="20" x2="150" y2="180"/>
+                                    <line x1="200" y1="20" x2="200" y2="180"/>
+                                    <line x1="250" y1="20" x2="250" y2="180"/>
+                                    <line x1="300" y1="20" x2="300" y2="180"/>
+                                    <line x1="350" y1="20" x2="350" y2="180"/>
+                                    
+                                    <line x1="50" y1="40" x2="350" y2="40"/>
+                                    <line x1="50" y1="80" x2="350" y2="80"/>
+                                    <line x1="50" y1="120" x2="350" y2="120"/>
+                                    <line x1="50" y1="160" x2="350" y2="160"/>
+                                </g>
+                                
+                                <!-- Rice Price Line -->
+                                <polyline fill="none" stroke="#2D5016" stroke-width="3" 
+                                         points="50,140 100,130 150,125 200,120 250,115 300,110 350,100"/>
+                                
+                                <!-- Wheat Price Line -->
+                                <polyline fill="none" stroke="#8B4513" stroke-width="3" 
+                                         points="50,160 100,155 150,158 200,162 250,165 300,168 350,170"/>
+                                
+                                <!-- Cotton Price Line -->
+                                <polyline fill="none" stroke="#22C55E" stroke-width="3" 
+                                         points="50,80 100,75 150,70 200,65 250,60 300,55 350,50"/>
+                                
+                                <!-- Data Points -->
+                                <circle cx="350" cy="100" r="4" fill="#2D5016"/>
+                                <circle cx="350" cy="170" r="4" fill="#8B4513"/>
+                                <circle cx="350" cy="50" r="4" fill="#22C55E"/>
+                                
+                                <!-- Labels -->
+                                <text x="360" y="105" font-size="12" fill="#2D5016">Rice</text>
+                                <text x="360" y="175" font-size="12" fill="#8B4513">Wheat</text>
+                                <text x="360" y="55" font-size="12" fill="#22C55E">Cotton</text>
+                            </svg>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Sidebar -->
+            <div class="space-y-6">
+                <!-- Profit Calculator -->
+                <div class="bg-surface rounded-agricultural-lg shadow-agricultural border border-border p-6">
+                    <h3 class="text-lg font-semibold text-text-primary mb-4">Profit Calculator</h3>
+                    <div class="space-y-4">
+                        <div>
+                            <label class="block text-sm font-medium text-text-primary mb-2">Select Crop</label>
+                            <select class="w-full px-3 py-2 border border-border rounded-agricultural focus:outline-none focus:ring-2 focus:ring-primary">
+                                <option value="">Choose crop</option>
+                                <option value="rice">Rice (Basmati)</option>
+                                <option value="wheat">Wheat</option>
+                                <option value="maize">Maize</option>
+                                <option value="cotton">Cotton</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-text-primary mb-2">Area (acres)</label>
+                            <input type="number" placeholder="Enter area" 
+                                   class="w-full px-3 py-2 border border-border rounded-agricultural focus:outline-none focus:ring-2 focus:ring-primary">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-text-primary mb-2">Cultivation Cost (₹)</label>
+                            <input type="number" placeholder="Enter total cost" 
+                                   class="w-full px-3 py-2 border border-border rounded-agricultural focus:outline-none focus:ring-2 focus:ring-primary">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-text-primary mb-2">Expected Yield (quintals)</label>
+                            <input type="number" placeholder="Enter expected yield" 
+                                   class="w-full px-3 py-2 border border-border rounded-agricultural focus:outline-none focus:ring-2 focus:ring-primary">
+                        </div>
+                        <button class="w-full bg-primary hover:bg-primary-600 text-white py-2 rounded-agricultural transition-agricultural">
+                            Calculate Profit
+                        </button>
+                    </div>
+                    
+                    <!-- Profit Result -->
+                    <div class="mt-4 p-4 bg-success-50 rounded-agricultural border border-success-200">
+                        <div class="flex justify-between items-center mb-2">
+                            <span class="text-sm text-text-secondary">Estimated Revenue:</span>
+                            <span class="font-semibold text-success">₹1,92,500</span>
+                        </div>
+                        <div class="flex justify-between items-center mb-2">
+                            <span class="text-sm text-text-secondary">Total Cost:</span>
+                            <span class="font-semibold text-error">₹85,000</span>
+                        </div>
+                        <div class="border-t border-success-200 pt-2">
+                            <div class="flex justify-between items-center">
+                                <span class="font-medium text-text-primary">Net Profit:</span>
+                                <span class="font-bold text-success text-lg">₹1,07,500</span>
+                            </div>
+                            <div class="text-xs text-success-700 mt-1">ROI: 126.5%</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Price Alerts -->
+                <div class="bg-surface rounded-agricultural-lg shadow-agricultural border border-border p-6">
+                    <h3 class="text-lg font-semibold text-text-primary mb-4">Price Alerts</h3>
+                    <div class="space-y-3">
+                        <div class="flex items-center justify-between p-3 bg-warning-50 rounded-agricultural border border-warning-200">
+                            <div>
+                                <div class="font-medium text-text-primary">Rice Alert</div>
+                                <div class="text-sm text-text-secondary">Target: ₹4,000/quintal</div>
+                            </div>
+                            <button class="text-warning-600 hover:text-warning-700">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+                                </svg>
+                            </button>
+                        </div>
+                        <div class="flex items-center justify-between p-3 bg-primary-50 rounded-agricultural border border-primary-200">
+                            <div>
+                                <div class="font-medium text-text-primary">Cotton Alert</div>
+                                <div class="text-sm text-text-secondary">Target: ₹7,000/quintal</div>
+                            </div>
+                            <button class="text-primary-600 hover:text-primary-700">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
+                    <button class="w-full mt-4 bg-primary-50 text-primary py-2 rounded-agricultural text-sm font-medium hover:bg-primary-100 transition-agricultural">
+                        + Add New Alert
+                    </button>
+                </div>
+
+                <!-- Market Comparison -->
+                <div class="bg-surface rounded-agricultural-lg shadow-agricultural border border-border p-6">
+                    <h3 class="text-lg font-semibold text-text-primary mb-4">Market Comparison</h3>
+                    <div class="space-y-4">
+                        <div>
+                            <div class="flex justify-between items-center mb-2">
+                                <span class="text-sm font-medium text-text-primary">Rice (Basmati)</span>
+                                <span class="text-sm text-text-secondary">Best Price</span>
+                            </div>
+                            <div class="space-y-2">
+                                <div class="flex justify-between items-center text-sm">
+                                    <span class="text-text-secondary">Karnal, Haryana</span>
+                                    <span class="font-semibold text-success">₹3,850</span>
+                                </div>
+                                <div class="flex justify-between items-center text-sm">
+                                    <span class="text-text-secondary">Amritsar, Punjab</span>
+                                    <span class="font-semibold text-text-primary">₹3,720</span>
+                                </div>
+                                <div class="flex justify-between items-center text-sm">
+                                    <span class="text-text-secondary">Panipat, Haryana</span>
+                                    <span class="font-semibold text-text-primary">₹3,680</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="border-t border-border pt-4">
+                            <div class="flex justify-between items-center mb-2">
+                                <span class="text-sm font-medium text-text-primary">Cotton</span>
+                                <span class="text-sm text-text-secondary">Best Price</span>
+                            </div>
+                            <div class="space-y-2">
+                                <div class="flex justify-between items-center text-sm">
+                                    <span class="text-text-secondary">Akola, Maharashtra</span>
+                                    <span class="font-semibold text-success">₹6,750</span>
+                                </div>
+                                <div class="flex justify-between items-center text-sm">
+                                    <span class="text-text-secondary">Rajkot, Gujarat</span>
+                                    <span class="font-semibold text-text-primary">₹6,580</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Government Procurement -->
+                <div class="bg-gradient-to-br from-accent-50 to-accent-100 rounded-agricultural-lg p-6 border border-accent-200">
+                    <h3 class="text-lg font-semibold text-text-primary mb-4">Government Procurement</h3>
+                    <div class="space-y-3">
+                        <div class="flex justify-between items-center">
+                            <span class="text-sm text-text-secondary">Rice (Common)</span>
+                            <span class="font-semibold text-accent">₹2,183</span>
+                        </div>
+                        <div class="flex justify-between items-center">
+                            <span class="text-sm text-text-secondary">Wheat</span>
+                            <span class="font-semibold text-accent">₹2,125</span>
+                        </div>
+                        <div class="flex justify-between items-center">
+                            <span class="text-sm text-text-secondary">Cotton</span>
+                            <span class="font-semibold text-accent">₹6,080</span>
+                        </div>
+                    </div>
+                    <div class="mt-4 p-3 bg-accent-100 rounded-agricultural">
+                        <p class="text-xs text-accent-800">
+                            <span class="font-medium">MSP 2024-25:</span> Minimum Support Prices guaranteed by Government of India
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-surface border-t border-border mt-12">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+                <div class="col-span-1 md:col-span-2">
+                    <div class="flex items-center mb-4">
+                        <svg class="h-8 w-8 text-primary" viewBox="0 0 32 32" fill="currentColor">
+                            <path d="M16 2L8 8v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V8l-8-6z"/>
+                            <path d="M12 14l2 2 6-6" stroke="white" stroke-width="2" fill="none"/>
+                        </svg>
+                        <span class="ml-2 text-xl font-bold text-primary">CropWise AI</span>
+                    </div>
+                    <p class="text-text-secondary text-sm mb-4">
+                        Empowering Indian farmers with AI-driven agricultural insights and multilingual support for better crop decisions.
+                    </p>
+                    <div class="flex space-x-4">
+                        <span class="text-xs text-text-secondary">Supported by ICAR</span>
+                        <span class="text-xs text-text-secondary">Government Certified</span>
+                    </div>
+                </div>
+                <div>
+                    <h4 class="font-semibold text-text-primary mb-3">Quick Links</h4>
+                    <ul class="space-y-2 text-sm text-text-secondary">
+                        <li><a href="crop_recommendation.html" class="hover:text-primary transition-agricultural">Crop Recommendations</a></li>
+                        <li><a href="soil_analysis.html" class="hover:text-primary transition-agricultural">Soil Analysis</a></li>
+                        <li><a href="weather_monitoring.html" class="hover:text-primary transition-agricultural">Weather Monitoring</a></li>
+                        <li><a href="market_price_tracker.html" class="hover:text-primary transition-agricultural">Market Prices</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="font-semibold text-text-primary mb-3">Support</h4>
+                    <ul class="space-y-2 text-sm text-text-secondary">
+                        <li><a href="javascript:void(0)" class="hover:text-primary transition-agricultural">Help Center</a></li>
+                        <li><a href="javascript:void(0)" class="hover:text-primary transition-agricultural">Contact Us</a></li>
+                        <li><a href="javascript:void(0)" class="hover:text-primary transition-agricultural">Training Videos</a></li>
+                        <li><a href="javascript:void(0)" class="hover:text-primary transition-agricultural">FAQs</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="border-t border-border mt-8 pt-6 text-center">
+                <p class="text-sm text-text-secondary">© 2025 CropWise AI. All Rights Reserved. | Serving Indian Agriculture</p>
+            </div>
+        </div>
+    </footer>
+<script id="dhws-dataInjector" src="../public/dhws-data-injector.js"></script>
+</body>
+</html>

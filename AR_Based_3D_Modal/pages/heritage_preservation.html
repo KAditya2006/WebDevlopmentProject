@@ -1,0 +1,762 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Heritage Preservation - Heritage AR Odisha</title>
+    <link rel="stylesheet" href="../css/main.css">
+    <style>
+        .preservation-grid {
+            display: grid;
+            grid-template-columns: 1fr 350px;
+            gap: 24px;
+            height: calc(100vh - 140px);
+        }
+        
+        .status-indicator {
+            position: relative;
+            display: inline-block;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            margin-right: 8px;
+        }
+        
+        .status-critical {
+            background: #B22222;
+            box-shadow: 0 0 0 4px rgba(178, 34, 34, 0.2);
+            animation: pulse-critical 2s infinite;
+        }
+        
+        .status-warning {
+            background: #FF8C00;
+            box-shadow: 0 0 0 4px rgba(255, 140, 0, 0.2);
+        }
+        
+        .status-good {
+            background: #228B22;
+            box-shadow: 0 0 0 4px rgba(34, 139, 34, 0.2);
+        }
+        
+        @keyframes pulse-critical {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+        
+        .comparison-slider {
+            position: relative;
+            overflow: hidden;
+            border-radius: 8px;
+            height: 200px;
+        }
+        
+        .comparison-handle {
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            width: 4px;
+            background: #FFD700;
+            cursor: ew-resize;
+            z-index: 10;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+        
+        .comparison-handle::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 20px;
+            height: 20px;
+            background: #FFD700;
+            border-radius: 50%;
+            border: 2px solid white;
+        }
+        
+        .before-image, .after-image {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .after-image {
+            clip-path: polygon(50% 0%, 100% 0%, 100% 100%, 50% 100%);
+        }
+        
+        .ai-reconstruction {
+            background: linear-gradient(135deg, #D4621A, #FFD700);
+            border-radius: 12px;
+            padding: 16px;
+            color: white;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .ai-reconstruction::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            animation: ai-scan 3s infinite;
+        }
+        
+        @keyframes ai-scan {
+            0% { left: -100%; }
+            100% { left: 100%; }
+        }
+        
+        .environmental-chart {
+            height: 120px;
+            background: linear-gradient(to right, #228B22, #FF8C00, #B22222);
+            border-radius: 8px;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .chart-overlay {
+            position: absolute;
+            inset: 0;
+            background: repeating-linear-gradient(
+                90deg,
+                transparent,
+                transparent 10px,
+                rgba(255, 255, 255, 0.1) 10px,
+                rgba(255, 255, 255, 0.1) 11px
+            );
+        }
+        
+        .digital-twin-viewer {
+            background: #2C1810;
+            border-radius: 12px;
+            height: 250px;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .twin-controls {
+            position: absolute;
+            bottom: 16px;
+            left: 16px;
+            right: 16px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .preservation-timeline {
+            position: relative;
+            padding-left: 24px;
+        }
+        
+        .timeline-line {
+            position: absolute;
+            left: 8px;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background: linear-gradient(to bottom, #FFD700, #D4621A);
+        }
+        
+        .timeline-item {
+            position: relative;
+            margin-bottom: 24px;
+        }
+        
+        .timeline-dot {
+            position: absolute;
+            left: -20px;
+            top: 4px;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: #FFD700;
+            border: 3px solid #FDF6E3;
+        }
+        
+        @media (max-width: 1024px) {
+            .preservation-grid {
+                grid-template-columns: 1fr;
+                height: auto;
+            }
+        }
+    </style>
+  
+  <script type="module" async src="https://static.rocket.new/rocket-web.js?_cfg=https%3A%2F%2Fheritagea3954back.builtwithrocket.new&_be=https%3A%2F%2Fapplication.rocket.new&_v=0.1.9"></script>
+  <script type="module" defer src="https://static.rocket.new/rocket-shot.js?v=0.0.1"></script>
+  </head>
+<body class="bg-background text-text-primary">
+    <!-- Top Navigation Bar -->
+    <header class="fixed top-0 left-0 right-0 z-50 bg-gradient-to-r from-primary-900/95 to-secondary-900/95 backdrop-blur-md border-b border-accent-400/20">
+        <div class="flex items-center justify-between px-6 py-4">
+            <!-- Logo and Title -->
+            <div class="flex items-center space-x-4">
+                <div class="w-10 h-10 bg-gradient-to-br from-accent-400 to-accent-600 rounded-lg flex items-center justify-center">
+                    <svg class="w-6 h-6 text-primary-900" fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/>
+                    </svg>
+                </div>
+                <div>
+                    <h1 class="text-xl font-playfair font-bold text-accent-100">Heritage Preservation</h1>
+                    <p class="text-sm text-accent-300">Conservation & Restoration Management</p>
+                </div>
+            </div>
+
+            <!-- Action Buttons -->
+            <div class="flex items-center space-x-3">
+                <button class="bg-accent-600 hover:bg-accent-700 text-primary-900 px-4 py-2 rounded-lg font-medium heritage-transition">
+                    Generate Report
+                </button>
+                <button class="bg-primary-700 hover:bg-primary-600 text-accent-100 px-4 py-2 rounded-lg font-medium heritage-transition">
+                    Emergency Alert
+                </button>
+                <div class="w-8 h-8 bg-accent-600 rounded-full flex items-center justify-center">
+                    <span class="text-primary-900 font-bold text-sm">AD</span>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="pt-20 pb-20 px-6">
+        <div class="preservation-grid max-w-7xl mx-auto">
+            <!-- Main Dashboard Area -->
+            <div class="space-y-6">
+                <!-- Site Condition Overview -->
+                <section class="bg-surface rounded-lg p-6 heritage-shadow-medium">
+                    <div class="flex items-center justify-between mb-6">
+                        <h2 class="text-2xl font-playfair font-bold text-text-primary">Site Condition Assessment</h2>
+                        <div class="flex items-center space-x-2 text-sm text-text-secondary">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                            </svg>
+                            <span>Last updated: Nov 12, 2025 - 05:24</span>
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                        <!-- Konark Sun Temple -->
+                        <div class="bg-white rounded-lg p-4 heritage-shadow-light">
+                            <div class="flex items-center justify-between mb-3">
+                                <h3 class="font-playfair font-semibold text-text-primary">Konark Sun Temple</h3>
+                                <span class="status-indicator status-warning"></span>
+                            </div>
+                            <img src="https://images.unsplash.com/photo-1672902851932-82a710c19c71" 
+                                 alt="Konark Sun Temple showing weathered stone architecture requiring preservation attention"
+                                 class="w-full h-32 object-cover rounded-lg mb-3"
+                                 onerror="this.src='https://images.pexels.com/photos/1583339/pexels-photo-1583339.jpeg?auto=compress&cs=tinysrgb&w=400'; this.onerror=null;">
+                            <div class="space-y-2 text-sm">
+                                <div class="flex justify-between">
+                                    <span class="text-text-secondary">Structural Integrity:</span>
+                                    <span class="text-warning-600 font-medium">72%</span>
+                                </div>
+                                <div class="flex justify-between">
+                                    <span class="text-text-secondary">Weather Impact:</span>
+                                    <span class="text-warning-600 font-medium">High</span>
+                                </div>
+                                <div class="flex justify-between">
+                                    <span class="text-text-secondary">Last Inspection:</span>
+                                    <span class="text-text-primary">Oct 28, 2025</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Jagannath Temple -->
+                        <div class="bg-white rounded-lg p-4 heritage-shadow-light">
+                            <div class="flex items-center justify-between mb-3">
+                                <h3 class="font-playfair font-semibold text-text-primary">Jagannath Temple</h3>
+                                <span class="status-indicator status-good"></span>
+                            </div>
+                            <img src="https://images.unsplash.com/photo-1573452655061-41b3c55087d2" 
+                                 alt="Jagannath Temple displaying well-maintained traditional architecture and preservation efforts"
+                                 class="w-full h-32 object-cover rounded-lg mb-3"
+                                 onerror="this.src='https://images.pixabay.com/photo-2019/12/09/14/54/temple-4684516_960_720.jpg'; this.onerror=null;">
+                            <div class="space-y-2 text-sm">
+                                <div class="flex justify-between">
+                                    <span class="text-text-secondary">Structural Integrity:</span>
+                                    <span class="text-success-600 font-medium">94%</span>
+                                </div>
+                                <div class="flex justify-between">
+                                    <span class="text-text-secondary">Weather Impact:</span>
+                                    <span class="text-success-600 font-medium">Low</span>
+                                </div>
+                                <div class="flex justify-between">
+                                    <span class="text-text-secondary">Last Inspection:</span>
+                                    <span class="text-text-primary">Nov 05, 2025</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Lingaraj Temple -->
+                        <div class="bg-white rounded-lg p-4 heritage-shadow-light">
+                            <div class="flex items-center justify-between mb-3">
+                                <h3 class="font-playfair font-semibold text-text-primary">Lingaraj Temple</h3>
+                                <span class="status-indicator status-critical"></span>
+                            </div>
+                            <img src="https://images.unsplash.com/photo-1620400338615-33534d42b038" 
+                                 alt="Lingaraj Temple showing ancient stone structure with critical preservation needs"
+                                 class="w-full h-32 object-cover rounded-lg mb-3"
+                                 onerror="this.src='https://images.pexels.com/photos/3573382/pexels-photo-3573382.jpeg?auto=compress&cs=tinysrgb&w=400'; this.onerror=null;">
+                            <div class="space-y-2 text-sm">
+                                <div class="flex justify-between">
+                                    <span class="text-text-secondary">Structural Integrity:</span>
+                                    <span class="text-error-600 font-medium">58%</span>
+                                </div>
+                                <div class="flex justify-between">
+                                    <span class="text-text-secondary">Weather Impact:</span>
+                                    <span class="text-error-600 font-medium">Critical</span>
+                                </div>
+                                <div class="flex justify-between">
+                                    <span class="text-text-secondary">Last Inspection:</span>
+                                    <span class="text-text-primary">Nov 10, 2025</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Before/After Comparison -->
+                <section class="bg-surface rounded-lg p-6 heritage-shadow-medium">
+                    <h2 class="text-2xl font-playfair font-bold text-text-primary mb-6">Restoration Progress</h2>
+                    
+                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                        <div>
+                            <h3 class="font-playfair font-semibold text-text-primary mb-4">Konark Wheel Restoration</h3>
+                            <div class="comparison-slider">
+                                <img src="https://images.unsplash.com/photo-1680591143566-f1874ea8b446" 
+                                     alt="Before restoration image of Konark wheel showing weathered and damaged stone carvings"
+                                     class="before-image"
+                                     onerror="this.src='https://images.pexels.com/photos/1583339/pexels-photo-1583339.jpeg?auto=compress&cs=tinysrgb&w=600'; this.onerror=null;">
+                                <img src="https://images.unsplash.com/photo-1704899286560-086d408d1bd9" 
+                                     alt="After restoration image of Konark wheel showing restored and preserved stone carvings"
+                                     class="after-image"
+                                     onerror="this.src='https://images.pixabay.com/photo-2019/12/09/14/54/temple-4684516_960_720.jpg'; this.onerror=null;">
+                                <div class="comparison-handle"></div>
+                            </div>
+                            <div class="flex justify-between mt-3 text-sm text-text-secondary">
+                                <span>Before (2023)</span>
+                                <span>After (2025)</span>
+                            </div>
+                        </div>
+
+                        <div>
+                            <h3 class="font-playfair font-semibold text-text-primary mb-4">Progress Timeline</h3>
+                            <div class="preservation-timeline">
+                                <div class="timeline-line"></div>
+                                <div class="timeline-item">
+                                    <div class="timeline-dot"></div>
+                                    <div class="bg-white rounded-lg p-3 heritage-shadow-light">
+                                        <h4 class="font-medium text-text-primary">Assessment Complete</h4>
+                                        <p class="text-sm text-text-secondary">Jan 2024</p>
+                                    </div>
+                                </div>
+                                <div class="timeline-item">
+                                    <div class="timeline-dot"></div>
+                                    <div class="bg-white rounded-lg p-3 heritage-shadow-light">
+                                        <h4 class="font-medium text-text-primary">Stone Cleaning Phase</h4>
+                                        <p class="text-sm text-text-secondary">Mar 2024</p>
+                                    </div>
+                                </div>
+                                <div class="timeline-item">
+                                    <div class="timeline-dot"></div>
+                                    <div class="bg-white rounded-lg p-3 heritage-shadow-light">
+                                        <h4 class="font-medium text-text-primary">Structural Reinforcement</h4>
+                                        <p class="text-sm text-text-secondary">Aug 2024</p>
+                                    </div>
+                                </div>
+                                <div class="timeline-item">
+                                    <div class="timeline-dot bg-accent-600"></div>
+                                    <div class="bg-accent-50 border border-accent-200 rounded-lg p-3">
+                                        <h4 class="font-medium text-text-primary">Final Documentation</h4>
+                                        <p class="text-sm text-text-secondary">Nov 2025 - In Progress</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- AI Restoration & Digital Twin -->
+                <section class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                    <!-- AI Reconstruction -->
+                    <div class="bg-surface rounded-lg p-6 heritage-shadow-medium">
+                        <h2 class="text-2xl font-playfair font-bold text-text-primary mb-6">AI Restoration</h2>
+                        
+                        <div class="ai-reconstruction mb-4">
+                            <div class="flex items-center justify-between mb-3">
+                                <h3 class="font-semibold">Virtual Reconstruction</h3>
+                                <div class="flex items-center space-x-2">
+                                    <div class="w-2 h-2 bg-white rounded-full animate-pulse"></div>
+                                    <span class="text-sm">Processing</span>
+                                </div>
+                            </div>
+                            <p class="text-sm opacity-90">AI analyzing historical references and architectural patterns to reconstruct damaged sections.</p>
+                        </div>
+
+                        <div class="space-y-4">
+                            <div class="bg-white rounded-lg p-4">
+                                <div class="flex items-center justify-between mb-2">
+                                    <span class="text-sm font-medium text-text-primary">Historical Accuracy</span>
+                                    <span class="text-sm text-success-600">94%</span>
+                                </div>
+                                <div class="w-full bg-gray-200 rounded-full h-2">
+                                    <div class="bg-success-500 h-2 rounded-full" style="width: 94%"></div>
+                                </div>
+                            </div>
+
+                            <div class="bg-white rounded-lg p-4">
+                                <div class="flex items-center justify-between mb-2">
+                                    <span class="text-sm font-medium text-text-primary">Structural Validation</span>
+                                    <span class="text-sm text-warning-600">78%</span>
+                                </div>
+                                <div class="w-full bg-gray-200 rounded-full h-2">
+                                    <div class="bg-warning-500 h-2 rounded-full" style="width: 78%"></div>
+                                </div>
+                            </div>
+
+                            <button class="w-full bg-primary-600 hover:bg-primary-700 text-accent-100 py-2 px-4 rounded-lg font-medium heritage-transition">
+                                View 3D Reconstruction
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Digital Twin Viewer -->
+                    <div class="bg-surface rounded-lg p-6 heritage-shadow-medium">
+                        <h2 class="text-2xl font-playfair font-bold text-text-primary mb-6">Digital Twin</h2>
+                        
+                        <div class="digital-twin-viewer">
+                            <img src="https://images.unsplash.com/photo-1718635226640-3de3afd14108" 
+                                 alt="3D digital twin visualization of heritage site showing detailed architectural scanning"
+                                 class="w-full h-full object-cover"
+                                 onerror="this.src='https://images.pexels.com/photos/3573382/pexels-photo-3573382.jpeg?auto=compress&cs=tinysrgb&w=600'; this.onerror=null;">
+                            
+                            <div class="twin-controls">
+                                <div class="flex space-x-2">
+                                    <button class="bg-primary-600/80 hover:bg-primary-600 text-accent-100 p-2 rounded-lg heritage-transition">
+                                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/>
+                                        </svg>
+                                    </button>
+                                    <button class="bg-primary-600/80 hover:bg-primary-600 text-accent-100 p-2 rounded-lg heritage-transition">
+                                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
+                                        </svg>
+                                    </button>
+                                </div>
+                                <div class="text-accent-100 text-sm">
+                                    <span>3D Scan: 99.7% Complete</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="mt-4 grid grid-cols-2 gap-3">
+                            <button class="bg-accent-600 hover:bg-accent-700 text-primary-900 py-2 px-4 rounded-lg font-medium heritage-transition text-sm">
+                                Export Model
+                            </button>
+                            <button class="bg-primary-700 hover:bg-primary-600 text-accent-100 py-2 px-4 rounded-lg font-medium heritage-transition text-sm">
+                                Share Access
+                            </button>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Environmental Monitoring -->
+                <section class="bg-surface rounded-lg p-6 heritage-shadow-medium">
+                    <h2 class="text-2xl font-playfair font-bold text-text-primary mb-6">Environmental Impact Analysis</h2>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+                        <div class="bg-white rounded-lg p-4 text-center">
+                            <div class="text-2xl font-bold text-warning-600 mb-1">28°C</div>
+                            <div class="text-sm text-text-secondary">Temperature</div>
+                            <div class="text-xs text-warning-600 mt-1">↑ 3°C from avg</div>
+                        </div>
+                        <div class="bg-white rounded-lg p-4 text-center">
+                            <div class="text-2xl font-bold text-primary-600 mb-1">68%</div>
+                            <div class="text-sm text-text-secondary">Humidity</div>
+                            <div class="text-xs text-success-600 mt-1">Normal range</div>
+                        </div>
+                        <div class="bg-white rounded-lg p-4 text-center">
+                            <div class="text-2xl font-bold text-error-600 mb-1">15 km/h</div>
+                            <div class="text-sm text-text-secondary">Wind Speed</div>
+                            <div class="text-xs text-error-600 mt-1">High erosion risk</div>
+                        </div>
+                        <div class="bg-white rounded-lg p-4 text-center">
+                            <div class="text-2xl font-bold text-text-primary mb-1">2,847</div>
+                            <div class="text-sm text-text-secondary">Daily Visitors</div>
+                            <div class="text-xs text-warning-600 mt-1">Above capacity</div>
+                        </div>
+                    </div>
+
+                    <div class="environmental-chart">
+                        <div class="chart-overlay"></div>
+                        <div class="absolute inset-0 flex items-center justify-center">
+                            <div class="text-white text-center">
+                                <div class="text-lg font-bold">Risk Assessment</div>
+                                <div class="text-sm opacity-80">Weather Impact Projection</div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+
+            <!-- Right Sidebar -->
+            <div class="space-y-6">
+                <!-- Conservation Projects -->
+                <div class="bg-surface rounded-lg p-6 heritage-shadow-medium">
+                    <h3 class="text-lg font-playfair font-bold text-text-primary mb-4">Active Projects</h3>
+                    
+                    <div class="space-y-4">
+                        <div class="bg-white rounded-lg p-4 heritage-shadow-light">
+                            <div class="flex items-center justify-between mb-2">
+                                <h4 class="font-medium text-text-primary">Stone Conservation</h4>
+                                <span class="text-xs bg-warning-100 text-warning-800 px-2 py-1 rounded-full">In Progress</span>
+                            </div>
+                            <div class="text-sm text-text-secondary mb-2">Konark Sun Temple</div>
+                            <div class="flex justify-between text-sm">
+                                <span class="text-text-secondary">Progress:</span>
+                                <span class="text-text-primary font-medium">67%</span>
+                            </div>
+                            <div class="w-full bg-gray-200 rounded-full h-1.5 mt-1">
+                                <div class="bg-warning-500 h-1.5 rounded-full" style="width: 67%"></div>
+                            </div>
+                        </div>
+
+                        <div class="bg-white rounded-lg p-4 heritage-shadow-light">
+                            <div class="flex items-center justify-between mb-2">
+                                <h4 class="font-medium text-text-primary">Structural Analysis</h4>
+                                <span class="text-xs bg-success-100 text-success-800 px-2 py-1 rounded-full">Completed</span>
+                            </div>
+                            <div class="text-sm text-text-secondary mb-2">Jagannath Temple</div>
+                            <div class="flex justify-between text-sm">
+                                <span class="text-text-secondary">Progress:</span>
+                                <span class="text-success-600 font-medium">100%</span>
+                            </div>
+                            <div class="w-full bg-gray-200 rounded-full h-1.5 mt-1">
+                                <div class="bg-success-500 h-1.5 rounded-full" style="width: 100%"></div>
+                            </div>
+                        </div>
+
+                        <div class="bg-white rounded-lg p-4 heritage-shadow-light">
+                            <div class="flex items-center justify-between mb-2">
+                                <h4 class="font-medium text-text-primary">Emergency Repairs</h4>
+                                <span class="text-xs bg-error-100 text-error-800 px-2 py-1 rounded-full">Urgent</span>
+                            </div>
+                            <div class="text-sm text-text-secondary mb-2">Lingaraj Temple</div>
+                            <div class="flex justify-between text-sm">
+                                <span class="text-text-secondary">Progress:</span>
+                                <span class="text-error-600 font-medium">23%</span>
+                            </div>
+                            <div class="w-full bg-gray-200 rounded-full h-1.5 mt-1">
+                                <div class="bg-error-500 h-1.5 rounded-full" style="width: 23%"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Expert Team -->
+                <div class="bg-surface rounded-lg p-6 heritage-shadow-medium">
+                    <h3 class="text-lg font-playfair font-bold text-text-primary mb-4">Expert Team</h3>
+                    
+                    <div class="space-y-3">
+                        <div class="flex items-center space-x-3">
+                            <div class="w-10 h-10 bg-primary-600 rounded-full flex items-center justify-center text-accent-100 font-bold">
+                                DR
+                            </div>
+                            <div class="flex-1">
+                                <div class="font-medium text-text-primary">Dr. Rajesh Patel</div>
+                                <div class="text-sm text-text-secondary">Conservation Architect</div>
+                            </div>
+                            <div class="w-2 h-2 bg-success-500 rounded-full"></div>
+                        </div>
+
+                        <div class="flex items-center space-x-3">
+                            <div class="w-10 h-10 bg-secondary-600 rounded-full flex items-center justify-center text-accent-100 font-bold">
+                                SM
+                            </div>
+                            <div class="flex-1">
+                                <div class="font-medium text-text-primary">Sita Mohanty</div>
+                                <div class="text-sm text-text-secondary">Stone Specialist</div>
+                            </div>
+                            <div class="w-2 h-2 bg-success-500 rounded-full"></div>
+                        </div>
+
+                        <div class="flex items-center space-x-3">
+                            <div class="w-10 h-10 bg-accent-600 rounded-full flex items-center justify-center text-primary-900 font-bold">
+                                AK
+                            </div>
+                            <div class="flex-1">
+                                <div class="font-medium text-text-primary">Arun Kumar</div>
+                                <div class="text-sm text-text-secondary">Structural Engineer</div>
+                            </div>
+                            <div class="w-2 h-2 bg-warning-500 rounded-full"></div>
+                        </div>
+                    </div>
+
+                    <button class="w-full mt-4 bg-primary-600 hover:bg-primary-700 text-accent-100 py-2 px-4 rounded-lg font-medium heritage-transition">
+                        Contact Team
+                    </button>
+                </div>
+
+                <!-- Emergency Protocols -->
+                <div class="bg-surface rounded-lg p-6 heritage-shadow-medium">
+                    <h3 class="text-lg font-playfair font-bold text-text-primary mb-4">Emergency Protocols</h3>
+                    
+                    <div class="space-y-3">
+                        <button class="w-full bg-error-600 hover:bg-error-700 text-white py-3 px-4 rounded-lg font-medium heritage-transition flex items-center justify-center space-x-2">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.964-.833-2.732 0L4.082 15.5c-.77.833.192 2.5 1.732 2.5z"/>
+                            </svg>
+                            <span>Damage Alert</span>
+                        </button>
+
+                        <button class="w-full bg-warning-600 hover:bg-warning-700 text-white py-2 px-4 rounded-lg font-medium heritage-transition">
+                            Weather Emergency
+                        </button>
+
+                        <button class="w-full bg-primary-600 hover:bg-primary-700 text-accent-100 py-2 px-4 rounded-lg font-medium heritage-transition">
+                            Site Evacuation
+                        </button>
+                    </div>
+
+                    <div class="mt-4 p-3 bg-accent-50 border border-accent-200 rounded-lg">
+                        <div class="flex items-center space-x-2 text-accent-800">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                            </svg>
+                            <span class="text-sm font-medium">Emergency Contacts</span>
+                        </div>
+                        <div class="mt-2 text-sm text-accent-700">
+                            <div>ASI Emergency: +91-674-2345678</div>
+                            <div>Local Authority: +91-674-2345679</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Navigation Menu -->
+    <nav class="fixed bottom-0 left-0 right-0 z-50 bg-gradient-to-t from-primary-900 to-primary-800 backdrop-blur-md border-t border-accent-400/20">
+        <div class="flex items-center justify-around py-2">
+            <a href="heritage_site_dashboard.html" class="flex flex-col items-center space-y-1 p-2 text-accent-300 hover:text-accent-100 heritage-transition">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2H5a2 2 0 00-2-2z"/>
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 15v-4a2 2 0 012-2h4a2 2 0 012 2v4"/>
+                </svg>
+                <span class="text-xs">Dashboard</span>
+            </a>
+            
+            <a href="ar_heritage_explorer.html" class="flex flex-col items-center space-y-1 p-2 text-accent-300 hover:text-accent-100 heritage-transition">
+                <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+                    <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+                </svg>
+                <span class="text-xs">AR Explorer</span>
+            </a>
+            
+            <a href="virtual_heritage_tour.html" class="flex flex-col items-center space-y-1 p-2 text-accent-300 hover:text-accent-100 heritage-transition">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"/>
+                </svg>
+                <span class="text-xs">Virtual Tour</span>
+            </a>
+            
+            <a href="cultural_learning_hub.html" class="flex flex-col items-center space-y-1 p-2 text-accent-300 hover:text-accent-100 heritage-transition">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.246 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/>
+                </svg>
+                <span class="text-xs">Learning</span>
+            </a>
+            
+            <a href="community_contribution.html" class="flex flex-col items-center space-y-1 p-2 text-accent-300 hover:text-accent-100 heritage-transition">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"/>
+                </svg>
+                <span class="text-xs">Community</span>
+            </a>
+            
+            <a href="heritage_preservation.html" class="flex flex-col items-center space-y-1 p-2 text-accent-100 bg-primary-700/50 rounded-lg">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/>
+                </svg>
+                <span class="text-xs">Preservation</span>
+            </a>
+        </div>
+    </nav>
+
+    <script>
+        // Comparison slider functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            const comparisonSlider = document.querySelector('.comparison-slider');
+            const handle = document.querySelector('.comparison-handle');
+            const afterImage = document.querySelector('.after-image');
+            
+            if (comparisonSlider && handle && afterImage) {
+                let isDown = false;
+                
+                handle.addEventListener('mousedown', function() {
+                    isDown = true;
+                });
+                
+                document.addEventListener('mouseup', function() {
+                    isDown = false;
+                });
+                
+                comparisonSlider.addEventListener('mousemove', function(e) {
+                    if (!isDown) return;
+                    
+                    const rect = comparisonSlider.getBoundingClientRect();
+                    const x = e.clientX - rect.left;
+                    const percentage = (x / rect.width) * 100;
+                    
+                    if (percentage >= 0 && percentage <= 100) {
+                        handle.style.left = percentage + '%';
+                        afterImage.style.clipPath = `polygon(${percentage}% 0%, 100% 0%, 100% 100%, ${percentage}% 100%)`;
+                    }
+                });
+            }
+        });
+
+        // Simulate real-time data updates
+        function updateEnvironmentalData() {
+            const temperature = document.querySelector('.bg-white .text-warning-600');
+            const humidity = document.querySelector('.bg-white .text-primary-600');
+            
+            if (temperature && humidity) {
+                // Simulate temperature fluctuation
+                const currentTemp = parseInt(temperature.textContent);
+                const newTemp = currentTemp + (Math.random() - 0.5) * 2;
+                temperature.textContent = Math.round(newTemp) + '°C';
+                
+                // Simulate humidity changes
+                const currentHumidity = parseInt(humidity.textContent);
+                const newHumidity = currentHumidity + (Math.random() - 0.5) * 5;
+                humidity.textContent = Math.round(Math.max(0, Math.min(100, newHumidity))) + '%';
+            }
+        }
+
+        // Update environmental data every 30 seconds
+        setInterval(updateEnvironmentalData, 30000);
+
+        // Emergency alert functionality
+        function triggerEmergencyAlert() {
+            alert('Emergency protocol activated! Preservation team has been notified.');
+        }
+
+        // Add click handlers for emergency buttons
+        document.addEventListener('DOMContentLoaded', function() {
+            const emergencyButtons = document.querySelectorAll('.bg-error-600, .bg-warning-600');
+            emergencyButtons.forEach(button => {
+                button.addEventListener('click', triggerEmergencyAlert);
+            });
+        });
+    </script>
+<script id="dhws-dataInjector" src="../public/dhws-data-injector.js"></script>
+</body>
+</html>

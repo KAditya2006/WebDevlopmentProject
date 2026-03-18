@@ -1,0 +1,643 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Community Contribution - Heritage AR Odisha</title>
+    <link rel="stylesheet" href="../css/main.css">
+    <style>
+        .upload-zone {
+            border: 2px dashed #D4621A;
+            transition: all 0.3s ease;
+        }
+        
+        .upload-zone.dragover {
+            border-color: #FFD700;
+            background-color: rgba(255, 215, 0, 0.1);
+            transform: scale(1.02);
+        }
+        
+        .blockchain-badge {
+            background: linear-gradient(135deg, #FFD700, #E6C200);
+            animation: blockchain-glow 2s ease-in-out infinite alternate;
+        }
+        
+        @keyframes blockchain-glow {
+            0% { box-shadow: 0 0 5px rgba(255, 215, 0, 0.5); }
+            100% { box-shadow: 0 0 20px rgba(255, 215, 0, 0.8); }
+        }
+        
+        .contribution-card {
+            background: linear-gradient(135deg, #FDF4ED, #F5E6D3);
+            border: 1px solid rgba(212, 98, 26, 0.2);
+            transition: all 0.3s ease;
+        }
+        
+        .contribution-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(212, 98, 26, 0.15);
+        }
+        
+        .progress-ring {
+            transform: rotate(-90deg);
+        }
+        
+        .progress-ring-circle {
+            transition: stroke-dashoffset 0.35s;
+            transform-origin: 50% 50%;
+        }
+        
+        .voice-recording {
+            animation: voice-pulse 1.5s ease-in-out infinite;
+        }
+        
+        @keyframes voice-pulse {
+            0%, 100% { transform: scale(1); opacity: 0.8; }
+            50% { transform: scale(1.1); opacity: 1; }
+        }
+    </style>
+  
+  <script type="module" async src="https://static.rocket.new/rocket-web.js?_cfg=https%3A%2F%2Fheritagea3954back.builtwithrocket.new&_be=https%3A%2F%2Fapplication.rocket.new&_v=0.1.9"></script>
+  <script type="module" defer src="https://static.rocket.new/rocket-shot.js?v=0.0.1"></script>
+  </head>
+<body class="bg-background text-text-primary">
+    <!-- Top Navigation Bar -->
+    <header class="fixed top-0 left-0 right-0 z-50 bg-gradient-to-r from-primary-900/95 to-secondary-900/95 backdrop-blur-md border-b border-accent-400/20">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-16">
+                <!-- Logo and Title -->
+                <div class="flex items-center space-x-4">
+                    <div class="flex-shrink-0">
+                        <svg class="w-10 h-10 text-accent-400" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+                        </svg>
+                    </div>
+                    <div>
+                        <h1 class="text-xl font-playfair font-bold text-accent-100">Heritage AR Odisha</h1>
+                        <p class="text-sm text-accent-300">Community Contribution</p>
+                    </div>
+                </div>
+
+                <!-- Navigation Links -->
+                <nav class="hidden md:flex items-center space-x-6">
+                    <a href="heritage_site_dashboard.html" class="text-accent-200 hover:text-accent-100 heritage-transition">Dashboard</a>
+                    <a href="ar_heritage_explorer.html" class="text-accent-200 hover:text-accent-100 heritage-transition">AR Explorer</a>
+                    <a href="virtual_heritage_tour.html" class="text-accent-200 hover:text-accent-100 heritage-transition">Virtual Tours</a>
+                    <a href="cultural_learning_hub.html" class="text-accent-200 hover:text-accent-100 heritage-transition">Learning Hub</a>
+                    <a href="heritage_preservation.html" class="text-accent-200 hover:text-accent-100 heritage-transition">Preservation</a>
+                </nav>
+
+                <!-- User Profile -->
+                <div class="flex items-center space-x-3">
+                    <div class="blockchain-badge px-3 py-1 rounded-full text-xs font-medium text-primary-900">
+                        Verified Contributor
+                    </div>
+                    <img src="https://img.rocket.new/generatedImages/rocket_gen_img_15d8551fb-1762274313631.png" 
+                         alt="User profile showing verified heritage contributor"
+                         class="w-8 h-8 rounded-full object-cover heritage-shadow-light"
+                         onerror="this.src='https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg?auto=compress&cs=tinysrgb&w=150'; this.onerror=null;">
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="pt-20 pb-24 min-h-screen">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <!-- Page Header -->
+            <div class="mb-8">
+                <div class="flex flex-col lg:flex-row lg:items-center lg:justify-between">
+                    <div class="mb-4 lg:mb-0">
+                        <h2 class="text-3xl font-playfair font-bold text-text-primary mb-2">Share Your Heritage</h2>
+                        <p class="text-text-secondary">Help preserve Odisha's cultural heritage by contributing your knowledge, stories, and artifacts</p>
+                    </div>
+                    <div class="flex items-center space-x-4">
+                        <div class="text-center">
+                            <div class="text-2xl font-bold text-primary-600">47</div>
+                            <div class="text-xs text-text-secondary">Contributions</div>
+                        </div>
+                        <div class="text-center">
+                            <div class="text-2xl font-bold text-accent-600">12.5K</div>
+                            <div class="text-xs text-text-secondary">Views</div>
+                        </div>
+                        <div class="text-center">
+                            <div class="text-2xl font-bold text-success-600">98%</div>
+                            <div class="text-xs text-text-secondary">Approval Rate</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                <!-- Main Upload Section -->
+                <div class="lg:col-span-2 space-y-6">
+                    <!-- Upload Zone -->
+                    <div class="bg-white rounded-lg heritage-shadow-medium p-6">
+                        <h3 class="text-xl font-playfair font-semibold text-text-primary mb-4">Upload Heritage Content</h3>
+                        
+                        <div id="uploadZone" class="upload-zone rounded-lg p-8 text-center bg-surface/50 mb-6">
+                            <svg class="w-16 h-16 text-primary-400 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"/>
+                            </svg>
+                            <h4 class="text-lg font-medium text-text-primary mb-2">Drop files here or click to upload</h4>
+                            <p class="text-text-secondary text-sm mb-4">Support for images, videos, audio, and 3D scans</p>
+                            <div class="flex flex-wrap justify-center gap-2 text-xs text-text-secondary">
+                                <span class="bg-primary-100 text-primary-700 px-2 py-1 rounded">JPG, PNG</span>
+                                <span class="bg-primary-100 text-primary-700 px-2 py-1 rounded">MP4, MOV</span>
+                                <span class="bg-primary-100 text-primary-700 px-2 py-1 rounded">MP3, WAV</span>
+                                <span class="bg-primary-100 text-primary-700 px-2 py-1 rounded">OBJ, PLY</span>
+                            </div>
+                            <input type="file" id="fileInput" class="hidden" multiple accept="image/*,video/*,audio/*,.obj,.ply">
+                        </div>
+
+                        <!-- Upload Progress -->
+                        <div id="uploadProgress" class="hidden mb-6">
+                            <div class="flex items-center justify-between mb-2">
+                                <span class="text-sm font-medium text-text-primary">Uploading heritage_artifact.jpg</span>
+                                <span class="text-sm text-text-secondary">75%</span>
+                            </div>
+                            <div class="w-full bg-primary-100 rounded-full h-2">
+                                <div class="bg-primary-600 h-2 rounded-full" style="width: 75%"></div>
+                            </div>
+                        </div>
+
+                        <!-- Content Categorization -->
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+                            <div>
+                                <label class="block text-sm font-medium text-text-primary mb-2">Heritage Type</label>
+                                <select class="w-full border border-primary-200 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-primary-500">
+                                    <option value="">Select type</option>
+                                    <option value="monument">Monument</option>
+                                    <option value="artifact">Artifact</option>
+                                    <option value="art-form">Traditional Art Form</option>
+                                    <option value="festival">Festival</option>
+                                    <option value="craft">Handicraft</option>
+                                    <option value="music">Music & Dance</option>
+                                    <option value="cuisine">Traditional Cuisine</option>
+                                    <option value="story">Oral History</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-text-primary mb-2">Location</label>
+                                <select class="w-full border border-primary-200 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-primary-500">
+                                    <option value="">Select location</option>
+                                    <option value="bhubaneswar">Bhubaneswar</option>
+                                    <option value="puri">Puri</option>
+                                    <option value="konark">Konark</option>
+                                    <option value="cuttack">Cuttack</option>
+                                    <option value="sambalpur">Sambalpur</option>
+                                    <option value="berhampur">Berhampur</option>
+                                    <option value="rourkela">Rourkela</option>
+                                    <option value="other">Other</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-text-primary mb-2">Cultural Significance</label>
+                                <select class="w-full border border-primary-200 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-primary-500">
+                                    <option value="">Select significance</option>
+                                    <option value="religious">Religious</option>
+                                    <option value="historical">Historical</option>
+                                    <option value="artistic">Artistic</option>
+                                    <option value="social">Social</option>
+                                    <option value="economic">Economic</option>
+                                    <option value="educational">Educational</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-text-primary mb-2">Historical Period</label>
+                                <select class="w-full border border-primary-200 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-primary-500">
+                                    <option value="">Select period</option>
+                                    <option value="ancient">Ancient (Before 1200 CE)</option>
+                                    <option value="medieval">Medieval (1200-1700 CE)</option>
+                                    <option value="colonial">Colonial (1700-1947 CE)</option>
+                                    <option value="modern">Modern (1947-Present)</option>
+                                    <option value="contemporary">Contemporary</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <!-- Rich Text Editor -->
+                        <div class="mb-6">
+                            <div class="flex items-center justify-between mb-2">
+                                <label class="block text-sm font-medium text-text-primary">Heritage Story & Description</label>
+                                <div class="flex items-center space-x-2">
+                                    <button id="voiceInputBtn" class="flex items-center space-x-1 text-primary-600 hover:text-primary-700 heritage-transition">
+                                        <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+                                            <path d="M12 14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3z"/>
+                                            <path d="M17 11c0 2.76-2.24 5-5 5s-5-2.24-5-5H5c0 3.53 2.61 6.43 6 6.92V21h2v-3.08c3.39-.49 6-3.39 6-6.92h-2z"/>
+                                        </svg>
+                                        <span class="text-xs">Voice Input</span>
+                                    </button>
+                                    <select class="text-xs border border-primary-200 rounded px-2 py-1">
+                                        <option value="en">English</option>
+                                        <option value="hi">हिंदी</option>
+                                        <option value="od">ଓଡ଼ିଆ</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="border border-primary-200 rounded-lg">
+                                <!-- Editor Toolbar -->
+                                <div class="flex items-center space-x-2 p-3 border-b border-primary-200 bg-surface/30">
+                                    <button class="p-1 hover:bg-primary-100 rounded heritage-transition">
+                                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 2l3 6 3-6M6 18l3-6 3 6M6 10h12"/>
+                                        </svg>
+                                    </button>
+                                    <button class="p-1 hover:bg-primary-100 rounded heritage-transition">
+                                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
+                                        </svg>
+                                    </button>
+                                    <button class="p-1 hover:bg-primary-100 rounded heritage-transition">
+                                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/>
+                                        </svg>
+                                    </button>
+                                </div>
+                                <textarea id="storyEditor" rows="8" class="w-full p-4 border-none focus:outline-none resize-none" placeholder="Share the story behind this heritage item. Include historical context, cultural significance, personal experiences, or traditional knowledge..."></textarea>
+                            </div>
+                        </div>
+
+                        <!-- Action Buttons -->
+                        <div class="flex flex-col sm:flex-row gap-3">
+                            <button class="flex-1 bg-primary-600 hover:bg-primary-700 text-white py-3 px-6 rounded-lg font-medium heritage-transition">
+                                Submit for Review
+                            </button>
+                            <button class="flex-1 bg-surface border border-primary-200 hover:bg-primary-50 text-text-primary py-3 px-6 rounded-lg font-medium heritage-transition">
+                                Save as Draft
+                            </button>
+                            <button class="sm:w-auto bg-accent-600 hover:bg-accent-700 text-primary-900 py-3 px-6 rounded-lg font-medium heritage-transition">
+                                Preview
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Collaborative Editing -->
+                    <div class="bg-white rounded-lg heritage-shadow-medium p-6">
+                        <h3 class="text-xl font-playfair font-semibold text-text-primary mb-4">Collaborative Enhancement</h3>
+                        <div class="space-y-4">
+                            <div class="flex items-center justify-between p-4 bg-surface/50 rounded-lg">
+                                <div class="flex items-center space-x-3">
+                                    <img src="https://images.unsplash.com/photo-1626105985445-6430a31f6f96" 
+                                         alt="Cultural expert Dr. Priya Sharma reviewing heritage content"
+                                         class="w-10 h-10 rounded-full object-cover"
+                                         onerror="this.src='https://images.pexels.com/photos/415829/pexels-photo-415829.jpeg?auto=compress&cs=tinysrgb&w=150'; this.onerror=null;">
+                                    <div>
+                                        <div class="font-medium text-text-primary">Dr. Priya Sharma</div>
+                                        <div class="text-sm text-text-secondary">Cultural Expert • Added historical context</div>
+                                    </div>
+                                </div>
+                                <span class="text-xs text-success-600 bg-success-100 px-2 py-1 rounded-full">Approved</span>
+                            </div>
+                            <div class="flex items-center justify-between p-4 bg-surface/50 rounded-lg">
+                                <div class="flex items-center space-x-3">
+                                    <img src="https://images.unsplash.com/photo-1603143893227-912e99054a04" 
+                                         alt="Local historian Rajesh Panda contributing heritage knowledge"
+                                         class="w-10 h-10 rounded-full object-cover"
+                                         onerror="this.src='https://images.pexels.com/photos/91227/pexels-photo-91227.jpeg?auto=compress&cs=tinysrgb&w=150'; this.onerror=null;">
+                                    <div>
+                                        <div class="font-medium text-text-primary">Rajesh Panda</div>
+                                        <div class="text-sm text-text-secondary">Local Historian • Suggested corrections</div>
+                                    </div>
+                                </div>
+                                <span class="text-xs text-warning-600 bg-warning-100 px-2 py-1 rounded-full">Pending</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Sidebar -->
+                <div class="space-y-6">
+                    <!-- Contributor Profile -->
+                    <div class="bg-white rounded-lg heritage-shadow-medium p-6">
+                        <div class="text-center mb-4">
+                            <img src="https://images.unsplash.com/photo-1685157954532-3e63803619a0" 
+                                 alt="Heritage contributor profile showing verified status"
+                                 class="w-20 h-20 rounded-full object-cover mx-auto mb-3 heritage-shadow-light"
+                                 onerror="this.src='https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg?auto=compress&cs=tinysrgb&w=150'; this.onerror=null;">
+                            <h4 class="font-playfair font-semibold text-text-primary">Arjun Mishra</h4>
+                            <p class="text-sm text-text-secondary">Heritage Enthusiast</p>
+                            <div class="flex justify-center mt-2">
+                                <div class="blockchain-badge px-3 py-1 rounded-full text-xs font-medium text-primary-900">
+                                    ✓ Blockchain Verified
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Contribution Stats -->
+                        <div class="grid grid-cols-2 gap-4 text-center">
+                            <div>
+                                <div class="text-2xl font-bold text-primary-600">47</div>
+                                <div class="text-xs text-text-secondary">Contributions</div>
+                            </div>
+                            <div>
+                                <div class="text-2xl font-bold text-accent-600">12.5K</div>
+                                <div class="text-xs text-text-secondary">Total Views</div>
+                            </div>
+                            <div>
+                                <div class="text-2xl font-bold text-success-600">98%</div>
+                                <div class="text-xs text-text-secondary">Approval Rate</div>
+                            </div>
+                            <div>
+                                <div class="text-2xl font-bold text-secondary-600">15</div>
+                                <div class="text-xs text-text-secondary">Collaborations</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Quality Guidelines -->
+                    <div class="bg-white rounded-lg heritage-shadow-medium p-6">
+                        <h4 class="font-playfair font-semibold text-text-primary mb-4">Quality Guidelines</h4>
+                        <div class="space-y-3">
+                            <div class="flex items-start space-x-3">
+                                <svg class="w-5 h-5 text-success-600 mt-0.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
+                                </svg>
+                                <div>
+                                    <div class="text-sm font-medium text-text-primary">High-Quality Images</div>
+                                    <div class="text-xs text-text-secondary">Minimum 1080p resolution, good lighting</div>
+                                </div>
+                            </div>
+                            <div class="flex items-start space-x-3">
+                                <svg class="w-5 h-5 text-success-600 mt-0.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
+                                </svg>
+                                <div>
+                                    <div class="text-sm font-medium text-text-primary">Accurate Information</div>
+                                    <div class="text-xs text-text-secondary">Verify historical facts and cultural details</div>
+                                </div>
+                            </div>
+                            <div class="flex items-start space-x-3">
+                                <svg class="w-5 h-5 text-success-600 mt-0.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
+                                </svg>
+                                <div>
+                                    <div class="text-sm font-medium text-text-primary">Respectful Content</div>
+                                    <div class="text-xs text-text-secondary">Honor cultural sensitivity and traditions</div>
+                                </div>
+                            </div>
+                        </div>
+                        <button class="w-full mt-4 text-primary-600 hover:text-primary-700 text-sm font-medium heritage-transition">
+                            View Full Guidelines →
+                        </button>
+                    </div>
+
+                    <!-- Recent Contributions -->
+                    <div class="bg-white rounded-lg heritage-shadow-medium p-6">
+                        <h4 class="font-playfair font-semibold text-text-primary mb-4">Recent Contributions</h4>
+                        <div class="space-y-3">
+                            <div class="contribution-card p-3 rounded-lg">
+                                <div class="flex items-center space-x-3">
+                                    <img src="https://images.unsplash.com/photo-1574264549419-e670c2a0e55b" 
+                                         alt="Konark Sun Temple stone carving contribution"
+                                         class="w-12 h-12 rounded-lg object-cover"
+                                         onerror="this.src='https://images.pexels.com/photos/1583339/pexels-photo-1583339.jpeg?auto=compress&cs=tinysrgb&w=100'; this.onerror=null;">
+                                    <div class="flex-1">
+                                        <div class="text-sm font-medium text-text-primary">Konark Stone Carving</div>
+                                        <div class="text-xs text-text-secondary">2 days ago • 1.2K views</div>
+                                        <div class="flex items-center mt-1">
+                                            <span class="text-xs text-success-600 bg-success-100 px-2 py-0.5 rounded-full">Approved</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="contribution-card p-3 rounded-lg">
+                                <div class="flex items-center space-x-3">
+                                    <img src="https://images.unsplash.com/photo-1621787555061-6885db1ca6d9" 
+                                         alt="Traditional Pattachitra painting contribution"
+                                         class="w-12 h-12 rounded-lg object-cover"
+                                         onerror="this.src='https://images.pixabay.com/photo/2017/08/06/12/52/pattachitra-2592842_960_720.jpg'; this.onerror=null;">
+                                    <div class="flex-1">
+                                        <div class="text-sm font-medium text-text-primary">Pattachitra Art</div>
+                                        <div class="text-xs text-text-secondary">5 days ago • 856 views</div>
+                                        <div class="flex items-center mt-1">
+                                            <span class="text-xs text-warning-600 bg-warning-100 px-2 py-0.5 rounded-full">Under Review</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="contribution-card p-3 rounded-lg">
+                                <div class="flex items-center space-x-3">
+                                    <img src="https://images.unsplash.com/photo-1708794633326-806e46a6e7e1" 
+                                         alt="Jagannath Temple festival documentation"
+                                         class="w-12 h-12 rounded-lg object-cover"
+                                         onerror="this.src='https://images.pexels.com/photos/3585047/pexels-photo-3585047.jpeg?auto=compress&cs=tinysrgb&w=100'; this.onerror=null;">
+                                    <div class="flex-1">
+                                        <div class="text-sm font-medium text-text-primary">Rath Yatra Story</div>
+                                        <div class="text-xs text-text-secondary">1 week ago • 2.1K views</div>
+                                        <div class="flex items-center mt-1">
+                                            <span class="text-xs text-success-600 bg-success-100 px-2 py-0.5 rounded-full">Featured</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Blockchain Verification -->
+                    <div class="bg-white rounded-lg heritage-shadow-medium p-6">
+                        <h4 class="font-playfair font-semibold text-text-primary mb-4">Blockchain Verification</h4>
+                        <div class="space-y-3">
+                            <div class="flex items-center justify-between">
+                                <span class="text-sm text-text-secondary">Content Authenticity</span>
+                                <span class="text-sm font-medium text-success-600">Verified</span>
+                            </div>
+                            <div class="flex items-center justify-between">
+                                <span class="text-sm text-text-secondary">Ownership Rights</span>
+                                <span class="text-sm font-medium text-success-600">Secured</span>
+                            </div>
+                            <div class="flex items-center justify-between">
+                                <span class="text-sm text-text-secondary">Attribution</span>
+                                <span class="text-sm font-medium text-success-600">Tracked</span>
+                            </div>
+                        </div>
+                        <div class="mt-4 p-3 bg-accent-50 rounded-lg">
+                            <div class="text-xs text-accent-800 font-medium mb-1">Transaction Hash</div>
+                            <div class="text-xs text-accent-600 font-mono break-all">0x7d2c...8f4a</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Navigation Menu -->
+    <nav class="fixed bottom-0 left-0 right-0 z-50 bg-gradient-to-t from-primary-900 to-primary-800 backdrop-blur-md border-t border-accent-400/20">
+        <div class="flex items-center justify-around py-2">
+            <a href="heritage_site_dashboard.html" class="flex flex-col items-center space-y-1 p-2 text-accent-300 hover:text-accent-100 heritage-transition">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2H5a2 2 0 00-2-2z"/>
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 15v-4a2 2 0 012-2h4a2 2 0 012 2v4"/>
+                </svg>
+                <span class="text-xs">Dashboard</span>
+            </a>
+            
+            <a href="ar_heritage_explorer.html" class="flex flex-col items-center space-y-1 p-2 text-accent-300 hover:text-accent-100 heritage-transition">
+                <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+                    <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+                </svg>
+                <span class="text-xs">AR Explorer</span>
+            </a>
+            
+            <a href="virtual_heritage_tour.html" class="flex flex-col items-center space-y-1 p-2 text-accent-300 hover:text-accent-100 heritage-transition">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"/>
+                </svg>
+                <span class="text-xs">Virtual Tour</span>
+            </a>
+            
+            <a href="cultural_learning_hub.html" class="flex flex-col items-center space-y-1 p-2 text-accent-300 hover:text-accent-100 heritage-transition">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.246 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/>
+                </svg>
+                <span class="text-xs">Learning</span>
+            </a>
+            
+            <a href="community_contribution.html" class="flex flex-col items-center space-y-1 p-2 text-accent-100 bg-primary-700/50 rounded-lg">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"/>
+                </svg>
+                <span class="text-xs">Community</span>
+            </a>
+            
+            <a href="heritage_preservation.html" class="flex flex-col items-center space-y-1 p-2 text-accent-300 hover:text-accent-100 heritage-transition">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/>
+                </svg>
+                <span class="text-xs">Preservation</span>
+            </a>
+        </div>
+    </nav>
+
+    <!-- Voice Recording Modal -->
+    <div id="voiceModal" class="fixed inset-0 z-50 hidden bg-black bg-opacity-50 flex items-center justify-center">
+        <div class="bg-white rounded-lg p-8 max-w-md mx-4">
+            <div class="text-center">
+                <div class="voice-recording w-20 h-20 bg-primary-600 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <svg class="w-10 h-10 text-white" fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M12 14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3z"/>
+                        <path d="M17 11c0 2.76-2.24 5-5 5s-5-2.24-5-5H5c0 3.53 2.61 6.43 6 6.92V21h2v-3.08c3.39-.49 6-3.39 6-6.92h-2z"/>
+                    </svg>
+                </div>
+                <h3 class="text-lg font-playfair font-semibold text-text-primary mb-2">Recording Voice Input</h3>
+                <p class="text-text-secondary mb-6">Speak clearly about the heritage item...</p>
+                <div class="flex space-x-3">
+                    <button id="stopRecording" class="flex-1 bg-error-600 hover:bg-error-700 text-white py-2 px-4 rounded-lg heritage-transition">
+                        Stop Recording
+                    </button>
+                    <button id="cancelRecording" class="flex-1 bg-surface border border-primary-200 hover:bg-primary-50 text-text-primary py-2 px-4 rounded-lg heritage-transition">
+                        Cancel
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Upload Zone Functionality
+        const uploadZone = document.getElementById('uploadZone');
+        const fileInput = document.getElementById('fileInput');
+        const uploadProgress = document.getElementById('uploadProgress');
+
+        uploadZone.addEventListener('click', () => fileInput.click());
+
+        uploadZone.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            uploadZone.classList.add('dragover');
+        });
+
+        uploadZone.addEventListener('dragleave', () => {
+            uploadZone.classList.remove('dragover');
+        });
+
+        uploadZone.addEventListener('drop', (e) => {
+            e.preventDefault();
+            uploadZone.classList.remove('dragover');
+            const files = e.dataTransfer.files;
+            handleFiles(files);
+        });
+
+        fileInput.addEventListener('change', (e) => {
+            handleFiles(e.target.files);
+        });
+
+        function handleFiles(files) {
+            if (files.length > 0) {
+                uploadProgress.classList.remove('hidden');
+                // Simulate upload progress
+                let progress = 0;
+                const interval = setInterval(() => {
+                    progress += 10;
+                    const progressBar = uploadProgress.querySelector('.bg-primary-600');
+                    const progressText = uploadProgress.querySelector('span:last-child');
+                    progressBar.style.width = progress + '%';
+                    progressText.textContent = progress + '%';
+                    
+                    if (progress >= 100) {
+                        clearInterval(interval);
+                        setTimeout(() => {
+                            uploadProgress.classList.add('hidden');
+                            alert('File uploaded successfully!');
+                        }, 1000);
+                    }
+                }, 200);
+            }
+        }
+
+        // Voice Input Functionality
+        const voiceInputBtn = document.getElementById('voiceInputBtn');
+        const voiceModal = document.getElementById('voiceModal');
+        const stopRecording = document.getElementById('stopRecording');
+        const cancelRecording = document.getElementById('cancelRecording');
+        const storyEditor = document.getElementById('storyEditor');
+
+        voiceInputBtn.addEventListener('click', () => {
+            voiceModal.classList.remove('hidden');
+        });
+
+        stopRecording.addEventListener('click', () => {
+            voiceModal.classList.add('hidden');
+            // Simulate voice-to-text conversion
+            const sampleText = "This ancient temple represents the pinnacle of Kalinga architecture, built during the 13th century under the patronage of King Narasimhadeva I. The intricate stone carvings depict various aspects of life, mythology, and spiritual beliefs of the time.";
+            storyEditor.value += (storyEditor.value ? '\n\n' : '') + sampleText;
+        });
+
+        cancelRecording.addEventListener('click', () => {
+            voiceModal.classList.add('hidden');
+        });
+
+        // Form validation and submission
+        document.querySelector('button[class*="bg-primary-600"]').addEventListener('click', function(e) {
+            e.preventDefault();
+            
+            // Basic validation
+            const heritageType = document.querySelector('select').value;
+            const story = storyEditor.value.trim();
+            
+            if (!heritageType) {
+                alert('Please select a heritage type');
+                return;
+            }
+            
+            if (story.length < 50) {
+                alert('Please provide a more detailed description (minimum 50 characters)');
+                return;
+            }
+            
+            // Simulate blockchain verification
+            alert('Content submitted successfully! Blockchain verification in progress...');
+        });
+
+        // Auto-save draft functionality
+        let autoSaveTimer;
+        storyEditor.addEventListener('input', () => {
+            clearTimeout(autoSaveTimer);
+            autoSaveTimer = setTimeout(() => {
+                console.log('Auto-saving draft...');
+                // Simulate auto-save
+            }, 2000);
+        });
+    </script>
+<script id="dhws-dataInjector" src="../public/dhws-data-injector.js"></script>
+</body>
+</html>

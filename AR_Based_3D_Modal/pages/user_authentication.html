@@ -1,0 +1,590 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Authentication - Heritage AR Odisha</title>
+    <link rel="stylesheet" href="../css/main.css">
+    <style>
+        .auth-background {
+            background: linear-gradient(135deg, 
+                rgba(212, 98, 26, 0.9), 
+                rgba(139, 69, 19, 0.8)), 
+                url('https://images.unsplash.com/photo-1704899286560-086d408d1bd9') center/cover;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+        }
+
+        .auth-container {
+            backdrop-filter: blur(10px);
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(212, 98, 26, 0.3);
+            border: 1px solid rgba(255, 215, 0, 0.2);
+        }
+
+        .heritage-pattern {
+            background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23D4621A' fill-opacity='0.05'%3E%3Ccircle cx='30' cy='30' r='3'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+        }
+
+        .tab-button.active {
+            background: linear-gradient(135deg, #D4621A, #B85516);
+            color: white;
+            box-shadow: 0 4px 12px rgba(212, 98, 26, 0.3);
+        }
+
+        .social-button {
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            border: 2px solid rgba(212, 98, 26, 0.2);
+        }
+
+        .social-button:hover {
+            background: rgba(212, 98, 26, 0.1);
+            border-color: #D4621A;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 16px rgba(212, 98, 26, 0.2);
+        }
+
+        .form-input {
+            border: 2px solid rgba(212, 98, 26, 0.2);
+            transition: all 0.3s ease;
+        }
+
+        .form-input:focus {
+            border-color: #D4621A;
+            box-shadow: 0 0 0 3px rgba(212, 98, 26, 0.1);
+            outline: none;
+        }
+
+        .auth-tabs {
+            background: rgba(212, 98, 26, 0.1);
+            border-radius: 12px;
+            padding: 4px;
+        }
+
+        .floating-element {
+            animation: float 6s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            33% { transform: translateY(-10px) rotate(2deg); }
+            66% { transform: translateY(5px) rotate(-2deg); }
+        }
+
+        .temple-motif {
+            color: rgba(212, 98, 26, 0.3);
+            position: absolute;
+            animation: rotate 20s linear infinite;
+        }
+
+        @keyframes rotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        .culture-interest-tag {
+            background: rgba(212, 98, 26, 0.1);
+            border: 1px solid rgba(212, 98, 26, 0.3);
+            transition: all 0.2s ease;
+        }
+
+        .culture-interest-tag.selected {
+            background: linear-gradient(135deg, #D4621A, #B85516);
+            color: white;
+            border-color: #D4621A;
+        }
+
+        .password-strength {
+            height: 4px;
+            border-radius: 2px;
+            transition: all 0.3s ease;
+        }
+
+        .strength-weak { background: #B22222; width: 25%; }
+        .strength-fair { background: #FF8C00; width: 50%; }
+        .strength-good { background: #FFD700; width: 75%; }
+        .strength-strong { background: #228B22; width: 100%; }
+
+        .biometric-pulse {
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 0.7; transform: scale(1); }
+            50% { opacity: 1; transform: scale(1.05); }
+        }
+    </style>
+  
+  <script type="module" async src="https://static.rocket.new/rocket-web.js?_cfg=https%3A%2F%2Fheritagea3954back.builtwithrocket.new&_be=https%3A%2F%2Fapplication.rocket.new&_v=0.1.9"></script>
+  <script type="module" defer src="https://static.rocket.new/rocket-shot.js?v=0.0.1"></script>
+  </head>
+<body class="min-h-screen heritage-pattern">
+    <!-- Background -->
+    <div class="auth-background"></div>
+    
+    <!-- Floating Temple Motifs -->
+    <div class="temple-motif floating-element" style="top: 10%; left: 10%; font-size: 2rem;">🏛️</div>
+    <div class="temple-motif floating-element" style="top: 20%; right: 15%; font-size: 1.5rem;">🕉️</div>
+    <div class="temple-motif floating-element" style="bottom: 20%; left: 20%; font-size: 1.8rem;">🪷</div>
+    <div class="temple-motif floating-element" style="bottom: 30%; right: 10%; font-size: 2.2rem;">🧿</div>
+
+    <!-- Main Authentication Container -->
+    <div class="relative min-h-screen flex items-center justify-center p-4">
+        <div class="auth-container w-full max-w-md p-8">
+            <!-- Header -->
+            <div class="text-center mb-8">
+                <div class="w-16 h-16 bg-gradient-to-br from-primary-600 to-secondary-600 rounded-xl flex items-center justify-center mx-auto mb-4">
+                    <svg class="w-8 h-8 text-accent-100" fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+                    </svg>
+                </div>
+                <h1 class="text-2xl font-playfair font-bold text-text-primary mb-2">Heritage AR Odisha</h1>
+                <p class="text-text-secondary text-sm">Discover Odisha's Rich Cultural Heritage</p>
+            </div>
+
+            <!-- Language Selection -->
+            <div class="flex justify-center mb-6">
+                <select id="languageSelect" class="form-input bg-transparent border rounded-lg px-3 py-1 text-sm text-text-primary focus:outline-none">
+                    <option value="en">English</option>
+                    <option value="hi">हिंदी</option>
+                    <option value="od">ଓଡ଼ିଆ</option>
+                </select>
+            </div>
+
+            <!-- Authentication Tabs -->
+            <div class="auth-tabs mb-8">
+                <div class="grid grid-cols-2 gap-1">
+                    <button id="loginTab" class="tab-button active py-3 px-6 rounded-lg text-sm font-medium transition-all duration-300">
+                        Sign In
+                    </button>
+                    <button id="signupTab" class="tab-button py-3 px-6 rounded-lg text-sm font-medium text-text-secondary transition-all duration-300">
+                        Sign Up
+                    </button>
+                </div>
+            </div>
+
+            <!-- Login Form -->
+            <form id="loginForm" class="space-y-6">
+                <div>
+                    <label class="block text-sm font-medium text-text-primary mb-2">Email or Username</label>
+                    <input type="text" id="loginIdentifier" class="form-input w-full px-4 py-3 rounded-lg bg-transparent" placeholder="Enter your email or username" required>
+                </div>
+
+                <div>
+                    <label class="block text-sm font-medium text-text-primary mb-2">Password</label>
+                    <div class="relative">
+                        <input type="password" id="loginPassword" class="form-input w-full px-4 py-3 pr-12 rounded-lg bg-transparent" placeholder="Enter your password" required>
+                        <button type="button" class="absolute right-4 top-1/2 transform -translate-y-1/2 text-text-secondary hover:text-text-primary">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/>
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="flex items-center justify-between">
+                    <label class="flex items-center">
+                        <input type="checkbox" class="w-4 h-4 text-primary-600 border-2 border-primary-300 rounded focus:ring-primary-500">
+                        <span class="ml-2 text-sm text-text-secondary">Remember me</span>
+                    </label>
+                    <button type="button" id="forgotPassword" class="text-sm text-primary-600 hover:text-primary-700 font-medium">
+                        Forgot Password?
+                    </button>
+                </div>
+
+                <button type="submit" class="w-full bg-gradient-to-r from-primary-600 to-secondary-600 hover:from-primary-700 hover:to-secondary-700 text-white py-3 px-6 rounded-lg font-medium transition-all duration-300 heritage-shadow-medium">
+                    Sign In
+                </button>
+
+                <!-- Biometric Authentication (Mobile) -->
+                <div id="biometricLogin" class="hidden md:hidden">
+                    <button type="button" class="w-full border-2 border-primary-300 text-primary-600 py-3 px-6 rounded-lg font-medium biometric-pulse hover:bg-primary-50 transition-all duration-300">
+                        <svg class="w-5 h-5 inline mr-2" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M17.81 4.47c-.08 0-.16-.02-.23-.06C15.66 3.42 14 3 12.01 3c-1.98 0-3.86.47-5.57 1.41-.24.13-.54.04-.68-.2-.13-.24-.04-.55.2-.68C7.82 2.52 9.86 2 12.01 2c2.13 0 3.99.47 6.03 1.52.25.13.34.43.21.67-.09.18-.26.28-.44.28z"/>
+                        </svg>
+                        Use Biometric Login
+                    </button>
+                </div>
+            </form>
+
+            <!-- Signup Form -->
+            <form id="signupForm" class="space-y-6 hidden">
+                <div>
+                    <label class="block text-sm font-medium text-text-primary mb-2">Full Name</label>
+                    <input type="text" id="signupName" class="form-input w-full px-4 py-3 rounded-lg bg-transparent" placeholder="Enter your full name" required>
+                </div>
+
+                <div>
+                    <label class="block text-sm font-medium text-text-primary mb-2">Email Address</label>
+                    <input type="email" id="signupEmail" class="form-input w-full px-4 py-3 rounded-lg bg-transparent" placeholder="Enter your email address" required>
+                </div>
+
+                <div>
+                    <label class="block text-sm font-medium text-text-primary mb-2">Password</label>
+                    <div class="relative">
+                        <input type="password" id="signupPassword" class="form-input w-full px-4 py-3 pr-12 rounded-lg bg-transparent" placeholder="Create a strong password" required>
+                        <button type="button" class="absolute right-4 top-1/2 transform -translate-y-1/2 text-text-secondary hover:text-text-primary">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/>
+                            </svg>
+                        </button>
+                    </div>
+                    <div class="mt-2">
+                        <div id="passwordStrength" class="password-strength bg-gray-200 rounded-full"></div>
+                        <p id="strengthText" class="text-xs text-text-secondary mt-1">Password strength</p>
+                    </div>
+                </div>
+
+                <div>
+                    <label class="block text-sm font-medium text-text-primary mb-2">Confirm Password</label>
+                    <input type="password" id="signupPasswordConfirm" class="form-input w-full px-4 py-3 rounded-lg bg-transparent" placeholder="Confirm your password" required>
+                </div>
+
+                <!-- Cultural Interests -->
+                <div>
+                    <label class="block text-sm font-medium text-text-primary mb-3">Cultural Interests (Optional)</label>
+                    <div class="grid grid-cols-2 gap-2">
+                        <button type="button" class="culture-interest-tag px-3 py-2 rounded-lg text-xs font-medium" data-interest="temples">Temples</button>
+                        <button type="button" class="culture-interest-tag px-3 py-2 rounded-lg text-xs font-medium" data-interest="monuments">Monuments</button>
+                        <button type="button" class="culture-interest-tag px-3 py-2 rounded-lg text-xs font-medium" data-interest="museums">Museums</button>
+                        <button type="button" class="culture-interest-tag px-3 py-2 rounded-lg text-xs font-medium" data-interest="festivals">Festivals</button>
+                        <button type="button" class="culture-interest-tag px-3 py-2 rounded-lg text-xs font-medium" data-interest="art">Art & Crafts</button>
+                        <button type="button" class="culture-interest-tag px-3 py-2 rounded-lg text-xs font-medium" data-interest="archaeology">Archaeology</button>
+                    </div>
+                </div>
+
+                <div class="flex items-start">
+                    <input type="checkbox" id="termsAccept" class="w-4 h-4 text-primary-600 border-2 border-primary-300 rounded focus:ring-primary-500 mt-1" required>
+                    <label for="termsAccept" class="ml-2 text-sm text-text-secondary">
+                        I agree to the <button type="button" class="text-primary-600 hover:underline">Terms of Service</button> and <button type="button" class="text-primary-600 hover:underline">Privacy Policy</button> including heritage data protection guidelines.
+                    </label>
+                </div>
+
+                <button type="submit" class="w-full bg-gradient-to-r from-primary-600 to-secondary-600 hover:from-primary-700 hover:to-secondary-700 text-white py-3 px-6 rounded-lg font-medium transition-all duration-300 heritage-shadow-medium">
+                    Create Account
+                </button>
+            </form>
+
+            <!-- Social Authentication -->
+            <div class="mt-8">
+                <div class="relative">
+                    <div class="absolute inset-0 flex items-center">
+                        <div class="w-full border-t border-secondary-200"></div>
+                    </div>
+                    <div class="relative flex justify-center text-sm">
+                        <span class="px-2 bg-white text-text-secondary">Or continue with</span>
+                    </div>
+                </div>
+
+                <div class="mt-6 grid grid-cols-2 gap-3">
+                    <button type="button" class="social-button flex items-center justify-center px-4 py-3 rounded-lg bg-white">
+                        <svg class="w-5 h-5 text-red-500" viewBox="0 0 24 24">
+                            <path fill="currentColor" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
+                            <path fill="currentColor" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
+                            <path fill="currentColor" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/>
+                            <path fill="currentColor" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/>
+                        </svg>
+                        <span class="ml-2 text-sm font-medium text-text-primary">Google</span>
+                    </button>
+
+                    <button type="button" class="social-button flex items-center justify-center px-4 py-3 rounded-lg bg-white">
+                        <svg class="w-5 h-5 text-blue-600" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
+                        </svg>
+                        <span class="ml-2 text-sm font-medium text-text-primary">Facebook</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Guest Mode -->
+            <div class="mt-6 text-center">
+                <button id="guestMode" class="text-sm text-primary-600 hover:text-primary-700 font-medium">
+                    Continue as Guest for Limited Heritage Exploration
+                </button>
+            </div>
+
+            <!-- Two-Factor Authentication Modal (Hidden by default) -->
+            <div id="twoFactorModal" class="hidden fixed inset-0 z-50 bg-black bg-opacity-50 flex items-center justify-center p-4">
+                <div class="auth-container max-w-sm p-6">
+                    <h3 class="text-lg font-playfair font-bold text-text-primary mb-4 text-center">Two-Factor Authentication</h3>
+                    <p class="text-sm text-text-secondary mb-6 text-center">Enter the 6-digit code sent to your registered device</p>
+                    
+                    <div class="flex justify-between mb-6">
+                        <input type="text" maxlength="1" class="w-12 h-12 text-center form-input rounded-lg font-bold text-lg">
+                        <input type="text" maxlength="1" class="w-12 h-12 text-center form-input rounded-lg font-bold text-lg">
+                        <input type="text" maxlength="1" class="w-12 h-12 text-center form-input rounded-lg font-bold text-lg">
+                        <input type="text" maxlength="1" class="w-12 h-12 text-center form-input rounded-lg font-bold text-lg">
+                        <input type="text" maxlength="1" class="w-12 h-12 text-center form-input rounded-lg font-bold text-lg">
+                        <input type="text" maxlength="1" class="w-12 h-12 text-center form-input rounded-lg font-bold text-lg">
+                    </div>
+
+                    <button type="button" class="w-full bg-gradient-to-r from-primary-600 to-secondary-600 hover:from-primary-700 hover:to-secondary-700 text-white py-3 px-6 rounded-lg font-medium mb-4">
+                        Verify Code
+                    </button>
+
+                    <button type="button" class="w-full text-sm text-primary-600 hover:text-primary-700">
+                        Resend Code
+                    </button>
+
+                    <button type="button" id="closeTwoFactor" class="absolute top-4 right-4 text-text-secondary hover:text-text-primary">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Forgot Password Modal -->
+            <div id="forgotPasswordModal" class="hidden fixed inset-0 z-50 bg-black bg-opacity-50 flex items-center justify-center p-4">
+                <div class="auth-container max-w-sm p-6">
+                    <h3 class="text-lg font-playfair font-bold text-text-primary mb-4 text-center">Reset Password</h3>
+                    <p class="text-sm text-text-secondary mb-6 text-center">Enter your email address and we'll send you a secure recovery link</p>
+                    
+                    <form class="space-y-4">
+                        <div>
+                            <input type="email" class="form-input w-full px-4 py-3 rounded-lg bg-transparent" placeholder="Enter your email address" required>
+                        </div>
+                        
+                        <button type="submit" class="w-full bg-gradient-to-r from-primary-600 to-secondary-600 hover:from-primary-700 hover:to-secondary-700 text-white py-3 px-6 rounded-lg font-medium">
+                            Send Recovery Link
+                        </button>
+                        
+                        <button type="button" id="backToLogin" class="w-full text-sm text-primary-600 hover:text-primary-700">
+                            Back to Sign In
+                        </button>
+                    </form>
+
+                    <button type="button" id="closeForgotPassword" class="absolute top-4 right-4 text-text-secondary hover:text-text-primary">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Authentication functionality
+        const loginTab = document.getElementById('loginTab');
+        const signupTab = document.getElementById('signupTab');
+        const loginForm = document.getElementById('loginForm');
+        const signupForm = document.getElementById('signupForm');
+        const forgotPassword = document.getElementById('forgotPassword');
+        const forgotPasswordModal = document.getElementById('forgotPasswordModal');
+        const twoFactorModal = document.getElementById('twoFactorModal');
+
+        // Tab switching
+        loginTab.addEventListener('click', () => {
+            loginTab.classList.add('active');
+            signupTab.classList.remove('active');
+            loginForm.classList.remove('hidden');
+            signupForm.classList.add('hidden');
+        });
+
+        signupTab.addEventListener('click', () => {
+            signupTab.classList.add('active');
+            loginTab.classList.remove('active');
+            signupForm.classList.remove('hidden');
+            loginForm.classList.add('hidden');
+        });
+
+        // Cultural interests selection
+        const interestTags = document.querySelectorAll('.culture-interest-tag');
+        const selectedInterests = new Set();
+
+        interestTags.forEach(tag => {
+            tag.addEventListener('click', () => {
+                const interest = tag.dataset.interest;
+                if (selectedInterests.has(interest)) {
+                    selectedInterests.delete(interest);
+                    tag.classList.remove('selected');
+                } else {
+                    selectedInterests.add(interest);
+                    tag.classList.add('selected');
+                }
+            });
+        });
+
+        // Password strength indicator
+        const signupPassword = document.getElementById('signupPassword');
+        const passwordStrength = document.getElementById('passwordStrength');
+        const strengthText = document.getElementById('strengthText');
+
+        signupPassword.addEventListener('input', (e) => {
+            const password = e.target.value;
+            const strength = calculatePasswordStrength(password);
+            
+            passwordStrength.className = `password-strength ${strength.class}`;
+            strengthText.textContent = strength.text;
+        });
+
+        function calculatePasswordStrength(password) {
+            let score = 0;
+            if (password.length >= 8) score++;
+            if (/[a-z]/.test(password)) score++;
+            if (/[A-Z]/.test(password)) score++;
+            if (/\d/.test(password)) score++;
+            if (/[^A-Za-z0-9]/.test(password)) score++;
+
+            const strengths = [
+                { class: 'strength-weak', text: 'Weak password' },
+                { class: 'strength-weak', text: 'Weak password' },
+                { class: 'strength-fair', text: 'Fair password' },
+                { class: 'strength-good', text: 'Good password' },
+                { class: 'strength-strong', text: 'Strong password' }
+            ];
+
+            return strengths[score] || strengths[0];
+        }
+
+        // Modal functionality
+        forgotPassword.addEventListener('click', () => {
+            forgotPasswordModal.classList.remove('hidden');
+        });
+
+        document.getElementById('closeForgotPassword').addEventListener('click', () => {
+            forgotPasswordModal.classList.add('hidden');
+        });
+
+        document.getElementById('backToLogin').addEventListener('click', () => {
+            forgotPasswordModal.classList.add('hidden');
+        });
+
+        document.getElementById('closeTwoFactor').addEventListener('click', () => {
+            twoFactorModal.classList.add('hidden');
+        });
+
+        // Form submissions
+        loginForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            
+            // Show success message and redirect
+            showSuccessMessage('Login successful! Redirecting to Heritage Dashboard...');
+            
+            setTimeout(() => {
+                window.location.href = 'heritage_site_dashboard.html';
+            }, 2000);
+        });
+
+        signupForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            
+            const password = document.getElementById('signupPassword').value;
+            const confirmPassword = document.getElementById('signupPasswordConfirm').value;
+            
+            if (password !== confirmPassword) {
+                showErrorMessage('Passwords do not match!');
+                return;
+            }
+
+            if (!document.getElementById('termsAccept').checked) {
+                showErrorMessage('Please accept the Terms of Service and Privacy Policy');
+                return;
+            }
+            
+            // Show success message and redirect
+            showSuccessMessage('Account created successfully! Welcome to Heritage AR Odisha!');
+            
+            setTimeout(() => {
+                window.location.href = 'heritage_site_dashboard.html';
+            }, 2000);
+        });
+
+        // Guest mode
+        document.getElementById('guestMode').addEventListener('click', () => {
+            window.location.href = 'ar_heritage_explorer.html';
+        });
+
+        // Biometric authentication detection
+        if ('credentials' in navigator && 'create' in navigator.credentials) {
+            document.getElementById('biometricLogin').classList.remove('hidden');
+        }
+
+        // Social authentication
+        document.querySelectorAll('.social-button').forEach(button => {
+            button.addEventListener('click', () => {
+                const provider = button.querySelector('span').textContent.toLowerCase();
+                showSuccessMessage(`Redirecting to ${provider} authentication...`);
+                
+                setTimeout(() => {
+                    window.location.href = 'heritage_site_dashboard.html';
+                }, 2000);
+            });
+        });
+
+        // Two-factor authentication code inputs
+        const codeInputs = document.querySelectorAll('#twoFactorModal input[type="text"]');
+        codeInputs.forEach((input, index) => {
+            input.addEventListener('input', (e) => {
+                if (e.target.value.length === 1 && index < codeInputs.length - 1) {
+                    codeInputs[index + 1].focus();
+                }
+            });
+
+            input.addEventListener('keydown', (e) => {
+                if (e.key === 'Backspace' && e.target.value === '' && index > 0) {
+                    codeInputs[index - 1].focus();
+                }
+            });
+        });
+
+        // Language selection
+        document.getElementById('languageSelect').addEventListener('change', (e) => {
+            const selectedLanguage = e.target.value;
+            updateLanguage(selectedLanguage);
+        });
+
+        function updateLanguage(lang) {
+            // Implementation for multilingual support would go here
+            console.log('Language changed to:', lang);
+        }
+
+        // Utility functions for messages
+        function showSuccessMessage(message) {
+            const messageDiv = document.createElement('div');
+            messageDiv.className = 'fixed top-4 right-4 bg-success-500 text-white px-6 py-3 rounded-lg shadow-lg z-50';
+            messageDiv.textContent = message;
+            document.body.appendChild(messageDiv);
+
+            setTimeout(() => {
+                messageDiv.remove();
+            }, 5000);
+        }
+
+        function showErrorMessage(message) {
+            const messageDiv = document.createElement('div');
+            messageDiv.className = 'fixed top-4 right-4 bg-error-500 text-white px-6 py-3 rounded-lg shadow-lg z-50';
+            messageDiv.textContent = message;
+            document.body.appendChild(messageDiv);
+
+            setTimeout(() => {
+                messageDiv.remove();
+            }, 5000);
+        }
+
+        // Initialize page
+        document.addEventListener('DOMContentLoaded', () => {
+            console.log('Heritage AR Odisha Authentication loaded');
+            
+            // Add subtle entrance animation
+            const authContainer = document.querySelector('.auth-container');
+            authContainer.style.opacity = '0';
+            authContainer.style.transform = 'translateY(20px)';
+            
+            setTimeout(() => {
+                authContainer.style.transition = 'all 0.6s ease-out';
+                authContainer.style.opacity = '1';
+                authContainer.style.transform = 'translateY(0)';
+            }, 100);
+        });
+    </script>
+<script id="dhws-dataInjector" src="../public/dhws-data-injector.js"></script>
+</body>
+</html>

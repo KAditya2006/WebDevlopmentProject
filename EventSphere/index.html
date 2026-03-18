@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>EventSphere</title>
+  <meta name="description" content="Responsive event booking website using only HTML, CSS, and vanilla JavaScript." />
+  <link rel="icon" href="EventSphere-Logo.png">
+  <link rel="stylesheet" href="style.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+</head>
+
+<body>
+  <header>
+    <div class="container nav" aria-label="Primary">
+      <div class="brand">
+        <span class="logo" aria-hidden="true">🎫</span>
+        <span>EventSphere</span>
+      </div>
+      <ul>
+        <li><a href="#events">Events</a></li>
+        <li><a href="#tickets">My Tickets</a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ul>
+    </div>
+  </header>
+
+  <main>
+    <!-- Hero -->
+    <section class="hero">
+      <div class="container wrap">
+        <div>
+          <h1 class="headline">Discover, filter and book <span style="color:var(--brand-2)">unmissable</span> events.
+          </h1>
+          <p class="sub">Concerts, conferences, workshops and art shows across India. </p>
+          <div class="cta-row">
+            <a class="btn primary" href="#events">Browse Events</a>
+            <a class="btn ghost" href="#tickets">View Tickets</a>
+          </div>
+        </div>
+        <div class="hero-art" aria-hidden="true">
+          <div class="hero-badges">
+            <span class="chip">Secure Checkout</span>
+            <span class="chip">Instant e‑Tickets</span>
+            <span class="chip">24×7 Support</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Filters -->
+    <section class="container" aria-label="Filters">
+      <div class="filters" id="filters">
+        <input class="input" id="q" placeholder="Search by title or venue…" aria-label="Search" />
+        <select id="category" aria-label="Category">
+          <option value="">All Categories</option>
+          <option>Music</option>
+          <option>Tech</option>
+          <option>Art</option>
+          <option>Sports</option>
+        </select>
+        <select id="city" aria-label="City">
+          <option value="">All Cities</option>
+          <option>Mumbai</option>
+          <option>Bengaluru</option>
+          <option>Delhi</option>
+          <option>Pune</option>
+        </select>
+        <select id="sort" aria-label="Sort">
+          <option value="date">Sort: Date</option>
+          <option value="price">Sort: Price</option>
+          <option value="name">Sort: Name</option>
+        </select>
+      </div>
+    </section>
+
+    <!-- Events Grid -->
+    <section id="events" class="container" aria-label="Events">
+      <div class="grid" id="eventGrid"></div>
+    </section>
+
+    <!-- My Tickets -->
+    <section id="tickets" class="container tickets" aria-labelledby="tickets-h">
+      <h2 id="tickets-h">My Tickets</h2>
+      <div class="ticket-list" id="ticketList"></div>
+    </section>
+
+    <!-- Contact -->
+    <section id="contact" class="container" style="margin-top:3rem">
+      <div class="card">
+        <div class="card-body">
+          <h2>Contact</h2>
+          <p class="tiny">Have questions about your booking? Email <a
+              href="mailto:support@eventbooker.example">support@kaditya39546@gmail.com</a>.</p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="container" style="padding:1.1rem 0">© 2025 EventSphere</div>
+  </footer>
+
+  <!-- Booking Modal -->
+  <div class="modal" id="modal" role="dialog" aria-modal="true" aria-labelledby="dialogTitle" aria-hidden="true">
+    <div class="dialog">
+      <header>
+        <div class="container nav" style="padding:.75rem 1rem">
+          <strong id="dialogTitle">Complete your booking</strong>
+          <button id="closeModal" class="btn ghost" aria-label="Close">Close</button>
+        </div>
+      </header>
+      <div class="content">
+        <form id="bookingForm">
+          <input type="hidden" id="eventId" />
+          <div class="form-row">
+            <label>
+              <span class="tiny">Name</span>
+              <input required class="input" id="customerName" placeholder="Your full name" />
+            </label>
+            <label>
+              <span class="tiny">Email</span>
+              <input required type="email" class="input" id="customerEmail" placeholder="you@example.com" />
+            </label>
+          </div>
+          <div class="form-row">
+            <label>
+              <span class="tiny">Seat Type</span>
+              <select class="input" id="seat">
+                <option value="standard" data-mul="1">Standard (×1)</option>
+                <option value="premium" data-mul="1.5">Premium (×1.5)</option>
+                <option value="vip" data-mul="2">VIP (×2)</option>
+              </select>
+            </label>
+            <label>
+              <span class="tiny">Quantity</span>
+              <div class="qty">
+                <button type="button" class="step" id="minus" aria-label="Decrease">−</button>
+                <input class="input" id="qty" value="1" inputmode="numeric" pattern="[0-9]*"
+                  style="max-width:90px;text-align:center" />
+                <button type="button" class="step" id="plus" aria-label="Increase">+</button>
+              </div>
+            </label>
+          </div>
+          <div class="form-row">
+            <div>
+              <span class="tiny">Event</span>
+              <div id="eventSummary" style="margin-top:.35rem"></div>
+            </div>
+            <div style="display:grid; justify-items:end">
+              <span class="tiny">Total</span>
+              <div class="total" id="total">₹0</div>
+            </div>
+          </div>
+          <div style="display:flex; gap:.6rem; justify-content:flex-end; margin-top:1rem">
+            <button type="button" class="btn ghost" id="cancel">Cancel</button>
+            <button class="btn primary" id="confirm">Confirm & Save</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+  <script src="script.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,637 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Farming Calendar - CropWise AI</title>
+    <link rel="stylesheet" href="../css/main.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <script type="module" async src="https://static.rocket.new/rocket-web.js?_cfg=https%3A%2F%2Fcropwisea2089back.builtwithrocket.new&_be=https%3A%2F%2Fapplication.rocket.new&_v=0.1.9"></script>
+  <script type="module" defer src="https://static.rocket.new/rocket-shot.js?v=0.0.1"></script>
+  </head>
+<body class="bg-background font-sans">
+    <!-- Header Navigation -->
+    <header class="bg-surface shadow-agricultural border-b border-border">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <!-- Logo -->
+                <div class="flex items-center">
+                    <svg class="h-8 w-8 text-primary" viewBox="0 0 32 32" fill="currentColor">
+                        <path d="M16 2L8 8v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V8l-8-6z"/>
+                        <path d="M12 14l2 2 6-6" stroke="white" stroke-width="2" fill="none"/>
+                    </svg>
+                    <span class="ml-2 text-xl font-bold text-primary">CropWise AI</span>
+                </div>
+
+                <!-- Navigation Links -->
+                <nav class="hidden md:flex space-x-8">
+                    <a href="farmer_dashboard.html" class="text-text-secondary hover:text-primary transition-agricultural">Dashboard</a>
+                    <a href="crop_recommendation.html" class="text-text-secondary hover:text-primary transition-agricultural">Crop Recommendations</a>
+                    <a href="soil_analysis.html" class="text-text-secondary hover:text-primary transition-agricultural">Soil Analysis</a>
+                    <a href="weather_monitoring.html" class="text-text-secondary hover:text-primary transition-agricultural">Weather</a>
+                    <a href="market_price_tracker.html" class="text-text-secondary hover:text-primary transition-agricultural">Market Prices</a>
+                    <a href="pest_detection.html" class="text-text-secondary hover:text-primary transition-agricultural">Pest Detection</a>
+                    <a href="farming_calendar.html" class="text-primary font-medium border-b-2 border-primary pb-1">Farming Calendar</a>
+                </nav>
+
+                <!-- Language Selector & Profile -->
+                <div class="flex items-center space-x-4">
+                    <select class="bg-surface border border-border rounded-agricultural px-3 py-1 text-sm focus:outline-none focus:ring-2 focus:ring-primary">
+                        <option value="en">English</option>
+                        <option value="hi">हिंदी</option>
+                        <option value="bn">বাংলা</option>
+                        <option value="ta">தமிழ்</option>
+                        <option value="mr">मराठी</option>
+                        <option value="te">తెలుగు</option>
+                        <option value="gu">ગુજરાતી</option>
+                        <option value="or">ଓଡ଼ିଆ</option>
+                    </select>
+                    <div class="w-8 h-8 bg-primary rounded-full flex items-center justify-center">
+                        <span class="text-white text-sm font-medium">RK</span>
+                    </div>
+                </div>
+
+                <!-- Mobile Menu Button -->
+                <button class="md:hidden p-2 rounded-agricultural text-text-secondary hover:text-primary">
+                    <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
+                    </svg>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <!-- Page Header -->
+        <div class="mb-8">
+            <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between">
+                <div>
+                    <h1 class="text-3xl font-bold text-text-primary mb-2">Farming Calendar</h1>
+                    <p class="text-text-secondary">Plan, track, and manage your agricultural activities throughout the farming season</p>
+                </div>
+                <div class="mt-4 sm:mt-0 flex items-center space-x-3">
+                    <button id="addTaskBtn" class="bg-primary hover:bg-primary-600 text-white px-6 py-2 rounded-agricultural transition-agricultural flex items-center">
+                        <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/>
+                        </svg>
+                        Add Farming Task
+                    </button>
+                    <button id="voiceCommandBtn" class="bg-accent hover:bg-accent-600 text-white p-2 rounded-agricultural transition-agricultural">
+                        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M12 14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3z"/>
+                            <path d="M17 11c0 2.76-2.24 5-5 5s-5-2.24-5-5H5c0 3.53 2.61 6.43 6 6.92V21h2v-3.08c3.39-.49 6-3.39 6-6.92h-2z"/>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Calendar Controls -->
+        <div class="bg-surface rounded-agricultural-lg shadow-agricultural border border-border p-6 mb-6">
+            <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between space-y-4 sm:space-y-0">
+                <!-- Calendar Navigation -->
+                <div class="flex items-center space-x-4">
+                    <button id="prevMonth" class="p-2 text-text-secondary hover:text-primary hover:bg-primary-50 rounded-agricultural transition-agricultural">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
+                        </svg>
+                    </button>
+                    <h2 id="currentMonth" class="text-xl font-semibold text-text-primary">November 2025</h2>
+                    <button id="nextMonth" class="p-2 text-text-secondary hover:text-primary hover:bg-primary-50 rounded-agricultural transition-agricultural">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+                        </svg>
+                    </button>
+                </div>
+
+                <!-- View Controls -->
+                <div class="flex items-center space-x-2">
+                    <button id="monthView" class="bg-primary text-white px-4 py-2 rounded-agricultural text-sm transition-agricultural">Month</button>
+                    <button id="weekView" class="bg-surface text-text-secondary px-4 py-2 rounded-agricultural text-sm hover:bg-primary-50 transition-agricultural border border-border">Week</button>
+                    <button id="dayView" class="bg-surface text-text-secondary px-4 py-2 rounded-agricultural text-sm hover:bg-primary-50 transition-agricultural border border-border">Day</button>
+                </div>
+
+                <!-- Filter & Search -->
+                <div class="flex items-center space-x-3">
+                    <select id="taskFilter" class="bg-surface border border-border rounded-agricultural px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary">
+                        <option value="all">All Tasks</option>
+                        <option value="sowing">Sowing</option>
+                        <option value="irrigation">Irrigation</option>
+                        <option value="fertilization">Fertilization</option>
+                        <option value="pest-control">Pest Control</option>
+                        <option value="harvesting">Harvesting</option>
+                    </select>
+                    <button id="seasonalGuideBtn" class="bg-secondary hover:bg-secondary-600 text-white px-4 py-2 rounded-agricultural text-sm transition-agricultural">
+                        Seasonal Guide
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Main Calendar Section -->
+        <div class="grid grid-cols-1 xl:grid-cols-4 gap-6">
+            <!-- Calendar Grid -->
+            <div class="xl:col-span-3">
+                <!-- Weather Alert -->
+                <div class="bg-warning-50 border-l-4 border-warning rounded-r-agricultural p-4 mb-6">
+                    <div class="flex items-center">
+                        <svg class="w-5 h-5 text-warning mr-3" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M1 21h22L12 2 1 21zm12-3h-2v-2h2v2zm0-4h-2v-4h2v4z"/>
+                        </svg>
+                        <div>
+                            <h3 class="font-medium text-warning-800">Weather Alert</h3>
+                            <p class="text-sm text-warning-700">Light rain expected tomorrow (Nov 11). Good time for transplanting rice seedlings.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Calendar -->
+                <div class="bg-surface rounded-agricultural-lg shadow-agricultural border border-border overflow-hidden">
+                    <!-- Calendar Header -->
+                    <div class="bg-primary-50 border-b border-border">
+                        <div class="grid grid-cols-7 gap-0">
+                            <div class="p-3 text-center text-sm font-medium text-text-primary border-r border-border">Sun</div>
+                            <div class="p-3 text-center text-sm font-medium text-text-primary border-r border-border">Mon</div>
+                            <div class="p-3 text-center text-sm font-medium text-text-primary border-r border-border">Tue</div>
+                            <div class="p-3 text-center text-sm font-medium text-text-primary border-r border-border">Wed</div>
+                            <div class="p-3 text-center text-sm font-medium text-text-primary border-r border-border">Thu</div>
+                            <div class="p-3 text-center text-sm font-medium text-text-primary border-r border-border">Fri</div>
+                            <div class="p-3 text-center text-sm font-medium text-text-primary">Sat</div>
+                        </div>
+                    </div>
+
+                    <!-- Calendar Body -->
+                    <div id="calendarGrid" class="grid grid-cols-7 gap-0">
+                        <!-- Calendar days will be generated by JavaScript -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- Sidebar -->
+            <div class="xl:col-span-1 space-y-6">
+                <!-- Today's Tasks -->
+                <div class="bg-surface rounded-agricultural-lg shadow-agricultural border border-border p-6">
+                    <h3 class="text-lg font-semibold text-text-primary mb-4 flex items-center">
+                        <svg class="w-5 h-5 text-primary mr-2" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z"/>
+                        </svg>
+                        Today's Tasks
+                    </h3>
+                    <div class="space-y-3">
+                        <div class="flex items-start space-x-3 p-3 bg-primary-50 rounded-agricultural border-l-4 border-primary">
+                            <input type="checkbox" class="mt-1 text-primary focus:ring-primary border-border rounded">
+                            <div class="flex-1">
+                                <h4 class="font-medium text-text-primary text-sm">Apply NPK Fertilizer</h4>
+                                <p class="text-xs text-text-secondary">Rice field - Section A</p>
+                                <span class="text-xs text-primary font-medium">Morning (6:00 AM)</span>
+                            </div>
+                        </div>
+                        <div class="flex items-start space-x-3 p-3 bg-accent-50 rounded-agricultural border-l-4 border-accent">
+                            <input type="checkbox" class="mt-1 text-accent focus:ring-accent border-border rounded">
+                            <div class="flex-1">
+                                <h4 class="font-medium text-text-primary text-sm">Check Irrigation System</h4>
+                                <p class="text-xs text-text-secondary">All fields inspection</p>
+                                <span class="text-xs text-accent font-medium">Evening (5:00 PM)</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Upcoming Reminders -->
+                <div class="bg-surface rounded-agricultural-lg shadow-agricultural border border-border p-6">
+                    <h3 class="text-lg font-semibold text-text-primary mb-4 flex items-center">
+                        <svg class="w-5 h-5 text-secondary mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-5 5v-5zM4 19h1v-3a3 3 0 013-3h4a3 3 0 013 3v3h1m-9 0h8m-8 0H2m8 0v4m0-4V9a5 5 0 00-5-5H7a5 5 0 00-5 5v4"/>
+                        </svg>
+                        Upcoming Reminders
+                    </h3>
+                    <div class="space-y-3">
+                        <div class="flex items-center justify-between p-3 bg-warning-50 rounded-agricultural">
+                            <div>
+                                <h4 class="font-medium text-text-primary text-sm">Wheat Sowing</h4>
+                                <p class="text-xs text-text-secondary">Nov 15, 2025</p>
+                            </div>
+                            <span class="text-xs bg-warning text-warning-800 px-2 py-1 rounded-agricultural">3 days</span>
+                        </div>
+                        <div class="flex items-center justify-between p-3 bg-success-50 rounded-agricultural">
+                            <div>
+                                <h4 class="font-medium text-text-primary text-sm">Soil Testing</h4>
+                                <p class="text-xs text-text-secondary">Nov 20, 2025</p>
+                            </div>
+                            <span class="text-xs bg-success text-success-800 px-2 py-1 rounded-agricultural">8 days</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Quick Actions -->
+                <div class="bg-surface rounded-agricultural-lg shadow-agricultural border border-border p-6">
+                    <h3 class="text-lg font-semibold text-text-primary mb-4">Quick Actions</h3>
+                    <div class="space-y-2">
+                        <button class="w-full text-left p-3 hover:bg-primary-50 rounded-agricultural transition-agricultural flex items-center">
+                            <svg class="w-4 h-4 text-primary mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/>
+                            </svg>
+                            <span class="text-sm text-text-primary">Set Reminder</span>
+                        </button>
+                        <button class="w-full text-left p-3 hover:bg-secondary-50 rounded-agricultural transition-agricultural flex items-center">
+                            <svg class="w-4 h-4 text-secondary mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3a4 4 0 118 0v4m-4 0v8m0-8H8m4 0h4"/>
+                            </svg>
+                            <span class="text-sm text-text-primary">View Seasonal Guide</span>
+                        </button>
+                        <button class="w-full text-left p-3 hover:bg-accent-50 rounded-agricultural transition-agricultural flex items-center">
+                            <svg class="w-4 h-4 text-accent mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3"/>
+                            </svg>
+                            <span class="text-sm text-text-primary">Download Calendar</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Add Task Modal -->
+    <div id="addTaskModal" class="fixed inset-0 bg-black bg-opacity-50 hidden z-50 flex items-center justify-center p-4">
+        <div class="bg-surface rounded-agricultural-lg shadow-agricultural max-w-lg w-full max-h-[90vh] overflow-y-auto">
+            <div class="p-6">
+                <div class="flex justify-between items-center mb-6">
+                    <h2 class="text-xl font-semibold text-text-primary">Add Farming Task</h2>
+                    <button id="closeModal" class="text-text-secondary hover:text-primary transition-agricultural">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+                        </svg>
+                    </button>
+                </div>
+
+                <form id="addTaskForm" class="space-y-4">
+                    <!-- Task Title -->
+                    <div>
+                        <label class="block text-sm font-medium text-text-primary mb-2">Task Title</label>
+                        <input type="text" id="taskTitle" class="w-full px-3 py-2 border border-border rounded-agricultural focus:outline-none focus:ring-2 focus:ring-primary" placeholder="Enter task title">
+                    </div>
+
+                    <!-- Task Category -->
+                    <div>
+                        <label class="block text-sm font-medium text-text-primary mb-2">Category</label>
+                        <select id="taskCategory" class="w-full px-3 py-2 border border-border rounded-agricultural focus:outline-none focus:ring-2 focus:ring-primary">
+                            <option value="sowing">Sowing</option>
+                            <option value="irrigation">Irrigation</option>
+                            <option value="fertilization">Fertilization</option>
+                            <option value="pest-control">Pest Control</option>
+                            <option value="harvesting">Harvesting</option>
+                            <option value="other">Other</option>
+                        </select>
+                    </div>
+
+                    <!-- Date and Time -->
+                    <div class="grid grid-cols-2 gap-4">
+                        <div>
+                            <label class="block text-sm font-medium text-text-primary mb-2">Date</label>
+                            <input type="date" id="taskDate" class="w-full px-3 py-2 border border-border rounded-agricultural focus:outline-none focus:ring-2 focus:ring-primary">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-text-primary mb-2">Time</label>
+                            <input type="time" id="taskTime" class="w-full px-3 py-2 border border-border rounded-agricultural focus:outline-none focus:ring-2 focus:ring-primary">
+                        </div>
+                    </div>
+
+                    <!-- Crop Selection -->
+                    <div>
+                        <label class="block text-sm font-medium text-text-primary mb-2">Crop/Field</label>
+                        <select id="taskCrop" class="w-full px-3 py-2 border border-border rounded-agricultural focus:outline-none focus:ring-2 focus:ring-primary">
+                            <option value="rice-a">Rice Field - Section A</option>
+                            <option value="rice-b">Rice Field - Section B</option>
+                            <option value="wheat">Wheat Field</option>
+                            <option value="all">All Fields</option>
+                        </select>
+                    </div>
+
+                    <!-- Description -->
+                    <div>
+                        <label class="block text-sm font-medium text-text-primary mb-2">Description</label>
+                        <textarea id="taskDescription" rows="3" class="w-full px-3 py-2 border border-border rounded-agricultural focus:outline-none focus:ring-2 focus:ring-primary" placeholder="Add task details..."></textarea>
+                    </div>
+
+                    <!-- Reminder Options -->
+                    <div>
+                        <label class="block text-sm font-medium text-text-primary mb-2">Set Reminder</label>
+                        <div class="space-y-2">
+                            <label class="flex items-center space-x-2">
+                                <input type="checkbox" class="text-primary focus:ring-primary border-border rounded">
+                                <span class="text-sm text-text-secondary">SMS Reminder</span>
+                            </label>
+                            <label class="flex items-center space-x-2">
+                                <input type="checkbox" class="text-primary focus:ring-primary border-border rounded">
+                                <span class="text-sm text-text-secondary">App Notification</span>
+                            </label>
+                            <select class="w-full px-3 py-2 border border-border rounded-agricultural text-sm">
+                                <option value="1h">1 hour before</option>
+                                <option value="1d">1 day before</option>
+                                <option value="3d">3 days before</option>
+                                <option value="1w">1 week before</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <!-- Submit Button -->
+                    <div class="flex space-x-3 pt-4">
+                        <button type="submit" class="flex-1 bg-primary hover:bg-primary-600 text-white py-2 px-4 rounded-agricultural transition-agricultural">
+                            Add Task
+                        </button>
+                        <button type="button" id="cancelTask" class="flex-1 bg-surface text-text-secondary border border-border hover:bg-primary-50 py-2 px-4 rounded-agricultural transition-agricultural">
+                            Cancel
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-surface border-t border-border mt-12">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+                <div class="col-span-1 md:col-span-2">
+                    <div class="flex items-center mb-4">
+                        <svg class="h-8 w-8 text-primary" viewBox="0 0 32 32" fill="currentColor">
+                            <path d="M16 2L8 8v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V8l-8-6z"/>
+                            <path d="M12 14l2 2 6-6" stroke="white" stroke-width="2" fill="none"/>
+                        </svg>
+                        <span class="ml-2 text-xl font-bold text-primary">CropWise AI</span>
+                    </div>
+                    <p class="text-text-secondary text-sm mb-4">
+                        Empowering Indian farmers with AI-driven agricultural insights and multilingual support for better crop decisions.
+                    </p>
+                    <div class="flex space-x-4">
+                        <span class="text-xs text-text-secondary">Supported by ICAR</span>
+                        <span class="text-xs text-text-secondary">Government Certified</span>
+                    </div>
+                </div>
+                <div>
+                    <h4 class="font-semibold text-text-primary mb-3">Quick Links</h4>
+                    <ul class="space-y-2 text-sm text-text-secondary">
+                        <li><a href="crop_recommendation.html" class="hover:text-primary transition-agricultural">Crop Recommendations</a></li>
+                        <li><a href="soil_analysis.html" class="hover:text-primary transition-agricultural">Soil Analysis</a></li>
+                        <li><a href="weather_monitoring.html" class="hover:text-primary transition-agricultural">Weather Monitoring</a></li>
+                        <li><a href="market_price_tracker.html" class="hover:text-primary transition-agricultural">Market Prices</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="font-semibold text-text-primary mb-3">Support</h4>
+                    <ul class="space-y-2 text-sm text-text-secondary">
+                        <li><a href="javascript:void(0)" class="hover:text-primary transition-agricultural">Help Center</a></li>
+                        <li><a href="javascript:void(0)" class="hover:text-primary transition-agricultural">Contact Us</a></li>
+                        <li><a href="javascript:void(0)" class="hover:text-primary transition-agricultural">Training Videos</a></li>
+                        <li><a href="javascript:void(0)" class="hover:text-primary transition-agricultural">FAQs</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="border-t border-border mt-8 pt-6 text-center">
+                <p class="text-sm text-text-secondary">© 2025 CropWise AI. All Rights Reserved. | Serving Indian Agriculture</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Calendar functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            const currentDate = new Date();
+            const currentMonth = document.getElementById('currentMonth');
+            const calendarGrid = document.getElementById('calendarGrid');
+            const addTaskModal = document.getElementById('addTaskModal');
+            const addTaskBtn = document.getElementById('addTaskBtn');
+            const closeModal = document.getElementById('closeModal');
+            const cancelTask = document.getElementById('cancelTask');
+            const addTaskForm = document.getElementById('addTaskForm');
+            const voiceCommandBtn = document.getElementById('voiceCommandBtn');
+
+            // Sample tasks data
+            const tasks = [
+                {
+                    id: 1,
+                    title: 'Apply NPK Fertilizer',
+                    date: '2025-11-10',
+                    time: '06:00',
+                    category: 'fertilization',
+                    crop: 'rice-a',
+                    description: 'Apply balanced NPK fertilizer for rice crop'
+                },
+                {
+                    id: 2,
+                    title: 'Check Irrigation System',
+                    date: '2025-11-10',
+                    time: '17:00',
+                    category: 'irrigation',
+                    crop: 'all',
+                    description: 'Inspect all irrigation channels and pumps'
+                },
+                {
+                    id: 3,
+                    title: 'Wheat Sowing',
+                    date: '2025-11-15',
+                    time: '07:00',
+                    category: 'sowing',
+                    crop: 'wheat',
+                    description: 'Begin wheat sowing in prepared field'
+                },
+                {
+                    id: 4,
+                    title: 'Soil Testing',
+                    date: '2025-11-20',
+                    time: '09:00',
+                    category: 'other',
+                    crop: 'all',
+                    description: 'Monthly soil health checkup'
+                }
+            ];
+
+            // Calendar generation
+            function generateCalendar(year, month) {
+                const firstDay = new Date(year, month, 1);
+                const lastDay = new Date(year, month + 1, 0);
+                const daysInMonth = lastDay.getDate();
+                const startingDayOfWeek = firstDay.getDay();
+
+                calendarGrid.innerHTML = '';
+
+                // Add empty cells for days before the first day of the month
+                for (let i = 0; i < startingDayOfWeek; i++) {
+                    const emptyDay = document.createElement('div');
+                    emptyDay.className = 'p-2 h-24 border-b border-r border-border bg-primary-25';
+                    calendarGrid.appendChild(emptyDay);
+                }
+
+                // Add days of the month
+                for (let day = 1; day <= daysInMonth; day++) {
+                    const dayElement = document.createElement('div');
+                    const dateString = `${year}-${String(month + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
+                    const dayTasks = tasks.filter(task => task.date === dateString);
+                    const isToday = dateString === currentDate.toISOString().split('T')[0];
+
+                    dayElement.className = `p-2 h-24 border-b border-r border-border bg-surface hover:bg-primary-50 cursor-pointer transition-agricultural ${isToday ? 'bg-primary-100 border-primary' : ''}`;
+                    
+                    let dayContent = `<div class="font-medium text-sm ${isToday ? 'text-primary' : 'text-text-primary'} mb-1">${day}</div>`;
+                    
+                    if (dayTasks.length > 0) {
+                        dayContent += '<div class="space-y-1">';
+                        dayTasks.forEach((task, index) => {
+                            if (index < 2) { // Show max 2 tasks per day
+                                const categoryColors = {
+                                    sowing: 'bg-primary text-primary-800',
+                                    irrigation: 'bg-accent text-accent-800',
+                                    fertilization: 'bg-secondary text-secondary-800',
+                                    'pest-control': 'bg-error text-error-800',
+                                    harvesting: 'bg-success text-success-800',
+                                    other: 'bg-text-secondary text-white'
+                                };
+                                const colorClass = categoryColors[task.category] || 'bg-text-secondary text-white';
+                                dayContent += `<div class="text-xs px-1 py-0.5 rounded ${colorClass} truncate" title="${task.title}">${task.title}</div>`;
+                            }
+                        });
+                        if (dayTasks.length > 2) {
+                            dayContent += `<div class="text-xs text-text-secondary">+${dayTasks.length - 2} more</div>`;
+                        }
+                        dayContent += '</div>';
+                    }
+                    
+                    dayElement.innerHTML = dayContent;
+                    dayElement.addEventListener('click', () => openDayTasks(dateString));
+                    calendarGrid.appendChild(dayElement);
+                }
+
+                // Update month display
+                const monthNames = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+                currentMonth.textContent = `${monthNames[month]} ${year}`;
+            }
+
+            // Initialize calendar
+            generateCalendar(currentDate.getFullYear(), currentDate.getMonth());
+
+            // Month navigation
+            document.getElementById('prevMonth').addEventListener('click', () => {
+                currentDate.setMonth(currentDate.getMonth() - 1);
+                generateCalendar(currentDate.getFullYear(), currentDate.getMonth());
+            });
+
+            document.getElementById('nextMonth').addEventListener('click', () => {
+                currentDate.setMonth(currentDate.getMonth() + 1);
+                generateCalendar(currentDate.getFullYear(), currentDate.getMonth());
+            });
+
+            // Modal handlers
+            addTaskBtn.addEventListener('click', () => {
+                addTaskModal.classList.remove('hidden');
+                document.getElementById('taskDate').value = new Date().toISOString().split('T')[0];
+            });
+
+            closeModal.addEventListener('click', () => {
+                addTaskModal.classList.add('hidden');
+            });
+
+            cancelTask.addEventListener('click', () => {
+                addTaskModal.classList.add('hidden');
+            });
+
+            // Form submission
+            addTaskForm.addEventListener('submit', (e) => {
+                e.preventDefault();
+                
+                const newTask = {
+                    id: tasks.length + 1,
+                    title: document.getElementById('taskTitle').value,
+                    date: document.getElementById('taskDate').value,
+                    time: document.getElementById('taskTime').value,
+                    category: document.getElementById('taskCategory').value,
+                    crop: document.getElementById('taskCrop').value,
+                    description: document.getElementById('taskDescription').value
+                };
+
+                tasks.push(newTask);
+                addTaskModal.classList.add('hidden');
+                generateCalendar(currentDate.getFullYear(), currentDate.getMonth());
+                addTaskForm.reset();
+                
+                // Show success message
+                alert('Task added successfully! You will receive reminders as configured.');
+            });
+
+            // Voice command functionality
+            voiceCommandBtn.addEventListener('click', () => {
+                if ('webkitSpeechRecognition' in window) {
+                    const recognition = new webkitSpeechRecognition();
+                    recognition.continuous = false;
+                    recognition.interimResults = false;
+                    recognition.lang = 'en-IN';
+
+                    voiceCommandBtn.innerHTML = '<svg class="w-5 h-5 animate-pulse" fill="currentColor" viewBox="0 0 24 24"><path d="M12 14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3z"/><path d="M17 11c0 2.76-2.24 5-5 5s-5-2.24-5-5H5c0 3.53 2.61 6.43 6 6.92V21h2v-3.08c3.39-.49 6-3.39 6-6.92h-2z"/></svg>';
+                    
+                    recognition.start();
+
+                    recognition.onresult = function(event) {
+                        const command = event.results[0][0].transcript.toLowerCase();
+                        console.log('Voice command:', command);
+                        
+                        if (command.includes('add task') || command.includes('create task')) {
+                            addTaskBtn.click();
+                        } else if (command.includes('when should i plant') || command.includes('planting time')) {
+                            alert('Based on current weather and soil conditions, wheat planting is recommended between November 15-30, 2025.');
+                        } else if (command.includes('weather') || command.includes('rain')) {
+                            alert('Light rain expected tomorrow. Good conditions for rice transplanting and wheat field preparation.');
+                        } else {
+                            alert('Voice command not recognized. Try: "Add task", "When should I plant wheat?", or "Check weather"');
+                        }
+                        
+                        voiceCommandBtn.innerHTML = '<svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M12 14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3z"/><path d="M17 11c0 2.76-2.24 5-5 5s-5-2.24-5-5H5c0 3.53 2.61 6.43 6 6.92V21h2v-3.08c3.39-.49 6-3.39 6-6.92h-2z"/></svg>';
+                    };
+
+                    recognition.onerror = function(event) {
+                        alert('Voice recognition error. Please try again.');
+                        voiceCommandBtn.innerHTML = '<svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M12 14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3z"/><path d="M17 11c0 2.76-2.24 5-5 5s-5-2.24-5-5H5c0 3.53 2.61 6.43 6 6.92V21h2v-3.08c3.39-.49 6-3.39 6-6.92h-2z"/></svg>';
+                    };
+                } else {
+                    alert('Voice recognition is not supported in your browser.');
+                }
+            });
+
+            // View toggle functionality
+            document.getElementById('monthView').addEventListener('click', function() {
+                this.classList.add('bg-primary', 'text-white');
+                this.classList.remove('bg-surface', 'text-text-secondary');
+                document.getElementById('weekView').classList.remove('bg-primary', 'text-white');
+                document.getElementById('weekView').classList.add('bg-surface', 'text-text-secondary');
+                document.getElementById('dayView').classList.remove('bg-primary', 'text-white');
+                document.getElementById('dayView').classList.add('bg-surface', 'text-text-secondary');
+            });
+
+            // Filter functionality
+            document.getElementById('taskFilter').addEventListener('change', function() {
+                // Filter implementation would go here
+                console.log('Filter changed to:', this.value);
+            });
+
+            // Seasonal guide
+            document.getElementById('seasonalGuideBtn').addEventListener('click', function() {
+                alert('Seasonal Guide:\n\nNovember (Rabi Season):\n- Wheat sowing: Nov 15-30\n- Rice harvesting: Nov 1-15\n- Mustard planting: Nov 1-15\n- Potato planting: Nov 1-20\n\nDecember:\n- Wheat field management\n- Pea and gram sowing\n- Winter vegetable care');
+            });
+
+            // Open day tasks function
+            function openDayTasks(dateString) {
+                const dayTasks = tasks.filter(task => task.date === dateString);
+                if (dayTasks.length > 0) {
+                    let tasksList = `Tasks for ${dateString}:\n\n`;
+                    dayTasks.forEach(task => {
+                        tasksList += `• ${task.title} (${task.time})\n  Category: ${task.category}\n  Field: ${task.crop}\n\n`;
+                    });
+                    alert(tasksList);
+                } else {
+                    alert(`No tasks scheduled for ${dateString}. Click "Add Farming Task" to create one.`);
+                }
+            }
+        });
+    </script>
+<script id="dhws-dataInjector" src="../public/dhws-data-injector.js"></script>
+</body>
+</html>

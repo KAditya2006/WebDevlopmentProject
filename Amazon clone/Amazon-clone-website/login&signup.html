@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login Page</title>
+  <style>
+	body {
+  font-family: Arial, sans-serif;
+  background: linear-gradient(135deg, #74ebd5, #acb6e5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  margin: 0;
+}
+
+.login-container,
+.register-container {
+  background: white;
+  padding: 30px;
+  border-radius: 15px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+  width: 320px;
+  text-align: center;
+  display: none; /* by default hide */
+}
+
+.login-container.active,
+.register-container.active {
+  display: block; /* show only active one */
+}
+
+h2 {
+  margin-bottom: 20px;
+  color: #333;
+}
+
+input {
+  width: 90%;
+  padding: 12px;
+  margin: 10px 0;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-size: 16px;
+}
+
+button {
+  width: 100%;
+  padding: 12px;
+  border: none;
+  color: white;
+  font-size: 16px;
+  border-radius: 8px;
+  cursor: pointer;
+  margin-top: 10px;
+}
+
+.login-container button {
+  background: #4caf50;
+}
+.login-container button:hover {
+  background: #45a049;
+}
+
+.register-container button {
+  background: #ff6f61;
+}
+.register-container button:hover {
+  background: #e65b4f;
+}
+
+p {
+  margin-top: 15px;
+  font-size: 14px;
+}
+a {
+  cursor: pointer;
+}
+
+  </style>
+
+
+
+</head>
+
+<body>
+  <div class="login-container active">
+    <h2>Login</h2>
+    <form>
+      <input type="text" id="loginUsername" placeholder="Enter Username" required>
+      <input type="password" id="loginPassword" placeholder="Enter Password" required>
+      <button id="login">Login</button>
+    </form>
+    <p>Don't have an account? <a id="goRegister">Register</a></p>
+  </div>
+
+  <div class="register-container">
+    <h2>Create Account</h2>
+    <form>
+      <input type="text" id="username" placeholder="Full Name" required>
+      <input type="email" id="email" placeholder="Email Address" required>
+      <input type="password" id="password" placeholder="Password" required>
+      <input type="password" id="confirmPassword" placeholder="Confirm Password" required>
+      <button id="register">Register</button>
+    </form>
+    <p>Already have an account? <a id="goLogin">Login</a></p>
+  </div>
+  <script >
+	let RegisterBtn = document.getElementById("register");
+let loginBtn = document.getElementById("login");
+let username = document.getElementById("username");
+let password = document.getElementById("password");
+let confirmPassword = document.getElementById("confirmPassword");
+let email = document.getElementById("email");
+let loginUsername = document.getElementById("loginUsername");
+let loginPassword = document.getElementById("loginPassword");
+let loginContainer = document.querySelector(".login-container");
+let registerContainer = document.querySelector(".register-container");
+let goLogin = document.getElementById("goLogin");
+let goRegister = document.getElementById("goRegister");
+
+let users = [];
+
+RegisterBtn.addEventListener("click", (e) => {
+  
+
+  if (
+    username.value === "" ||
+    password.value === "" ||
+    email.value === "" ||
+    confirmPassword.value === ""
+  ) {
+    alert("Please fill all the fields!");
+    return;
+  }
+
+  if (password.value !== confirmPassword.value) {
+    alert("Passwords do not match!");
+    return;
+  }
+
+  if (password.value.length < 8) {
+    alert("Password length must be at least 8 characters!");
+    return;
+  }
+
+  users.push({
+    username: username.value,
+    email: email.value,
+    password: password.value,
+  });
+
+  alert("Registration Successful!");
+
+  username.value = "";
+  email.value = "";
+  password.value = "";
+  confirmPassword.value = "";
+
+  registerContainer.classList.remove("active");
+  loginContainer.classList.add("active");
+});
+
+loginBtn.addEventListener("click", (e) => {
+  
+
+  let uname = loginUsername.value;
+  let pass = loginPassword.value;
+
+  if (uname === "" || pass === "") {
+    alert("Please fill login details!");
+    return;
+  }
+
+  const user = users.find(
+    (u) => (u.username === uname || u.email === uname) && u.password === pass
+  );
+
+  if (user) {
+    alert("Login Successful! Welcome, " + user.username);
+    loginUsername.value = "";
+    loginPassword.value = "";
+	window.location.href = "index.html";
+  } else {
+    alert("Invalid username/email or password!");
+  }
+
+
+  
+});
+
+goRegister.addEventListener("click", () => {
+  loginContainer.classList.remove("active");
+  registerContainer.classList.add("active");
+});
+
+goLogin.addEventListener("click", () => {
+  registerContainer.classList.remove("active");
+  loginContainer.classList.add("active");
+});
+  </script>
+</body>
+
+</html>

@@ -1,0 +1,463 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Farmer Dashboard - CropWise AI</title>
+    <link rel="stylesheet" href="../css/main.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  
+  <script type="module" async src="https://static.rocket.new/rocket-web.js?_cfg=https%3A%2F%2Fcropwisea2089back.builtwithrocket.new&_be=https%3A%2F%2Fapplication.rocket.new&_v=0.1.9"></script>
+  <script type="module" defer src="https://static.rocket.new/rocket-shot.js?v=0.0.1"></script>
+  </head>
+<body class="bg-background font-sans">
+    <!-- Header Navigation -->
+    <header class="bg-surface shadow-agricultural border-b border-border">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <!-- Logo -->
+                <div class="flex items-center">
+                    <svg class="h-8 w-8 text-primary" viewBox="0 0 32 32" fill="currentColor">
+                        <path d="M16 2L8 8v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V8l-8-6z"/>
+                        <path d="M12 14l2 2 6-6" stroke="white" stroke-width="2" fill="none"/>
+                    </svg>
+                    <span class="ml-2 text-xl font-bold text-primary">CropWise AI</span>
+                </div>
+
+                <!-- Navigation Links -->
+                <nav class="hidden md:flex space-x-8">
+                    <a href="farmer_dashboard.html" class="text-primary font-medium border-b-2 border-primary pb-1">Dashboard</a>
+                    <a href="crop_recommendation.html" class="text-text-secondary hover:text-primary transition-agricultural">Crop Recommendations</a>
+                    <a href="soil_analysis.html" class="text-text-secondary hover:text-primary transition-agricultural">Soil Analysis</a>
+                    <a href="weather_monitoring.html" class="text-text-secondary hover:text-primary transition-agricultural">Weather</a>
+                    <a href="market_price_tracker.html" class="text-text-secondary hover:text-primary transition-agricultural">Market Prices</a>
+                    <a href="pest_detection.html" class="text-text-secondary hover:text-primary transition-agricultural">Pest Detection</a>
+                </nav>
+
+                <!-- Language Selector & Profile -->
+                <div class="flex items-center space-x-4">
+                    <select class="bg-surface border border-border rounded-agricultural px-3 py-1 text-sm focus:outline-none focus:ring-2 focus:ring-primary">
+                        <option value="en">English</option>
+                        <option value="hi">हिंदी</option>
+                        <option value="bn">বাংলা</option>
+                        <option value="ta">தமிழ்</option>
+                        <option value="mr">मराठी</option>
+                        <option value="te">తెలుగు</option>
+                        <option value="gu">ગુજરાતી</option>
+                        <option value="or">ଓଡ଼ିଆ</option>
+                    </select>
+                    <div id="userProfile" class="w-8 h-8 bg-primary rounded-full flex items-center justify-center cursor-pointer relative">
+                        <span class="text-white text-sm font-medium" id="userInitials">?</span>
+                        <!-- Logout Dropdown -->
+                        <div id="logoutDropdown" class="absolute top-full right-0 mt-2 w-48 bg-surface rounded-agricultural shadow-agricultural border border-border hidden z-10">
+                            <div class="p-3 border-b border-border">
+                                <p class="text-sm font-medium text-text-primary" id="userName">User Name</p>
+                                <p class="text-xs text-text-secondary" id="userLocation">Location</p>
+                            </div>
+                            <button id="logoutBtn" class="w-full text-left px-3 py-2 text-sm text-text-secondary hover:bg-primary-50 hover:text-primary transition-agricultural">
+                                Logout
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Mobile Menu Button -->
+                <button class="md:hidden p-2 rounded-agricultural text-text-secondary hover:text-primary">
+                    <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
+                    </svg>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <!-- Welcome Section -->
+        <div class="mb-8">
+            <h1 class="text-3xl font-bold text-text-primary mb-2" id="welcomeMessage">Welcome back, User</h1>
+            <p class="text-text-secondary">Your farming dashboard for <span id="currentDate"></span></p>
+        </div>
+
+        <!-- User Info Card -->
+        <div class="bg-gradient-to-br from-primary-50 to-accent-50 rounded-agricultural-lg p-6 shadow-agricultural mb-8">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div class="text-center">
+                    <div class="text-2xl font-bold text-primary" id="farmSize">0 acres</div>
+                    <div class="text-sm text-text-secondary">Farm Size</div>
+                </div>
+                <div class="text-center">
+                    <div class="text-2xl font-bold text-accent" id="cropCount">0 crops</div>
+                    <div class="text-sm text-text-secondary">Primary Crops</div>
+                </div>
+                <div class="text-center">
+                    <div class="text-2xl font-bold text-secondary" id="userLocationDisplay">Location</div>
+                    <div class="text-sm text-text-secondary">Farm Location</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Weather Widget & Voice Command -->
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-8">
+            <!-- Weather Widget -->
+            <div class="lg:col-span-2 bg-gradient-to-br from-primary-50 to-accent-50 rounded-agricultural-lg p-6 shadow-agricultural">
+                <div class="flex items-center justify-between mb-4">
+                    <h2 class="text-xl font-semibold text-text-primary">Today's Weather</h2>
+                    <img src="https://images.unsplash.com/photo-1715543903787-791425a69f4e" 
+                         alt="Sunny weather with clear blue sky" 
+                         class="w-12 h-12 rounded-full object-cover"
+                         onerror="this.src='https://images.unsplash.com/photo-1584824486509-112e4181ff6b?q=80&w=2940&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'; this.onerror=null;">
+                </div>
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+                    <div class="text-center">
+                        <div class="text-2xl font-bold text-primary">28°C</div>
+                        <div class="text-sm text-text-secondary">Temperature</div>
+                    </div>
+                    <div class="text-center">
+                        <div class="text-2xl font-bold text-primary">65%</div>
+                        <div class="text-sm text-text-secondary">Humidity</div>
+                    </div>
+                    <div class="text-center">
+                        <div class="text-2xl font-bold text-primary">12mm</div>
+                        <div class="text-sm text-text-secondary">Rainfall</div>
+                    </div>
+                    <div class="text-center">
+                        <div class="text-2xl font-bold text-primary">15km/h</div>
+                        <div class="text-sm text-text-secondary">Wind Speed</div>
+                    </div>
+                </div>
+                <div class="mt-4 p-3 bg-warning-50 rounded-agricultural border-l-4 border-warning">
+                    <p class="text-sm text-warning-800">
+                        <span class="font-medium">Farming Alert:</span> Light rain expected tomorrow. Good time for transplanting rice seedlings.
+                    </p>
+                </div>
+            </div>
+
+            <!-- Voice Command -->
+            <div class="bg-surface rounded-agricultural-lg p-6 shadow-agricultural border border-border">
+                <h3 class="text-lg font-semibold text-text-primary mb-4">Voice Assistant</h3>
+                <button class="w-full bg-primary hover:bg-primary-600 text-white rounded-agricultural-lg p-6 transition-agricultural animate-breathe">
+                    <svg class="w-8 h-8 mx-auto mb-2" fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M12 14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3z"/>
+                        <path d="M17 11c0 2.76-2.24 5-5 5s-5-2.24-5-5H5c0 3.53 2.61 6.43 6 6.92V21h2v-3.08c3.39-.49 6-3.39 6-6.92h-2z"/>
+                    </svg>
+                    <span class="text-sm font-medium">Tap to speak</span>
+                </button>
+                <p class="text-xs text-text-secondary mt-2 text-center">
+                    Try: "Recommend crops for my field" or "Check today's weather"
+                </p>
+            </div>
+        </div>
+
+        <!-- Action Cards Grid -->
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
+            <!-- Crop Recommendations -->
+            <a href="crop_recommendation.html" class="bg-surface rounded-agricultural-lg p-6 shadow-agricultural hover:shadow-agricultural-md transition-agricultural border border-border group">
+                <div class="flex items-center mb-4">
+                    <div class="w-12 h-12 bg-primary-100 rounded-agricultural flex items-center justify-center group-hover:bg-primary-200 transition-agricultural">
+                        <svg class="w-6 h-6 text-primary" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+                        </svg>
+                    </div>
+                    <h3 class="text-lg font-semibold text-text-primary ml-4">Get Crop Recommendations</h3>
+                </div>
+                <p class="text-text-secondary text-sm mb-4">AI-powered suggestions based on your soil and weather conditions</p>
+                <div class="flex items-center text-primary text-sm font-medium">
+                    <span>Start Analysis</span>
+                    <svg class="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+                    </svg>
+                </div>
+            </a>
+
+            <!-- Soil Analysis -->
+            <a href="soil_analysis.html" class="bg-surface rounded-agricultural-lg p-6 shadow-agricultural hover:shadow-agricultural-md transition-agricultural border border-border group">
+                <div class="flex items-center mb-4">
+                    <div class="w-12 h-12 bg-secondary-100 rounded-agricultural flex items-center justify-center group-hover:bg-secondary-200 transition-agricultural">
+                        <svg class="w-6 h-6 text-secondary" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zM9 17H7v-7h2v7zm4 0h-2V7h2v10zm4 0h-2v-4h2v4z"/>
+                        </svg>
+                    </div>
+                    <h3 class="text-lg font-semibold text-text-primary ml-4">Analyze Soil Health</h3>
+                </div>
+                <p class="text-text-secondary text-sm mb-4">Check NPK levels, pH balance, and get fertilizer recommendations</p>
+                <div class="flex items-center text-secondary text-sm font-medium">
+                    <span>View Analysis</span>
+                    <svg class="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+                    </svg>
+                </div>
+            </a>
+
+            <!-- Weather Monitoring -->
+            <a href="weather_monitoring.html" class="bg-surface rounded-agricultural-lg p-6 shadow-agricultural hover:shadow-agricultural-md transition-agricultural border border-border group">
+                <div class="flex items-center mb-4">
+                    <div class="w-12 h-12 bg-accent-100 rounded-agricultural flex items-center justify-center group-hover:bg-accent-200 transition-agricultural">
+                        <svg class="w-6 h-6 text-accent" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M6.76 4.84l-1.8-1.79-1.41 1.41 1.79 1.79 1.42-1.41zM4 10.5H1v2h3v-2zm9-9.95h-2V3.5h2V.55zm7.45 3.91l-1.41-1.41-1.79 1.79 1.41 1.41 1.79-1.79zm-3.21 13.7l1.79 1.8 1.41-1.41-1.8-1.79-1.4 1.4zM20 10.5v2h3v-2h-3zm-8-5c-3.31 0-6 2.69-6 6s2.69 6 6 6 6-2.69 6-6-2.69-6-6-6zm-1 16.95h2V19.5h-2v2.95zm-7.45-3.91l1.41 1.41 1.79-1.8-1.41-1.41-1.79 1.8z"/>
+                        </svg>
+                    </div>
+                    <h3 class="text-lg font-semibold text-text-primary ml-4">Check Weather</h3>
+                </div>
+                <p class="text-text-secondary text-sm mb-4">7-day forecast, rainfall predictions, and farming alerts</p>
+                <div class="flex items-center text-accent text-sm font-medium">
+                    <span>View Forecast</span>
+                    <svg class="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+                    </svg>
+                </div>
+            </a>
+
+            <!-- Market Prices -->
+            <a href="market_price_tracker.html" class="bg-surface rounded-agricultural-lg p-6 shadow-agricultural hover:shadow-agricultural-md transition-agricultural border border-border group">
+                <div class="flex items-center mb-4">
+                    <div class="w-12 h-12 bg-success-100 rounded-agricultural flex items-center justify-center group-hover:bg-success-200 transition-agricultural">
+                        <svg class="w-6 h-6 text-success" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M7 15h7v2H7zm0-4h10v2H7zm0-4h10v2H7zm12-4h-4.18C14.4 1.84 13.3 1 12 1c-1.3 0-2.4.84-2.82 2H5c-.14 0-.27.01-.4.04-.39.08-.74.28-1.01.55-.18.18-.33.4-.43.64-.1.23-.16.49-.16.77v14c0 .27.06.54.16.78.1.23.25.45.43.64.27.27.62.47 1.01.55.13.02.26.03.4.03h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-7-.25c.41 0 .75.34.75.75s-.34.75-.75.75-.75-.34-.75-.75.34-.75.75-.75z"/>
+                        </svg>
+                    </div>
+                    <h3 class="text-lg font-semibold text-text-primary ml-4">Market Prices</h3>
+                </div>
+                <p class="text-text-secondary text-sm mb-4">Current crop prices, trends, and profit calculations</p>
+                <div class="flex items-center text-success text-sm font-medium">
+                    <span>Check Prices</span>
+                    <svg class="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+                    </svg>
+                </div>
+            </a>
+
+            <!-- Pest Detection -->
+            <a href="pest_detection.html" class="bg-surface rounded-agricultural-lg p-6 shadow-agricultural hover:shadow-agricultural-md transition-agricultural border border-border group">
+                <div class="flex items-center mb-4">
+                    <div class="w-12 h-12 bg-error-100 rounded-agricultural flex items-center justify-center group-hover:bg-error-200 transition-agricultural">
+                        <svg class="w-6 h-6 text-error" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+                        </svg>
+                    </div>
+                    <h3 class="text-lg font-semibold text-text-primary ml-4">Pest Detection</h3>
+                </div>
+                <p class="text-text-secondary text-sm mb-4">Upload leaf images for AI-powered pest and disease detection</p>
+                <div class="flex items-center text-error text-sm font-medium">
+                    <span>Detect Issues</span>
+                    <svg class="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+                    </svg>
+                </div>
+            </a>
+
+            <!-- Quick Stats Card -->
+            <div class="bg-gradient-to-br from-primary to-primary-600 rounded-agricultural-lg p-6 shadow-agricultural text-white">
+                <h3 class="text-lg font-semibold mb-4">Farm Overview</h3>
+                <div class="space-y-3">
+                    <div class="flex justify-between items-center">
+                        <span class="text-primary-100">Total Area</span>
+                        <span class="font-semibold" id="dashboardFarmSize">0 acres</span>
+                    </div>
+                    <div class="flex justify-between items-center">
+                        <span class="text-primary-100">Active Crops</span>
+                        <span class="font-semibold" id="dashboardCropCount">0 varieties</span>
+                    </div>
+                    <div class="flex justify-between items-center">
+                        <span class="text-primary-100">Soil Health</span>
+                        <span class="font-semibold text-success-300">Good</span>
+                    </div>
+                    <div class="flex justify-between items-center">
+                        <span class="text-primary-100">Expected Yield</span>
+                        <span class="font-semibold">₹2,45,000</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Recent Activity & Recommendations -->
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+            <!-- Recent Recommendations -->
+            <div class="bg-surface rounded-agricultural-lg p-6 shadow-agricultural border border-border">
+                <h3 class="text-lg font-semibold text-text-primary mb-4">Recent Recommendations</h3>
+                <div class="space-y-4">
+                    <div class="flex items-start space-x-3 p-3 bg-primary-50 rounded-agricultural">
+                        <img src="https://images.unsplash.com/photo-1673789775488-2c44f5347197" 
+                             alt="Rice crop growing in flooded paddy field" 
+                             class="w-12 h-12 rounded-agricultural object-cover"
+                             onerror="this.src='https://images.unsplash.com/photo-1584824486509-112e4181ff6b?q=80&w=2940&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'; this.onerror=null;">
+                        <div class="flex-1">
+                            <h4 class="font-medium text-text-primary">Rice (Basmati)</h4>
+                            <p class="text-sm text-text-secondary">Recommended for your soil conditions</p>
+                            <span class="text-xs text-primary font-medium">2 days ago</span>
+                        </div>
+                    </div>
+                    <div class="flex items-start space-x-3 p-3 bg-secondary-50 rounded-agricultural">
+                        <img src="https://images.unsplash.com/photo-1594454483214-0923c9548b9f" 
+                             alt="Golden wheat field ready for harvest" 
+                             class="w-12 h-12 rounded-agricultural object-cover"
+                             onerror="this.src='https://images.unsplash.com/photo-1584824486509-112e4181ff6b?q=80&w=2940&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'; this.onerror=null;">
+                        <div class="flex-1">
+                            <h4 class="font-medium text-text-primary">Wheat</h4>
+                            <p class="text-sm text-text-secondary">High yield potential for winter season</p>
+                            <span class="text-xs text-secondary font-medium">5 days ago</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Upcoming Tasks -->
+            <div class="bg-surface rounded-agricultural-lg p-6 shadow-agricultural border border-border">
+                <h3 class="text-lg font-semibold text-text-primary mb-4">Upcoming Tasks</h3>
+                <div class="space-y-4">
+                    <div class="flex items-center space-x-3 p-3 border-l-4 border-warning bg-warning-50 rounded-r-agricultural">
+                        <div class="w-2 h-2 bg-warning rounded-full"></div>
+                        <div class="flex-1">
+                            <h4 class="font-medium text-text-primary">Apply Fertilizer</h4>
+                            <p class="text-sm text-text-secondary">NPK application for rice field</p>
+                            <span class="text-xs text-warning-700 font-medium">Tomorrow</span>
+                        </div>
+                    </div>
+                    <div class="flex items-center space-x-3 p-3 border-l-4 border-success bg-success-50 rounded-r-agricultural">
+                        <div class="w-2 h-2 bg-success rounded-full"></div>
+                        <div class="flex-1">
+                            <h4 class="font-medium text-text-primary">Irrigation Schedule</h4>
+                            <p class="text-sm text-text-secondary">Water the wheat field</p>
+                            <span class="text-xs text-success-700 font-medium">Nov 12, 2025</span>
+                        </div>
+                    </div>
+                    <div class="flex items-center space-x-3 p-3 border-l-4 border-primary bg-primary-50 rounded-r-agricultural">
+                        <div class="w-2 h-2 bg-primary rounded-full"></div>
+                        <div class="flex-1">
+                            <h4 class="font-medium text-text-primary">Soil Testing</h4>
+                            <p class="text-sm text-text-secondary">Monthly soil health checkup</p>
+                            <span class="text-xs text-primary-700 font-medium">Nov 15, 2025</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-surface border-t border-border mt-12">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+                <div class="col-span-1 md:col-span-2">
+                    <div class="flex items-center mb-4">
+                        <svg class="h-8 w-8 text-primary" viewBox="0 0 32 32" fill="currentColor">
+                            <path d="M16 2L8 8v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V8l-8-6z"/>
+                            <path d="M12 14l2 2 6-6" stroke="white" stroke-width="2" fill="none"/>
+                        </svg>
+                        <span class="ml-2 text-xl font-bold text-primary">CropWise AI</span>
+                    </div>
+                    <p class="text-text-secondary text-sm mb-4">
+                        Empowering Indian farmers with AI-driven agricultural insights and multilingual support for better crop decisions.
+                    </p>
+                    <div class="flex space-x-4">
+                        <span class="text-xs text-text-secondary">Supported by ICAR</span>
+                        <span class="text-xs text-text-secondary">Government Certified</span>
+                    </div>
+                </div>
+                <div>
+                    <h4 class="font-semibold text-text-primary mb-3">Quick Links</h4>
+                    <ul class="space-y-2 text-sm text-text-secondary">
+                        <li><a href="crop_recommendation.html" class="hover:text-primary transition-agricultural">Crop Recommendations</a></li>
+                        <li><a href="soil_analysis.html" class="hover:text-primary transition-agricultural">Soil Analysis</a></li>
+                        <li><a href="weather_monitoring.html" class="hover:text-primary transition-agricultural">Weather Monitoring</a></li>
+                        <li><a href="market_price_tracker.html" class="hover:text-primary transition-agricultural">Market Prices</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="font-semibold text-text-primary mb-3">Support</h4>
+                    <ul class="space-y-2 text-sm text-text-secondary">
+                        <li><a href="javascript:void(0)" class="hover:text-primary transition-agricultural">Help Center</a></li>
+                        <li><a href="javascript:void(0)" class="hover:text-primary transition-agricultural">Contact Us</a></li>
+                        <li><a href="javascript:void(0)" class="hover:text-primary transition-agricultural">Training Videos</a></li>
+                        <li><a href="javascript:void(0)" class="hover:text-primary transition-agricultural">FAQs</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="border-t border-border mt-8 pt-6 text-center">
+                <p class="text-sm text-text-secondary">© 2025 CropWise AI. All Rights Reserved. | Serving Indian Agriculture</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Dashboard functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            // Check if user is logged in
+            const currentUser = JSON.parse(localStorage.getItem('current_user'));
+            
+            if (!currentUser) {
+                // Redirect to login if not authenticated
+                alert('Please login to access the dashboard');
+                window.location.href = 'user_login.html';
+                return;
+            }
+
+            // Display user data
+            displayUserData(currentUser);
+
+            // Set current date
+            const currentDate = new Date();
+            document.getElementById('currentDate').textContent = currentDate.toLocaleDateString('en-US', {
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric'
+            });
+
+            // User profile dropdown functionality
+            const userProfile = document.getElementById('userProfile');
+            const logoutDropdown = document.getElementById('logoutDropdown');
+            const logoutBtn = document.getElementById('logoutBtn');
+
+            userProfile.addEventListener('click', function(e) {
+                e.stopPropagation();
+                logoutDropdown.classList.toggle('hidden');
+            });
+
+            logoutBtn.addEventListener('click', function() {
+                if (confirm('Are you sure you want to logout?')) {
+                    localStorage.removeItem('current_user');
+                    window.location.href = 'user_login.html';
+                }
+            });
+
+            // Close dropdown when clicking outside
+            document.addEventListener('click', function() {
+                logoutDropdown.classList.add('hidden');
+            });
+
+            function displayUserData(user) {
+                // Welcome message
+                document.getElementById('welcomeMessage').textContent = `Welcome back, ${user.fullName}`;
+                
+                // User initials
+                const initials = user.fullName.split(' ').map(n => n[0]).join('').toUpperCase();
+                document.getElementById('userInitials').textContent = initials;
+                
+                // User info in dropdown
+                document.getElementById('userName').textContent = user.fullName;
+                document.getElementById('userLocation').textContent = `${user.district}, ${user.state}`;
+                
+                // Farm size
+                document.getElementById('farmSize').textContent = `${user.farmSize} acres`;
+                document.getElementById('dashboardFarmSize').textContent = `${user.farmSize} acres`;
+                
+                // Crop count
+                const cropCount = user.primaryCrops.length;
+                document.getElementById('cropCount').textContent = `${cropCount} crops`;
+                document.getElementById('dashboardCropCount').textContent = `${cropCount} varieties`;
+                
+                // Location
+                document.getElementById('userLocationDisplay').textContent = `${user.district}`;
+            }
+
+            // Voice command functionality (placeholder)
+            const voiceBtn = document.querySelector('.bg-primary');
+            voiceBtn.addEventListener('click', function() {
+                alert('Voice assistant feature coming soon!');
+            });
+        });
+    </script>
+<script id="dhws-dataInjector" src="../public/dhws-data-injector.js"></script>
+</body>
+</html>

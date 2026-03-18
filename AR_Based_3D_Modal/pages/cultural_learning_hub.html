@@ -1,0 +1,841 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cultural Learning Hub - Heritage AR Odisha</title>
+    <link rel="stylesheet" href="../css/main.css">
+    <style>
+        .learning-card {
+            background: linear-gradient(135deg, #FDF4ED 0%, #F5E6D3 100%);
+            border: 2px solid #F0BF96;
+            transition: all 0.3s ease;
+        }
+        
+        .learning-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 12px 24px rgba(212, 98, 26, 0.2);
+            border-color: #D4621A;
+        }
+        
+        .progress-ring {
+            transform: rotate(-90deg);
+        }
+        
+        .progress-ring-circle {
+            stroke-dasharray: 251.2;
+            stroke-dashoffset: 251.2;
+            transition: stroke-dashoffset 0.5s ease-in-out;
+        }
+        
+        .achievement-badge {
+            background: linear-gradient(135deg, #FFD700, #E6C200);
+            animation: badge-glow 2s ease-in-out infinite alternate;
+        }
+        
+        @keyframes badge-glow {
+            0% { box-shadow: 0 0 5px rgba(255, 215, 0, 0.5); }
+            100% { box-shadow: 0 0 20px rgba(255, 215, 0, 0.8); }
+        }
+        
+        .quiz-option {
+            transition: all 0.3s ease;
+        }
+        
+        .quiz-option:hover {
+            background: linear-gradient(135deg, #F0BF96, #E29058);
+            color: #2C1810;
+        }
+        
+        .quiz-option.correct {
+            background: linear-gradient(135deg, #228B22, #1F7D1F);
+            color: white;
+        }
+        
+        .quiz-option.incorrect {
+            background: linear-gradient(135deg, #B22222, #A01F1F);
+            color: white;
+        }
+        
+        .ar-indicator {
+            background: linear-gradient(135deg, #D4621A, #FFD700);
+            animation: ar-pulse 2s infinite;
+        }
+        
+        @keyframes ar-pulse {
+            0%, 100% { opacity: 0.8; }
+            50% { opacity: 1; }
+        }
+        
+        .learning-path {
+            position: relative;
+        }
+        
+        .learning-path::before {
+            content: '';
+            position: absolute;
+            left: 20px;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background: linear-gradient(to bottom, #D4621A, #FFD700);
+        }
+        
+        .module-node {
+            position: relative;
+            z-index: 1;
+        }
+        
+        .module-node::before {
+            content: '';
+            position: absolute;
+            left: -28px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 16px;
+            height: 16px;
+            background: #FFD700;
+            border: 3px solid #D4621A;
+            border-radius: 50%;
+        }
+        
+        .module-node.completed::before {
+            background: #228B22;
+            border-color: #1F7D1F;
+        }
+        
+        .voice-narration {
+            background: linear-gradient(135deg, #8B4513, #D4621A);
+            border-radius: 50%;
+            animation: voice-wave 1.5s ease-in-out infinite;
+        }
+        
+        @keyframes voice-wave {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+    </style>
+  
+  <script type="module" async src="https://static.rocket.new/rocket-web.js?_cfg=https%3A%2F%2Fheritagea3954back.builtwithrocket.new&_be=https%3A%2F%2Fapplication.rocket.new&_v=0.1.9"></script>
+  <script type="module" defer src="https://static.rocket.new/rocket-shot.js?v=0.0.1"></script>
+  </head>
+<body class="bg-background text-text-primary">
+    <!-- Top Navigation Bar -->
+    <header class="fixed top-0 left-0 right-0 z-50 bg-gradient-to-r from-primary-900/90 to-secondary-900/90 backdrop-blur-md">
+        <div class="flex items-center justify-between px-4 py-3">
+            <!-- Back Navigation -->
+            <button onclick="window.location.href='heritage_site_dashboard.html'" class="flex items-center space-x-2 text-accent-100 hover:text-accent-300 heritage-transition">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
+                </svg>
+                <span class="font-medium">Dashboard</span>
+            </button>
+
+            <!-- Page Title -->
+            <h1 class="text-xl font-playfair font-bold text-accent-100">Cultural Learning Hub</h1>
+
+            <!-- Language & Settings -->
+            <div class="flex items-center space-x-3">
+                <select class="bg-primary-800/80 text-accent-100 border border-accent-400/30 rounded-lg px-3 py-1 text-sm focus:outline-none focus:ring-2 focus:ring-accent-400">
+                    <option value="en">English</option>
+                    <option value="hi">हिंदी</option>
+                    <option value="od">ଓଡ଼ିଆ</option>
+                </select>
+                <button class="text-accent-100 hover:text-accent-300 heritage-transition">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/>
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
+                    </svg>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="pt-20 pb-20 px-4 max-w-7xl mx-auto">
+        <!-- Learning Progress Overview -->
+        <section class="mb-8">
+            <div class="bg-gradient-to-r from-primary-50 to-accent-50 rounded-xl p-6 heritage-shadow-medium">
+                <div class="flex flex-col lg:flex-row items-start lg:items-center justify-between mb-6">
+                    <div>
+                        <h2 class="text-2xl font-playfair font-bold text-primary-800 mb-2">Your Learning Journey</h2>
+                        <p class="text-text-secondary">Explore Odisha's rich cultural heritage through interactive lessons</p>
+                    </div>
+                    <div class="flex items-center space-x-4 mt-4 lg:mt-0">
+                        <div class="text-center">
+                            <div class="text-2xl font-bold text-primary-600">12</div>
+                            <div class="text-sm text-text-secondary">Completed</div>
+                        </div>
+                        <div class="text-center">
+                            <div class="text-2xl font-bold text-accent-600">8</div>
+                            <div class="text-sm text-text-secondary">In Progress</div>
+                        </div>
+                        <div class="text-center">
+                            <div class="text-2xl font-bold text-secondary-600">25</div>
+                            <div class="text-sm text-text-secondary">Total Modules</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Achievement Badges -->
+                <div class="flex flex-wrap gap-3">
+                    <div class="achievement-badge px-4 py-2 rounded-full text-primary-900 font-medium text-sm">
+                        🏛️ Temple Explorer
+                    </div>
+                    <div class="achievement-badge px-4 py-2 rounded-full text-primary-900 font-medium text-sm">
+                        🎨 Art Enthusiast
+                    </div>
+                    <div class="achievement-badge px-4 py-2 rounded-full text-primary-900 font-medium text-sm">
+                        📚 Cultural Scholar
+                    </div>
+                    <div class="bg-secondary-200 px-4 py-2 rounded-full text-secondary-800 font-medium text-sm opacity-60">
+                        🎭 Festival Master (Locked)
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Learning Categories -->
+        <section class="mb-8">
+            <div class="flex flex-wrap gap-4 mb-6">
+                <button class="bg-primary-600 text-white px-6 py-2 rounded-lg font-medium heritage-transition hover:bg-primary-700">
+                    All Categories
+                </button>
+                <button class="bg-surface text-text-primary px-6 py-2 rounded-lg font-medium heritage-transition hover:bg-primary-100">
+                    Architecture
+                </button>
+                <button class="bg-surface text-text-primary px-6 py-2 rounded-lg font-medium heritage-transition hover:bg-primary-100">
+                    Art & Crafts
+                </button>
+                <button class="bg-surface text-text-primary px-6 py-2 rounded-lg font-medium heritage-transition hover:bg-primary-100">
+                    Festivals
+                </button>
+                <button class="bg-surface text-text-primary px-6 py-2 rounded-lg font-medium heritage-transition hover:bg-primary-100">
+                    History
+                </button>
+                <button class="bg-surface text-text-primary px-6 py-2 rounded-lg font-medium heritage-transition hover:bg-primary-100">
+                    Dance & Music
+                </button>
+            </div>
+        </section>
+
+        <!-- Learning Modules Grid -->
+        <section class="mb-8">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <!-- Module 1: Konark Temple Architecture -->
+                <div class="learning-card rounded-xl p-6 heritage-shadow-light">
+                    <div class="flex items-start justify-between mb-4">
+                        <div class="ar-indicator w-8 h-8 rounded-full flex items-center justify-center">
+                            <svg class="w-4 h-4 text-white" fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+                            </svg>
+                        </div>
+                        <div class="flex items-center space-x-2">
+                            <span class="text-xs bg-success-100 text-success-800 px-2 py-1 rounded-full">Beginner</span>
+                            <button class="voice-narration w-8 h-8 flex items-center justify-center text-white">
+                                <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+                                    <path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/>
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <img src="https://images.unsplash.com/photo-1704899286560-086d408d1bd9" 
+                         alt="Konark Sun Temple showing intricate stone wheel architecture and detailed carvings"
+                         class="w-full h-40 object-cover rounded-lg mb-4"
+                         onerror="this.src='https://images.pexels.com/photos/1583339/pexels-photo-1583339.jpeg?auto=compress&cs=tinysrgb&w=400'; this.onerror=null;">
+                    
+                    <h3 class="text-lg font-playfair font-bold text-primary-800 mb-2">Konark Temple Architecture</h3>
+                    <p class="text-text-secondary text-sm mb-4">Explore the magnificent Sun Temple's architectural marvels through AR visualization</p>
+                    
+                    <!-- Progress Ring -->
+                    <div class="flex items-center justify-between mb-4">
+                        <div class="flex items-center space-x-3">
+                            <div class="relative w-12 h-12">
+                                <svg class="progress-ring w-12 h-12" viewBox="0 0 84 84">
+                                    <circle cx="42" cy="42" r="40" stroke="#F0BF96" stroke-width="4" fill="none"/>
+                                    <circle class="progress-ring-circle" cx="42" cy="42" r="40" stroke="#D4621A" stroke-width="4" fill="none" style="stroke-dashoffset: 125.6;"/>
+                                </svg>
+                                <div class="absolute inset-0 flex items-center justify-center text-xs font-bold text-primary-600">75%</div>
+                            </div>
+                            <div>
+                                <div class="text-sm font-medium text-text-primary">Progress</div>
+                                <div class="text-xs text-text-secondary">3 of 4 lessons</div>
+                            </div>
+                        </div>
+                        <div class="text-right">
+                            <div class="text-sm font-medium text-text-primary">45 min</div>
+                            <div class="text-xs text-text-secondary">Est. time</div>
+                        </div>
+                    </div>
+                    
+                    <button onclick="startLearningModule('konark-architecture')" class="w-full bg-primary-600 hover:bg-primary-700 text-white py-2 px-4 rounded-lg font-medium heritage-transition">
+                        Continue Learning
+                    </button>
+                </div>
+
+                <!-- Module 2: Pattachitra Art -->
+                <div class="learning-card rounded-xl p-6 heritage-shadow-light">
+                    <div class="flex items-start justify-between mb-4">
+                        <div class="ar-indicator w-8 h-8 rounded-full flex items-center justify-center">
+                            <svg class="w-4 h-4 text-white" fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+                            </svg>
+                        </div>
+                        <div class="flex items-center space-x-2">
+                            <span class="text-xs bg-warning-100 text-warning-800 px-2 py-1 rounded-full">Intermediate</span>
+                            <button class="voice-narration w-8 h-8 flex items-center justify-center text-white">
+                                <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+                                    <path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/>
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <img src="https://images.unsplash.com/photo-1621787555061-6885db1ca6d9" 
+                         alt="Traditional Pattachitra painting showing vibrant colors and intricate mythological scenes"
+                         class="w-full h-40 object-cover rounded-lg mb-4"
+                         onerror="this.src='https://images.pixabay.com/photos/2019/03/15/09/49/indian-art-4056977_1280.jpg'; this.onerror=null;">
+                    
+                    <h3 class="text-lg font-playfair font-bold text-primary-800 mb-2">Pattachitra Art Techniques</h3>
+                    <p class="text-text-secondary text-sm mb-4">Learn traditional painting methods through interactive AR tutorials</p>
+                    
+                    <div class="flex items-center justify-between mb-4">
+                        <div class="flex items-center space-x-3">
+                            <div class="relative w-12 h-12">
+                                <svg class="progress-ring w-12 h-12" viewBox="0 0 84 84">
+                                    <circle cx="42" cy="42" r="40" stroke="#F0BF96" stroke-width="4" fill="none"/>
+                                    <circle class="progress-ring-circle" cx="42" cy="42" r="40" stroke="#D4621A" stroke-width="4" fill="none" style="stroke-dashoffset: 188.4;"/>
+                                </svg>
+                                <div class="absolute inset-0 flex items-center justify-center text-xs font-bold text-primary-600">25%</div>
+                            </div>
+                            <div>
+                                <div class="text-sm font-medium text-text-primary">Progress</div>
+                                <div class="text-xs text-text-secondary">1 of 4 lessons</div>
+                            </div>
+                        </div>
+                        <div class="text-right">
+                            <div class="text-sm font-medium text-text-primary">60 min</div>
+                            <div class="text-xs text-text-secondary">Est. time</div>
+                        </div>
+                    </div>
+                    
+                    <button onclick="startLearningModule('pattachitra-art')" class="w-full bg-primary-600 hover:bg-primary-700 text-white py-2 px-4 rounded-lg font-medium heritage-transition">
+                        Start Learning
+                    </button>
+                </div>
+
+                <!-- Module 3: Jagannath Festival -->
+                <div class="learning-card rounded-xl p-6 heritage-shadow-light">
+                    <div class="flex items-start justify-between mb-4">
+                        <div class="ar-indicator w-8 h-8 rounded-full flex items-center justify-center">
+                            <svg class="w-4 h-4 text-white" fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+                            </svg>
+                        </div>
+                        <div class="flex items-center space-x-2">
+                            <span class="text-xs bg-success-100 text-success-800 px-2 py-1 rounded-full">Beginner</span>
+                            <button class="voice-narration w-8 h-8 flex items-center justify-center text-white">
+                                <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+                                    <path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/>
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <img src="https://images.unsplash.com/photo-1687672736817-9875808f0b62" 
+                         alt="Jagannath Rath Yatra festival showing colorful chariots and devotees celebrating"
+                         class="w-full h-40 object-cover rounded-lg mb-4"
+                         onerror="this.src='https://images.pexels.com/photos/3585047/pexels-photo-3585047.jpeg?auto=compress&cs=tinysrgb&w=400'; this.onerror=null;">
+                    
+                    <h3 class="text-lg font-playfair font-bold text-primary-800 mb-2">Jagannath Rath Yatra</h3>
+                    <p class="text-text-secondary text-sm mb-4">Experience the grand festival through immersive AR storytelling</p>
+                    
+                    <div class="flex items-center justify-between mb-4">
+                        <div class="flex items-center space-x-3">
+                            <div class="relative w-12 h-12">
+                                <svg class="progress-ring w-12 h-12" viewBox="0 0 84 84">
+                                    <circle cx="42" cy="42" r="40" stroke="#F0BF96" stroke-width="4" fill="none"/>
+                                    <circle class="progress-ring-circle" cx="42" cy="42" r="40" stroke="#228B22" stroke-width="4" fill="none" style="stroke-dashoffset: 0;"/>
+                                </svg>
+                                <div class="absolute inset-0 flex items-center justify-center text-xs font-bold text-success-600">100%</div>
+                            </div>
+                            <div>
+                                <div class="text-sm font-medium text-text-primary">Completed</div>
+                                <div class="text-xs text-text-secondary">5 of 5 lessons</div>
+                            </div>
+                        </div>
+                        <div class="text-right">
+                            <div class="text-sm font-medium text-text-primary">30 min</div>
+                            <div class="text-xs text-text-secondary">Completed</div>
+                        </div>
+                    </div>
+                    
+                    <button onclick="reviewModule('jagannath-festival')" class="w-full bg-success-600 hover:bg-success-700 text-white py-2 px-4 rounded-lg font-medium heritage-transition">
+                        Review & Quiz
+                    </button>
+                </div>
+
+                <!-- Module 4: Odissi Dance -->
+                <div class="learning-card rounded-xl p-6 heritage-shadow-light">
+                    <div class="flex items-start justify-between mb-4">
+                        <div class="ar-indicator w-8 h-8 rounded-full flex items-center justify-center">
+                            <svg class="w-4 h-4 text-white" fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+                            </svg>
+                        </div>
+                        <div class="flex items-center space-x-2">
+                            <span class="text-xs bg-error-100 text-error-800 px-2 py-1 rounded-full">Advanced</span>
+                            <button class="voice-narration w-8 h-8 flex items-center justify-center text-white">
+                                <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+                                    <path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/>
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <img src="https://images.unsplash.com/photo-1598996703464-4c0b0dca9dc4" 
+                         alt="Odissi classical dance performer in traditional costume showing graceful hand gestures"
+                         class="w-full h-40 object-cover rounded-lg mb-4"
+                         onerror="this.src='https://images.unsplash.com/photo-1578321272176-b7bbc0679853?q=80&w=400&auto=format&fit=crop'; this.onerror=null;">
+                    
+                    <h3 class="text-lg font-playfair font-bold text-primary-800 mb-2">Odissi Dance Forms</h3>
+                    <p class="text-text-secondary text-sm mb-4">Master classical dance movements with AR motion tracking</p>
+                    
+                    <div class="flex items-center justify-between mb-4">
+                        <div class="flex items-center space-x-3">
+                            <div class="relative w-12 h-12">
+                                <svg class="progress-ring w-12 h-12" viewBox="0 0 84 84">
+                                    <circle cx="42" cy="42" r="40" stroke="#F0BF96" stroke-width="4" fill="none"/>
+                                    <circle class="progress-ring-circle" cx="42" cy="42" r="40" stroke="#D4621A" stroke-width="4" fill="none" style="stroke-dashoffset: 251.2;"/>
+                                </svg>
+                                <div class="absolute inset-0 flex items-center justify-center text-xs font-bold text-text-secondary">0%</div>
+                            </div>
+                            <div>
+                                <div class="text-sm font-medium text-text-primary">Not Started</div>
+                                <div class="text-xs text-text-secondary">0 of 6 lessons</div>
+                            </div>
+                        </div>
+                        <div class="text-right">
+                            <div class="text-sm font-medium text-text-primary">90 min</div>
+                            <div class="text-xs text-text-secondary">Est. time</div>
+                        </div>
+                    </div>
+                    
+                    <button onclick="startLearningModule('odissi-dance')" class="w-full bg-primary-600 hover:bg-primary-700 text-white py-2 px-4 rounded-lg font-medium heritage-transition">
+                        Start Learning
+                    </button>
+                </div>
+
+                <!-- Module 5: Stone Carving -->
+                <div class="learning-card rounded-xl p-6 heritage-shadow-light">
+                    <div class="flex items-start justify-between mb-4">
+                        <div class="ar-indicator w-8 h-8 rounded-full flex items-center justify-center">
+                            <svg class="w-4 h-4 text-white" fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+                            </svg>
+                        </div>
+                        <div class="flex items-center space-x-2">
+                            <span class="text-xs bg-warning-100 text-warning-800 px-2 py-1 rounded-full">Intermediate</span>
+                            <button class="voice-narration w-8 h-8 flex items-center justify-center text-white">
+                                <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+                                    <path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/>
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <img src="https://images.unsplash.com/photo-1643251720302-f17a01cfa147" 
+                         alt="Ancient stone carving showing detailed sculptural work on temple walls"
+                         class="w-full h-40 object-cover rounded-lg mb-4"
+                         onerror="this.src='https://images.pexels.com/photos/1583339/pexels-photo-1583339.jpeg?auto=compress&cs=tinysrgb&w=400'; this.onerror=null;">
+                    
+                    <h3 class="text-lg font-playfair font-bold text-primary-800 mb-2">Traditional Stone Carving</h3>
+                    <p class="text-text-secondary text-sm mb-4">Discover ancient sculpting techniques through virtual workshops</p>
+                    
+                    <div class="flex items-center justify-between mb-4">
+                        <div class="flex items-center space-x-3">
+                            <div class="relative w-12 h-12">
+                                <svg class="progress-ring w-12 h-12" viewBox="0 0 84 84">
+                                    <circle cx="42" cy="42" r="40" stroke="#F0BF96" stroke-width="4" fill="none"/>
+                                    <circle class="progress-ring-circle" cx="42" cy="42" r="40" stroke="#D4621A" stroke-width="4" fill="none" style="stroke-dashoffset: 175.84;"/>
+                                </svg>
+                                <div class="absolute inset-0 flex items-center justify-center text-xs font-bold text-primary-600">30%</div>
+                            </div>
+                            <div>
+                                <div class="text-sm font-medium text-text-primary">Progress</div>
+                                <div class="text-xs text-text-secondary">2 of 6 lessons</div>
+                            </div>
+                        </div>
+                        <div class="text-right">
+                            <div class="text-sm font-medium text-text-primary">75 min</div>
+                            <div class="text-xs text-text-secondary">Est. time</div>
+                        </div>
+                    </div>
+                    
+                    <button onclick="startLearningModule('stone-carving')" class="w-full bg-primary-600 hover:bg-primary-700 text-white py-2 px-4 rounded-lg font-medium heritage-transition">
+                        Continue Learning
+                    </button>
+                </div>
+
+                <!-- Module 6: Traditional Cuisine -->
+                <div class="learning-card rounded-xl p-6 heritage-shadow-light">
+                    <div class="flex items-start justify-between mb-4">
+                        <div class="ar-indicator w-8 h-8 rounded-full flex items-center justify-center">
+                            <svg class="w-4 h-4 text-white" fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+                            </svg>
+                        </div>
+                        <div class="flex items-center space-x-2">
+                            <span class="text-xs bg-success-100 text-success-800 px-2 py-1 rounded-full">Beginner</span>
+                            <button class="voice-narration w-8 h-8 flex items-center justify-center text-white">
+                                <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+                                    <path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/>
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <img src="https://images.unsplash.com/photo-1666235052291-1b10159c9f60" 
+                         alt="Traditional Odia cuisine spread showing various authentic dishes and sweets"
+                         class="w-full h-40 object-cover rounded-lg mb-4"
+                         onerror="this.src='https://images.unsplash.com/photo-1578321272176-b7bbc0679853?q=80&w=400&auto=format&fit=crop'; this.onerror=null;">
+                    
+                    <h3 class="text-lg font-playfair font-bold text-primary-800 mb-2">Odia Traditional Cuisine</h3>
+                    <p class="text-text-secondary text-sm mb-4">Learn authentic recipes and cooking methods through AR guidance</p>
+                    
+                    <div class="flex items-center justify-between mb-4">
+                        <div class="flex items-center space-x-3">
+                            <div class="relative w-12 h-12">
+                                <svg class="progress-ring w-12 h-12" viewBox="0 0 84 84">
+                                    <circle cx="42" cy="42" r="40" stroke="#F0BF96" stroke-width="4" fill="none"/>
+                                    <circle class="progress-ring-circle" cx="42" cy="42" r="40" stroke="#D4621A" stroke-width="4" fill="none" style="stroke-dashoffset: 213.52;"/>
+                                </svg>
+                                <div class="absolute inset-0 flex items-center justify-center text-xs font-bold text-primary-600">15%</div>
+                            </div>
+                            <div>
+                                <div class="text-sm font-medium text-text-primary">Progress</div>
+                                <div class="text-xs text-text-secondary">1 of 7 lessons</div>
+                            </div>
+                        </div>
+                        <div class="text-right">
+                            <div class="text-sm font-medium text-text-primary">50 min</div>
+                            <div class="text-xs text-text-secondary">Est. time</div>
+                        </div>
+                    </div>
+                    
+                    <button onclick="startLearningModule('traditional-cuisine')" class="w-full bg-primary-600 hover:bg-primary-700 text-white py-2 px-4 rounded-lg font-medium heritage-transition">
+                        Continue Learning
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Interactive Quiz Section -->
+        <section class="mb-8">
+            <div class="bg-gradient-to-r from-accent-50 to-primary-50 rounded-xl p-6 heritage-shadow-medium">
+                <div class="flex items-center justify-between mb-6">
+                    <div>
+                        <h2 class="text-2xl font-playfair font-bold text-primary-800 mb-2">Cultural Knowledge Quiz</h2>
+                        <p class="text-text-secondary">Test your understanding of Odisha's heritage</p>
+                    </div>
+                    <div class="text-center">
+                        <div class="text-2xl font-bold text-accent-600">8/10</div>
+                        <div class="text-sm text-text-secondary">Best Score</div>
+                    </div>
+                </div>
+                
+                <!-- Sample Quiz Question -->
+                <div class="bg-white rounded-lg p-6 mb-4">
+                    <h3 class="text-lg font-medium text-text-primary mb-4">Which temple is known as the "Black Pagoda"?</h3>
+                    <div class="space-y-3">
+                        <button class="quiz-option w-full text-left p-3 rounded-lg bg-surface hover:bg-primary-100 heritage-transition">
+                            A) Jagannath Temple, Puri
+                        </button>
+                        <button class="quiz-option w-full text-left p-3 rounded-lg bg-surface hover:bg-primary-100 heritage-transition">
+                            B) Konark Sun Temple
+                        </button>
+                        <button class="quiz-option w-full text-left p-3 rounded-lg bg-surface hover:bg-primary-100 heritage-transition">
+                            C) Lingaraj Temple, Bhubaneswar
+                        </button>
+                        <button class="quiz-option w-full text-left p-3 rounded-lg bg-surface hover:bg-primary-100 heritage-transition">
+                            D) Mukteshwar Temple
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="flex space-x-4">
+                    <button onclick="startQuiz()" class="flex-1 bg-accent-600 hover:bg-accent-700 text-primary-900 py-3 px-6 rounded-lg font-medium heritage-transition">
+                        Start New Quiz
+                    </button>
+                    <button onclick="viewQuizHistory()" class="flex-1 bg-primary-600 hover:bg-primary-700 text-white py-3 px-6 rounded-lg font-medium heritage-transition">
+                        View History
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Learning Path Visualization -->
+        <section class="mb-8">
+            <h2 class="text-2xl font-playfair font-bold text-primary-800 mb-6">Recommended Learning Path</h2>
+            <div class="learning-path pl-12">
+                <div class="module-node completed mb-8">
+                    <div class="bg-white rounded-lg p-4 heritage-shadow-light">
+                        <h3 class="font-medium text-text-primary">Foundation: Odisha History</h3>
+                        <p class="text-sm text-text-secondary">Understanding the historical context</p>
+                        <div class="text-xs text-success-600 mt-2">✓ Completed</div>
+                    </div>
+                </div>
+                
+                <div class="module-node completed mb-8">
+                    <div class="bg-white rounded-lg p-4 heritage-shadow-light">
+                        <h3 class="font-medium text-text-primary">Architecture Basics</h3>
+                        <p class="text-sm text-text-secondary">Temple architecture fundamentals</p>
+                        <div class="text-xs text-success-600 mt-2">✓ Completed</div>
+                    </div>
+                </div>
+                
+                <div class="module-node mb-8">
+                    <div class="bg-white rounded-lg p-4 heritage-shadow-light border-2 border-primary-300">
+                        <h3 class="font-medium text-text-primary">Art & Crafts</h3>
+                        <p class="text-sm text-text-secondary">Traditional art forms and techniques</p>
+                        <div class="text-xs text-primary-600 mt-2">📚 Current Module</div>
+                    </div>
+                </div>
+                
+                <div class="module-node mb-8">
+                    <div class="bg-surface rounded-lg p-4 opacity-60">
+                        <h3 class="font-medium text-text-primary">Cultural Practices</h3>
+                        <p class="text-sm text-text-secondary">Festivals and traditions</p>
+                        <div class="text-xs text-text-secondary mt-2">🔒 Locked</div>
+                    </div>
+                </div>
+                
+                <div class="module-node">
+                    <div class="bg-surface rounded-lg p-4 opacity-60">
+                        <h3 class="font-medium text-text-primary">Advanced Studies</h3>
+                        <p class="text-sm text-text-secondary">Research and specialization</p>
+                        <div class="text-xs text-text-secondary mt-2">🔒 Locked</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Teacher Resources -->
+        <section class="mb-8">
+            <div class="bg-gradient-to-r from-secondary-50 to-primary-50 rounded-xl p-6 heritage-shadow-medium">
+                <h2 class="text-2xl font-playfair font-bold text-primary-800 mb-4">Teacher Resources</h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                    <div class="bg-white rounded-lg p-4 heritage-shadow-light">
+                        <div class="flex items-center space-x-3 mb-3">
+                            <div class="w-10 h-10 bg-primary-100 rounded-lg flex items-center justify-center">
+                                <svg class="w-5 h-5 text-primary-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.246 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/>
+                                </svg>
+                            </div>
+                            <h3 class="font-medium text-text-primary">Lesson Plans</h3>
+                        </div>
+                        <p class="text-sm text-text-secondary mb-3">Structured curriculum-aligned lesson plans</p>
+                        <button class="text-primary-600 text-sm font-medium hover:text-primary-700 heritage-transition">Download PDF</button>
+                    </div>
+                    
+                    <div class="bg-white rounded-lg p-4 heritage-shadow-light">
+                        <div class="flex items-center space-x-3 mb-3">
+                            <div class="w-10 h-10 bg-accent-100 rounded-lg flex items-center justify-center">
+                                <svg class="w-5 h-5 text-accent-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"/>
+                                </svg>
+                            </div>
+                            <h3 class="font-medium text-text-primary">Activity Guides</h3>
+                        </div>
+                        <p class="text-sm text-text-secondary mb-3">Interactive classroom activities and projects</p>
+                        <button class="text-primary-600 text-sm font-medium hover:text-primary-700 heritage-transition">View Activities</button>
+                    </div>
+                    
+                    <div class="bg-white rounded-lg p-4 heritage-shadow-light">
+                        <div class="flex items-center space-x-3 mb-3">
+                            <div class="w-10 h-10 bg-secondary-100 rounded-lg flex items-center justify-center">
+                                <svg class="w-5 h-5 text-secondary-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/>
+                                </svg>
+                            </div>
+                            <h3 class="font-medium text-text-primary">Assessment Tools</h3>
+                        </div>
+                        <p class="text-sm text-text-secondary mb-3">Evaluation rubrics and progress tracking</p>
+                        <button class="text-primary-600 text-sm font-medium hover:text-primary-700 heritage-transition">Access Tools</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Navigation Menu -->
+    <nav class="fixed bottom-0 left-0 right-0 z-50 bg-gradient-to-t from-primary-900 to-primary-800 backdrop-blur-md border-t border-accent-400/20">
+        <div class="flex items-center justify-around py-2">
+            <a href="heritage_site_dashboard.html" class="flex flex-col items-center space-y-1 p-2 text-accent-300 hover:text-accent-100 heritage-transition">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2H5a2 2 0 00-2-2z"/>
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 15v-4a2 2 0 012-2h4a2 2 0 012 2v4"/>
+                </svg>
+                <span class="text-xs">Dashboard</span>
+            </a>
+            
+            <a href="ar_heritage_explorer.html" class="flex flex-col items-center space-y-1 p-2 text-accent-300 hover:text-accent-100 heritage-transition">
+                <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+                    <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+                </svg>
+                <span class="text-xs">AR Explorer</span>
+            </a>
+            
+            <a href="virtual_heritage_tour.html" class="flex flex-col items-center space-y-1 p-2 text-accent-300 hover:text-accent-100 heritage-transition">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"/>
+                </svg>
+                <span class="text-xs">Virtual Tour</span>
+            </a>
+            
+            <a href="cultural_learning_hub.html" class="flex flex-col items-center space-y-1 p-2 text-accent-100 bg-primary-700/50 rounded-lg">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.246 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/>
+                </svg>
+                <span class="text-xs">Learning</span>
+            </a>
+            
+            <a href="community_contribution.html" class="flex flex-col items-center space-y-1 p-2 text-accent-300 hover:text-accent-100 heritage-transition">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"/>
+                </svg>
+                <span class="text-xs">Community</span>
+            </a>
+            
+            <a href="heritage_preservation.html" class="flex flex-col items-center space-y-1 p-2 text-accent-300 hover:text-accent-100 heritage-transition">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/>
+                </svg>
+                <span class="text-xs">Preservation</span>
+            </a>
+        </div>
+    </nav>
+
+    <!-- Learning Module Modal (Hidden by default) -->
+    <div id="learningModal" class="fixed inset-0 z-50 bg-black bg-opacity-50 hidden">
+        <div class="flex items-center justify-center min-h-screen p-4">
+            <div class="bg-white rounded-xl max-w-2xl w-full max-h-[90vh] overflow-y-auto">
+                <div class="p-6">
+                    <div class="flex items-center justify-between mb-4">
+                        <h2 class="text-xl font-playfair font-bold text-primary-800">AR Learning Experience</h2>
+                        <button onclick="closeLearningModal()" class="text-text-secondary hover:text-text-primary">
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+                            </svg>
+                        </button>
+                    </div>
+                    
+                    <div class="bg-gradient-to-r from-primary-50 to-accent-50 rounded-lg p-4 mb-4">
+                        <p class="text-text-primary">Ready to start your AR learning experience? Make sure your camera is enabled for the best interactive learning.</p>
+                    </div>
+                    
+                    <div class="flex space-x-4">
+                        <button onclick="startARExperience()" class="flex-1 bg-primary-600 hover:bg-primary-700 text-white py-3 px-6 rounded-lg font-medium heritage-transition">
+                            Start AR Learning
+                        </button>
+                        <button onclick="startTraditionalLesson()" class="flex-1 bg-surface hover:bg-primary-100 text-text-primary py-3 px-6 rounded-lg font-medium heritage-transition">
+                            Traditional Lesson
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let currentModule = null;
+
+        function startLearningModule(moduleId) {
+            currentModule = moduleId;
+            document.getElementById('learningModal').classList.remove('hidden');
+        }
+
+        function reviewModule(moduleId) {
+            window.location.href = `quiz.html?module=${moduleId}`;
+        }
+
+        function closeLearningModal() {
+            document.getElementById('learningModal').classList.add('hidden');
+            currentModule = null;
+        }
+
+        function startARExperience() {
+            // Simulate AR experience launch
+            alert(`Starting AR experience for ${currentModule}. Please allow camera access when prompted.`);
+            closeLearningModal();
+            // In a real app, this would launch the AR experience
+            window.location.href = 'ar_heritage_explorer.html';
+        }
+
+        function startTraditionalLesson() {
+            // Simulate traditional lesson
+            alert(`Starting traditional lesson for ${currentModule}.`);
+            closeLearningModal();
+            // In a real app, this would show the lesson content
+        }
+
+        function startQuiz() {
+            window.location.href = 'quiz.html';
+        }
+
+        function viewQuizHistory() {
+            alert('Quiz history feature coming soon!');
+        }
+
+        // Initialize progress rings
+        document.addEventListener('DOMContentLoaded', function() {
+            const progressRings = document.querySelectorAll('.progress-ring-circle');
+            progressRings.forEach(ring => {
+                const progress = ring.style.strokeDashoffset;
+                ring.style.strokeDashoffset = '251.2';
+                setTimeout(() => {
+                    ring.style.strokeDashoffset = progress;
+                }, 500);
+            });
+        });
+
+        // Quiz option handling
+        document.querySelectorAll('.quiz-option').forEach(option => {
+            option.addEventListener('click', function() {
+                // Remove previous selections
+                document.querySelectorAll('.quiz-option').forEach(opt => {
+                    opt.classList.remove('correct', 'incorrect');
+                });
+                
+                // Simulate correct answer (option B for the sample question)
+                if (this.textContent.includes('Konark Sun Temple')) {
+                    this.classList.add('correct');
+                    setTimeout(() => {
+                        alert('Correct! The Konark Sun Temple is indeed known as the "Black Pagoda".');
+                    }, 500);
+                } else {
+                    this.classList.add('incorrect');
+                    setTimeout(() => {
+                        alert('Incorrect. The correct answer is Konark Sun Temple.');
+                    }, 500);
+                }
+            });
+        });
+
+        // Voice narration simulation
+        document.querySelectorAll('.voice-narration').forEach(button => {
+            button.addEventListener('click', function() {
+                this.classList.add('active');
+                setTimeout(() => {
+                    this.classList.remove('active');
+                }, 3000);
+                
+                // Simulate voice narration
+                alert('Voice narration started. This feature will provide audio descriptions in your selected language.');
+            });
+        });
+    </script>
+<script id="dhws-dataInjector" src="../public/dhws-data-injector.js"></script>
+</body>
+</html>

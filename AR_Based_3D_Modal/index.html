@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Heritage AR Odisha</title>
+    <link rel="stylesheet" href="css/main.css">
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #ff6b35, #f7931e, #ffd23f);
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+        }
+        
+        .auth-header {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            display: flex;
+            gap: 12px;
+            z-index: 10;
+        }
+        
+        .auth-button {
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: white;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 14px;
+            font-weight: 500;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+        
+        .auth-button:hover {
+            background: rgba(255, 255, 255, 0.25);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        }
+        
+        .auth-button.primary {
+            background: rgba(212, 98, 26, 0.9);
+            border-color: rgba(212, 98, 26, 0.5);
+        }
+        
+        .auth-button.primary:hover {
+            background: rgba(212, 98, 26, 1);
+        }
+        
+        .redirect-container {
+            text-align: center;
+            background: rgba(255, 255, 255, 0.95);
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+            max-width: 500px;
+            animation: fadeInUp 1s ease-out;
+        }
+        
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .logo {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(45deg, #ff6b35, #f7931e);
+            border-radius: 50%;
+            margin: 0 auto 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 30px;
+            color: white;
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+        
+        h1 {
+            color: #333;
+            margin-bottom: 10px;
+            font-size: 28px;
+            font-weight: bold;
+        }
+        
+        .subtitle {
+            color: #666;
+            margin-bottom: 30px;
+            font-size: 16px;
+        }
+        
+        .loading-spinner {
+            width: 40px;
+            height: 40px;
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid #ff6b35;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 20px auto;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        .redirect-text {
+            color: #555;
+            font-size: 14px;
+            margin-top: 15px;
+        }
+        
+        .progress-bar {
+            width: 100%;
+            height: 4px;
+            background-color: #f0f0f0;
+            border-radius: 2px;
+            margin-top: 20px;
+            overflow: hidden;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #ff6b35, #f7931e);
+            width: 0%;
+            animation: fillProgress 3s ease-in-out forwards;
+        }
+        
+        @keyframes fillProgress {
+            0% { width: 0%; }
+            100% { width: 100%; }
+        }
+        
+        .skip-link {
+            margin-top: 20px;
+        }
+        
+        .skip-button {
+            background: transparent;
+            border: 2px solid #ff6b35;
+            color: #ff6b35;
+            padding: 10px 20px;
+            border-radius: 25px;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .skip-button:hover {
+            background: #ff6b35;
+            color: white;
+            transform: translateY(-2px);
+        }
+    </style>
+  
+  <script type="module" async src="https://static.rocket.new/rocket-web.js?_cfg=https%3A%2F%2Fheritagea3954back.builtwithrocket.new&_be=https%3A%2F%2Fapplication.rocket.new&_v=0.1.9"></script>
+  <script type="module" defer src="https://static.rocket.new/rocket-shot.js?v=0.0.1"></script>
+  </head>
+<body>
+    <!-- Authentication Header -->
+    <div class="auth-header">
+        <a href="pages/user_authentication.html" class="auth-button">Sign In</a>
+        <a href="pages/user_authentication.html" class="auth-button primary">Get Started</a>
+    </div>
+
+    <div class="redirect-container">
+        <div class="logo">🏛️</div>
+        <h1>Heritage AR Odisha</h1>
+        <p class="subtitle">Exploring Odisha's Rich Cultural Heritage through Augmented Reality</p>
+        <div class="loading-spinner"></div>
+        <p class="redirect-text">Redirecting to AR Heritage Explorer...</p>
+        <div class="progress-bar">
+            <div class="progress-fill"></div>
+        </div>
+        
+        <!-- Skip Authentication Option -->
+        <div class="skip-link">
+            <button class="skip-button" onclick="window.location.href='pages/ar_heritage_explorer.html'">
+                Continue as Guest
+            </button>
+        </div>
+    </div>
+
+    <script>
+        // Add some dynamic loading effects
+        let dots = 0;
+        const redirectText = document.querySelector('.redirect-text');
+        const originalText = 'Redirecting to AR Heritage Explorer';
+        
+        const loadingInterval = setInterval(() => {
+            dots = (dots + 1) % 4;
+            redirectText.textContent = originalText + '.'.repeat(dots);
+        }, 500);
+        
+        // Redirect after 3 seconds to allow animations to complete
+        setTimeout(() => {
+            clearInterval(loadingInterval);
+            window.location.href = 'pages/ar_heritage_explorer.html';
+        }, 3000);
+        
+        // Preload the target page for faster navigation
+        const link = document.createElement('link');
+        link.rel = 'prefetch';
+        link.href = 'pages/ar_heritage_explorer.html';
+        document.head.appendChild(link);
+        
+        // Preload authentication page
+        const authLink = document.createElement('link');
+        authLink.rel = 'prefetch';
+        authLink.href = 'pages/user_authentication.html';
+        document.head.appendChild(authLink);
+    </script>
+<script id="dhws-dataInjector" src="/public/dhws-data-injector.js"></script>
+</body>
+</html>

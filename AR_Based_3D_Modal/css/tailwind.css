@@ -1,0 +1,180 @@
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@400&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  /* Primary Colors */
+  --color-primary: #D4621A; /* terracotta temple stone */
+  --color-primary-50: #FDF4ED; /* very light terracotta */
+  --color-primary-100: #FBEADC; /* light terracotta */
+  --color-primary-200: #F6D5B9; /* medium light terracotta */
+  --color-primary-300: #F0BF96; /* medium terracotta */
+  --color-primary-400: #E29058; /* medium dark terracotta */
+  --color-primary-500: #D4621A; /* base terracotta */
+  --color-primary-600: #B85516; /* dark terracotta */
+  --color-primary-700: #9C4813; /* darker terracotta */
+  --color-primary-800: #803B10; /* very dark terracotta */
+  --color-primary-900: #642E0D; /* deepest terracotta */
+
+  /* Secondary Colors */
+  --color-secondary: #8B4513; /* sandstone brown */
+  --color-secondary-50: #F5F0E8; /* very light sandstone */
+  --color-secondary-100: #EBE1D1; /* light sandstone */
+  --color-secondary-200: #D7C3A3; /* medium light sandstone */
+  --color-secondary-300: #C3A575; /* medium sandstone */
+  --color-secondary-400: #AF8747; /* medium dark sandstone */
+  --color-secondary-500: #8B4513; /* base sandstone */
+  --color-secondary-600: #7A3D11; /* dark sandstone */
+  --color-secondary-700: #69350F; /* darker sandstone */
+  --color-secondary-800: #582D0D; /* very dark sandstone */
+  --color-secondary-900: #47250B; /* deepest sandstone */
+
+  /* Accent Colors */
+  --color-accent: #FFD700; /* temple gold */
+  --color-accent-50: #FFFEF5; /* very light gold */
+  --color-accent-100: #FFFCEB; /* light gold */
+  --color-accent-200: #FFF9D7; /* medium light gold */
+  --color-accent-300: #FFF6C3; /* medium gold */
+  --color-accent-400: #FFEF95; /* medium dark gold */
+  --color-accent-500: #FFD700; /* base gold */
+  --color-accent-600: #E6C200; /* dark gold */
+  --color-accent-700: #CCAD00; /* darker gold */
+  --color-accent-800: #B39800; /* very dark gold */
+  --color-accent-900: #998300; /* deepest gold */
+
+  /* Background Colors */
+  --color-background: #FDF6E3; /* warm parchment */
+  --color-surface: #F5E6D3; /* subtle cream */
+
+  /* Text Colors */
+  --color-text-primary: #2C1810; /* deep brown */
+  --color-text-secondary: #6B4423; /* medium brown */
+
+  /* Status Colors */
+  --color-success: #228B22; /* forest green */
+  --color-success-50: #F0F8F0; /* very light green */
+  --color-success-100: #E1F1E1; /* light green */
+  --color-success-200: #C3E3C3; /* medium light green */
+  --color-success-300: #A5D5A5; /* medium green */
+  --color-success-400: #87C787; /* medium dark green */
+  --color-success-500: #228B22; /* base green */
+  --color-success-600: #1F7D1F; /* dark green */
+  --color-success-700: #1C6F1C; /* darker green */
+  --color-success-800: #196119; /* very dark green */
+  --color-success-900: #165316; /* deepest green */
+
+  --color-warning: #FF8C00; /* saffron orange */
+  --color-warning-50: #FFF7ED; /* very light orange */
+  --color-warning-100: #FFEFDB; /* light orange */
+  --color-warning-200: #FFDFB7; /* medium light orange */
+  --color-warning-300: #FFCF93; /* medium orange */
+  --color-warning-400: #FFAF6F; /* medium dark orange */
+  --color-warning-500: #FF8C00; /* base orange */
+  --color-warning-600: #E67E00; /* dark orange */
+  --color-warning-700: #CC7000; /* darker orange */
+  --color-warning-800: #B36200; /* very dark orange */
+  --color-warning-900: #995400; /* deepest orange */
+
+  --color-error: #B22222; /* muted red */
+  --color-error-50: #F8F0F0; /* very light red */
+  --color-error-100: #F1E1E1; /* light red */
+  --color-error-200: #E3C3C3; /* medium light red */
+  --color-error-300: #D5A5A5; /* medium red */
+  --color-error-400: #C78787; /* medium dark red */
+  --color-error-500: #B22222; /* base red */
+  --color-error-600: #A01F1F; /* dark red */
+  --color-error-700: #8E1C1C; /* darker red */
+  --color-error-800: #7C1919; /* very dark red */
+  --color-error-900: #6A1616; /* deepest red */
+
+  /* Shadow Variables */
+  --shadow-soft: 0 4px 12px rgba(212, 98, 26, 0.15);
+  --shadow-light: 0 2px 8px rgba(212, 98, 26, 0.1);
+  --shadow-medium: 0 8px 16px rgba(212, 98, 26, 0.2);
+  --shadow-strong: 0 16px 24px rgba(212, 98, 26, 0.25);
+
+  /* Animation Variables */
+  --transition-smooth: cubic-bezier(0.4, 0, 0.2, 1);
+  --duration-fast: 300ms;
+  --duration-ar: 500ms;
+}
+
+@layer base {
+  body {
+    font-family: 'Inter', sans-serif;
+    background-color: var(--color-background);
+    color: var(--color-text-primary);
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-family: 'Playfair Display', serif;
+  }
+}
+
+@layer components {
+  .heritage-shadow-soft {
+    box-shadow: var(--shadow-soft);
+  }
+
+  .heritage-shadow-light {
+    box-shadow: var(--shadow-light);
+  }
+
+  .heritage-shadow-medium {
+    box-shadow: var(--shadow-medium);
+  }
+
+  .heritage-shadow-strong {
+    box-shadow: var(--shadow-strong);
+  }
+
+  .heritage-transition {
+    transition-timing-function: var(--transition-smooth);
+    transition-duration: var(--duration-fast);
+  }
+
+  .heritage-transition-ar {
+    transition-timing-function: var(--transition-smooth);
+    transition-duration: var(--duration-ar);
+  }
+
+  .heritage-border {
+    border: 1px solid var(--color-secondary);
+    border-radius: 4px;
+  }
+
+  .voice-ripple {
+    animation: ripple 2s infinite;
+  }
+
+  @keyframes ripple {
+    0% {
+      transform: scale(1);
+      opacity: 1;
+    }
+    100% {
+      transform: scale(1.4);
+      opacity: 0;
+    }
+  }
+
+  .breathing-animation {
+    animation: breathe 3s ease-in-out infinite;
+  }
+
+  @keyframes breathe {
+    0%, 100% {
+      transform: scale(1);
+      opacity: 0.7;
+    }
+    50% {
+      transform: scale(1.05);
+      opacity: 1;
+    }
+  }
+}

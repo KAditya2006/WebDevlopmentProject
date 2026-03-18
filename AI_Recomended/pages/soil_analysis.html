@@ -1,0 +1,553 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Soil Analysis - CropWise AI</title>
+    <link rel="stylesheet" href="../css/main.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  
+  <script type="module" async src="https://static.rocket.new/rocket-web.js?_cfg=https%3A%2F%2Fcropwisea2089back.builtwithrocket.new&_be=https%3A%2F%2Fapplication.rocket.new&_v=0.1.9"></script>
+  <script type="module" defer src="https://static.rocket.new/rocket-shot.js?v=0.0.1"></script>
+  </head>
+<body class="bg-background font-sans">
+    <!-- Header Navigation -->
+    <header class="bg-surface shadow-agricultural border-b border-border">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <!-- Logo -->
+                <div class="flex items-center">
+                    <svg class="h-8 w-8 text-primary" viewBox="0 0 32 32" fill="currentColor">
+                        <path d="M16 2L8 8v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V8l-8-6z"/>
+                        <path d="M12 14l2 2 6-6" stroke="white" stroke-width="2" fill="none"/>
+                    </svg>
+                    <span class="ml-2 text-xl font-bold text-primary">CropWise AI</span>
+                </div>
+
+                <!-- Navigation Links -->
+                <nav class="hidden md:flex space-x-8">
+                    <a href="farmer_dashboard.html" class="text-text-secondary hover:text-primary transition-agricultural">Dashboard</a>
+                    <a href="crop_recommendation.html" class="text-text-secondary hover:text-primary transition-agricultural">Crop Recommendations</a>
+                    <a href="soil_analysis.html" class="text-primary font-medium border-b-2 border-primary pb-1">Soil Analysis</a>
+                    <a href="weather_monitoring.html" class="text-text-secondary hover:text-primary transition-agricultural">Weather</a>
+                    <a href="market_price_tracker.html" class="text-text-secondary hover:text-primary transition-agricultural">Market Prices</a>
+                    <a href="pest_detection.html" class="text-text-secondary hover:text-primary transition-agricultural">Pest Detection</a>
+                </nav>
+
+                <!-- Language Selector & Profile -->
+                <div class="flex items-center space-x-4">
+                    <select class="bg-surface border border-border rounded-agricultural px-3 py-1 text-sm focus:outline-none focus:ring-2 focus:ring-primary">
+                        <option value="en">English</option>
+                        <option value="hi">हिंदी</option>
+                        <option value="bn">বাংলা</option>
+                        <option value="ta">தமிழ்</option>
+                        <option value="mr">मराठी</option>
+                        <option value="te">తెలుగు</option>
+                        <option value="gu">ગુજરાતી</option>
+                        <option value="or">ଓଡ଼ିଆ</option>
+                    </select>
+                    <div class="w-8 h-8 bg-primary rounded-full flex items-center justify-center">
+                        <span class="text-white text-sm font-medium">RK</span>
+                    </div>
+                </div>
+
+                <!-- Mobile Menu Button -->
+                <button class="md:hidden p-2 rounded-agricultural text-text-secondary hover:text-primary">
+                    <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
+                    </svg>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <!-- Page Header -->
+        <div class="mb-8">
+            <h1 class="text-3xl font-bold text-text-primary mb-2">Soil Health Analysis</h1>
+            <p class="text-text-secondary">Analyze your soil nutrients and get personalized fertilizer recommendations</p>
+        </div>
+
+        <!-- Input Methods Section -->
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-8">
+            <!-- Manual Input Form -->
+            <div class="lg:col-span-2 bg-surface rounded-agricultural-lg p-6 shadow-agricultural border border-border">
+                <div class="flex items-center justify-between mb-6">
+                    <h2 class="text-xl font-semibold text-text-primary">Enter Soil Parameters</h2>
+                    <div class="flex items-center space-x-2 text-sm text-text-secondary">
+                        <svg class="w-4 h-4 text-success" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
+                        </svg>
+                        <span>Last updated: Nov 5, 2025</span>
+                    </div>
+                </div>
+
+                <form class="space-y-6">
+                    <!-- NPK Values -->
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                        <div>
+                            <label class="block text-sm font-medium text-text-primary mb-2">
+                                Nitrogen (N) - kg/ha
+                            </label>
+                            <input type="number" 
+                                   placeholder="e.g., 240" 
+                                   class="w-full px-4 py-3 border border-border rounded-agricultural focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary transition-agricultural"
+                                   value="240">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-text-primary mb-2">
+                                Phosphorus (P) - kg/ha
+                            </label>
+                            <input type="number" 
+                                   placeholder="e.g., 65" 
+                                   class="w-full px-4 py-3 border border-border rounded-agricultural focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary transition-agricultural"
+                                   value="65">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-text-primary mb-2">
+                                Potassium (K) - kg/ha
+                            </label>
+                            <input type="number" 
+                                   placeholder="e.g., 180" 
+                                   class="w-full px-4 py-3 border border-border rounded-agricultural focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary transition-agricultural"
+                                   value="180">
+                        </div>
+                    </div>
+
+                    <!-- pH and Organic Matter -->
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div>
+                            <label class="block text-sm font-medium text-text-primary mb-2">
+                                pH Level
+                            </label>
+                            <input type="number" 
+                                   step="0.1" 
+                                   placeholder="e.g., 6.5" 
+                                   class="w-full px-4 py-3 border border-border rounded-agricultural focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary transition-agricultural"
+                                   value="6.5">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-text-primary mb-2">
+                                Organic Matter (%)
+                            </label>
+                            <input type="number" 
+                                   step="0.1" 
+                                   placeholder="e.g., 2.8" 
+                                   class="w-full px-4 py-3 border border-border rounded-agricultural focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary transition-agricultural"
+                                   value="2.8">
+                        </div>
+                    </div>
+
+                    <!-- Field Location -->
+                    <div>
+                        <label class="block text-sm font-medium text-text-primary mb-2">
+                            Field Location
+                        </label>
+                        <select class="w-full px-4 py-3 border border-border rounded-agricultural focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary transition-agricultural">
+                            <option value="">Select your field location</option>
+                            <option value="field1" selected>Main Field (5.2 acres)</option>
+                            <option value="field2">North Field (2.8 acres)</option>
+                            <option value="field3">South Field (3.1 acres)</option>
+                        </select>
+                    </div>
+
+                    <!-- Action Buttons -->
+                    <div class="flex flex-col sm:flex-row gap-4">
+                        <button type="submit" class="flex-1 bg-primary hover:bg-primary-600 text-white px-6 py-3 rounded-agricultural font-medium transition-agricultural">
+                            Analyze Soil Health
+                        </button>
+                        <button type="button" class="flex-1 bg-secondary hover:bg-secondary-600 text-white px-6 py-3 rounded-agricultural font-medium transition-agricultural">
+                            Get Fertilizer Recommendations
+                        </button>
+                    </div>
+                </form>
+            </div>
+
+            <!-- Voice Input Panel -->
+            <div class="bg-gradient-to-br from-accent-50 to-primary-50 rounded-agricultural-lg p-6 shadow-agricultural border border-border">
+                <h3 class="text-lg font-semibold text-text-primary mb-4">Voice Input</h3>
+                <div class="text-center">
+                    <button class="w-24 h-24 bg-accent hover:bg-accent-600 text-white rounded-full transition-agricultural animate-breathe mb-4 mx-auto flex items-center justify-center">
+                        <svg class="w-10 h-10" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M12 14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3z"/>
+                            <path d="M17 11c0 2.76-2.24 5-5 5s-5-2.24-5-5H5c0 3.53 2.61 6.43 6 6.92V21h2v-3.08c3.39-.49 6-3.39 6-6.92h-2z"/>
+                        </svg>
+                    </button>
+                    <p class="text-sm font-medium text-text-primary mb-2">Tap to speak</p>
+                    <p class="text-xs text-text-secondary mb-4">
+                        Say: "My soil nitrogen is 240, phosphorus is 65, potassium is 180"
+                    </p>
+                </div>
+
+                <!-- Voice Commands Examples -->
+                <div class="bg-surface rounded-agricultural p-4 border border-border">
+                    <h4 class="text-sm font-medium text-text-primary mb-2">Voice Commands:</h4>
+                    <ul class="text-xs text-text-secondary space-y-1">
+                        <li>• "Check my soil nitrogen levels"</li>
+                        <li>• "Recommend fertilizers for wheat"</li>
+                        <li>• "What is my soil pH status?"</li>
+                        <li>• "Save soil analysis results"</li>
+                    </ul>
+                </div>
+
+                <!-- Quick Actions -->
+                <div class="mt-4 space-y-2">
+                    <button class="w-full bg-surface hover:bg-primary-50 border border-border text-text-primary px-4 py-2 rounded-agricultural text-sm transition-agricultural">
+                        Schedule Soil Testing Reminder
+                    </button>
+                    <button class="w-full bg-surface hover:bg-primary-50 border border-border text-text-primary px-4 py-2 rounded-agricultural text-sm transition-agricultural">
+                        Save Analysis Results
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Soil Health Visualization -->
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
+            <!-- Current Nutrient Levels Chart -->
+            <div class="bg-surface rounded-agricultural-lg p-6 shadow-agricultural border border-border">
+                <h3 class="text-lg font-semibold text-text-primary mb-4">Current Nutrient Levels</h3>
+                
+                <!-- NPK Visual Indicators -->
+                <div class="space-y-4">
+                    <div class="flex items-center justify-between">
+                        <span class="text-sm font-medium text-text-primary">Nitrogen (N)</span>
+                        <span class="text-sm text-success font-medium">Good</span>
+                    </div>
+                    <div class="w-full bg-border rounded-full h-3">
+                        <div class="bg-success h-3 rounded-full" style="width: 75%"></div>
+                    </div>
+                    <div class="flex justify-between text-xs text-text-secondary">
+                        <span>240 kg/ha</span>
+                        <span>Optimal: 200-280 kg/ha</span>
+                    </div>
+
+                    <div class="flex items-center justify-between">
+                        <span class="text-sm font-medium text-text-primary">Phosphorus (P)</span>
+                        <span class="text-sm text-warning font-medium">Low</span>
+                    </div>
+                    <div class="w-full bg-border rounded-full h-3">
+                        <div class="bg-warning h-3 rounded-full" style="width: 45%"></div>
+                    </div>
+                    <div class="flex justify-between text-xs text-text-secondary">
+                        <span>65 kg/ha</span>
+                        <span>Optimal: 80-120 kg/ha</span>
+                    </div>
+
+                    <div class="flex items-center justify-between">
+                        <span class="text-sm font-medium text-text-primary">Potassium (K)</span>
+                        <span class="text-sm text-success font-medium">Good</span>
+                    </div>
+                    <div class="w-full bg-border rounded-full h-3">
+                        <div class="bg-success h-3 rounded-full" style="width: 80%"></div>
+                    </div>
+                    <div class="flex justify-between text-xs text-text-secondary">
+                        <span>180 kg/ha</span>
+                        <span>Optimal: 150-200 kg/ha</span>
+                    </div>
+                </div>
+
+                <!-- pH and Organic Matter -->
+                <div class="mt-6 pt-6 border-t border-border">
+                    <div class="grid grid-cols-2 gap-4">
+                        <div class="text-center p-4 bg-success-50 rounded-agricultural">
+                            <div class="text-2xl font-bold text-success">6.5</div>
+                            <div class="text-sm text-text-secondary">pH Level</div>
+                            <div class="text-xs text-success font-medium">Optimal</div>
+                        </div>
+                        <div class="text-center p-4 bg-warning-50 rounded-agricultural">
+                            <div class="text-2xl font-bold text-warning">2.8%</div>
+                            <div class="text-sm text-text-secondary">Organic Matter</div>
+                            <div class="text-xs text-warning font-medium">Needs Improvement</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Soil Health Score -->
+            <div class="bg-gradient-to-br from-primary to-primary-600 rounded-agricultural-lg p-6 shadow-agricultural text-white">
+                <h3 class="text-lg font-semibold mb-4">Overall Soil Health Score</h3>
+                
+                <!-- Circular Progress -->
+                <div class="flex items-center justify-center mb-6">
+                    <div class="relative w-32 h-32">
+                        <svg class="w-32 h-32 transform -rotate-90" viewBox="0 0 120 120">
+                            <circle cx="60" cy="60" r="50" stroke="rgba(255,255,255,0.2)" stroke-width="8" fill="none"/>
+                            <circle cx="60" cy="60" r="50" stroke="white" stroke-width="8" fill="none" 
+                                    stroke-dasharray="314" stroke-dashoffset="94" stroke-linecap="round"/>
+                        </svg>
+                        <div class="absolute inset-0 flex items-center justify-center">
+                            <div class="text-center">
+                                <div class="text-3xl font-bold">72</div>
+                                <div class="text-sm opacity-90">Good</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Score Breakdown -->
+                <div class="space-y-3">
+                    <div class="flex justify-between items-center">
+                        <span class="text-primary-100">Nutrient Balance</span>
+                        <span class="font-semibold">75/100</span>
+                    </div>
+                    <div class="flex justify-between items-center">
+                        <span class="text-primary-100">pH Balance</span>
+                        <span class="font-semibold">85/100</span>
+                    </div>
+                    <div class="flex justify-between items-center">
+                        <span class="text-primary-100">Organic Content</span>
+                        <span class="font-semibold">55/100</span>
+                    </div>
+                </div>
+
+                <!-- Recommendation Summary -->
+                <div class="mt-6 p-4 bg-white bg-opacity-20 rounded-agricultural">
+                    <p class="text-sm">
+                        <span class="font-medium">Recommendation:</span> Apply phosphorus-rich fertilizer and increase organic matter through compost application.
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Analysis Results & Recommendations -->
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-8">
+            <!-- Fertilizer Recommendations -->
+            <div class="lg:col-span-2 bg-surface rounded-agricultural-lg p-6 shadow-agricultural border border-border">
+                <h3 class="text-lg font-semibold text-text-primary mb-4">Fertilizer Recommendations</h3>
+                
+                <div class="space-y-4">
+                    <!-- Primary Recommendation -->
+                    <div class="p-4 bg-primary-50 border border-primary-200 rounded-agricultural">
+                        <div class="flex items-start space-x-3">
+                            <img src="https://images.unsplash.com/photo-1696371269777-88d1ce71642c" 
+                                 alt="Phosphorus-rich fertilizer granules in farmer's hands" 
+                                 class="w-16 h-16 rounded-agricultural object-cover"
+                                 onerror="this.src='https://images.unsplash.com/photo-1584824486509-112e4181ff6b?q=80&w=2940&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'; this.onerror=null;">
+                            <div class="flex-1">
+                                <h4 class="font-medium text-text-primary">DAP (Diammonium Phosphate)</h4>
+                                <p class="text-sm text-text-secondary mb-2">Recommended for phosphorus deficiency</p>
+                                <div class="grid grid-cols-2 gap-4 text-sm">
+                                    <div>
+                                        <span class="text-text-secondary">Dosage:</span>
+                                        <span class="font-medium text-primary ml-1">125 kg/ha</span>
+                                    </div>
+                                    <div>
+                                        <span class="text-text-secondary">Cost:</span>
+                                        <span class="font-medium text-primary ml-1">₹3,750</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Secondary Recommendation -->
+                    <div class="p-4 bg-secondary-50 border border-secondary-200 rounded-agricultural">
+                        <div class="flex items-start space-x-3">
+                            <img src="https://images.unsplash.com/photo-1583137857427-c1412829016e" 
+                                 alt="Organic compost fertilizer spread on agricultural field" 
+                                 class="w-16 h-16 rounded-agricultural object-cover"
+                                 onerror="this.src='https://images.unsplash.com/photo-1584824486509-112e4181ff6b?q=80&w=2940&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'; this.onerror=null;">
+                            <div class="flex-1">
+                                <h4 class="font-medium text-text-primary">Organic Compost</h4>
+                                <p class="text-sm text-text-secondary mb-2">To improve organic matter content</p>
+                                <div class="grid grid-cols-2 gap-4 text-sm">
+                                    <div>
+                                        <span class="text-text-secondary">Dosage:</span>
+                                        <span class="font-medium text-secondary ml-1">2.5 tons/ha</span>
+                                    </div>
+                                    <div>
+                                        <span class="text-text-secondary">Cost:</span>
+                                        <span class="font-medium text-secondary ml-1">₹5,000</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Micronutrient Recommendation -->
+                    <div class="p-4 bg-accent-50 border border-accent-200 rounded-agricultural">
+                        <div class="flex items-start space-x-3">
+                            <img src="https://images.unsplash.com/photo-1681722478053-1aa3edd0f7f6" 
+                                 alt="Micronutrient fertilizer mixture for soil enhancement" 
+                                 class="w-16 h-16 rounded-agricultural object-cover"
+                                 onerror="this.src='https://images.unsplash.com/photo-1584824486509-112e4181ff6b?q=80&w=2940&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'; this.onerror=null;">
+                            <div class="flex-1">
+                                <h4 class="font-medium text-text-primary">Micronutrient Mix</h4>
+                                <p class="text-sm text-text-secondary mb-2">Zinc and Boron supplement</p>
+                                <div class="grid grid-cols-2 gap-4 text-sm">
+                                    <div>
+                                        <span class="text-text-secondary">Dosage:</span>
+                                        <span class="font-medium text-accent ml-1">25 kg/ha</span>
+                                    </div>
+                                    <div>
+                                        <span class="text-text-secondary">Cost:</span>
+                                        <span class="font-medium text-accent ml-1">₹1,250</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Total Cost Summary -->
+                <div class="mt-6 p-4 bg-success-50 border border-success-200 rounded-agricultural">
+                    <div class="flex justify-between items-center">
+                        <span class="font-medium text-text-primary">Total Fertilizer Cost:</span>
+                        <span class="text-xl font-bold text-success">₹10,000</span>
+                    </div>
+                    <p class="text-sm text-text-secondary mt-1">For 5.2 acres (estimated)</p>
+                </div>
+            </div>
+
+            <!-- Soil Improvement Tips -->
+            <div class="bg-surface rounded-agricultural-lg p-6 shadow-agricultural border border-border">
+                <h3 class="text-lg font-semibold text-text-primary mb-4">Soil Improvement Tips</h3>
+                
+                <div class="space-y-4">
+                    <div class="p-3 bg-primary-50 rounded-agricultural">
+                        <h4 class="font-medium text-primary text-sm mb-1">Organic Matter Enhancement</h4>
+                        <p class="text-xs text-text-secondary">Add crop residues and green manure to increase organic content naturally.</p>
+                    </div>
+                    
+                    <div class="p-3 bg-secondary-50 rounded-agricultural">
+                        <h4 class="font-medium text-secondary text-sm mb-1">Crop Rotation</h4>
+                        <p class="text-xs text-text-secondary">Rotate with legumes like chickpea to naturally fix nitrogen in soil.</p>
+                    </div>
+                    
+                    <div class="p-3 bg-accent-50 rounded-agricultural">
+                        <h4 class="font-medium text-accent text-sm mb-1">Water Management</h4>
+                        <p class="text-xs text-text-secondary">Maintain proper drainage to prevent nutrient leaching during monsoon.</p>
+                    </div>
+                </div>
+
+                <!-- Seasonal Management -->
+                <div class="mt-6 pt-4 border-t border-border">
+                    <h4 class="font-medium text-text-primary mb-3">Seasonal Management</h4>
+                    <div class="space-y-2">
+                        <div class="flex items-center space-x-2 text-sm">
+                            <div class="w-2 h-2 bg-primary rounded-full"></div>
+                            <span class="text-text-secondary">Winter: Apply organic compost</span>
+                        </div>
+                        <div class="flex items-center space-x-2 text-sm">
+                            <div class="w-2 h-2 bg-secondary rounded-full"></div>
+                            <span class="text-text-secondary">Summer: Deep plowing for aeration</span>
+                        </div>
+                        <div class="flex items-center space-x-2 text-sm">
+                            <div class="w-2 h-2 bg-accent rounded-full"></div>
+                            <span class="text-text-secondary">Monsoon: Cover crop planting</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Historical Analysis & Comparison -->
+        <div class="bg-surface rounded-agricultural-lg p-6 shadow-agricultural border border-border">
+            <h3 class="text-lg font-semibold text-text-primary mb-4">Historical Soil Analysis</h3>
+            
+            <div class="overflow-x-auto">
+                <table class="w-full text-sm">
+                    <thead>
+                        <tr class="border-b border-border">
+                            <th class="text-left py-3 px-4 font-medium text-text-primary">Date</th>
+                            <th class="text-left py-3 px-4 font-medium text-text-primary">N (kg/ha)</th>
+                            <th class="text-left py-3 px-4 font-medium text-text-primary">P (kg/ha)</th>
+                            <th class="text-left py-3 px-4 font-medium text-text-primary">K (kg/ha)</th>
+                            <th class="text-left py-3 px-4 font-medium text-text-primary">pH</th>
+                            <th class="text-left py-3 px-4 font-medium text-text-primary">Health Score</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr class="border-b border-border bg-primary-50">
+                            <td class="py-3 px-4 text-text-primary font-medium">Nov 10, 2025</td>
+                            <td class="py-3 px-4 text-success">240</td>
+                            <td class="py-3 px-4 text-warning">65</td>
+                            <td class="py-3 px-4 text-success">180</td>
+                            <td class="py-3 px-4 text-success">6.5</td>
+                            <td class="py-3 px-4 text-primary font-medium">72</td>
+                        </tr>
+                        <tr class="border-b border-border">
+                            <td class="py-3 px-4 text-text-secondary">Aug 15, 2025</td>
+                            <td class="py-3 px-4 text-text-secondary">220</td>
+                            <td class="py-3 px-4 text-text-secondary">58</td>
+                            <td class="py-3 px-4 text-text-secondary">165</td>
+                            <td class="py-3 px-4 text-text-secondary">6.2</td>
+                            <td class="py-3 px-4 text-text-secondary">68</td>
+                        </tr>
+                        <tr class="border-b border-border">
+                            <td class="py-3 px-4 text-text-secondary">May 20, 2025</td>
+                            <td class="py-3 px-4 text-text-secondary">200</td>
+                            <td class="py-3 px-4 text-text-secondary">52</td>
+                            <td class="py-3 px-4 text-text-secondary">150</td>
+                            <td class="py-3 px-4 text-text-secondary">6.0</td>
+                            <td class="py-3 px-4 text-text-secondary">64</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Trend Analysis -->
+            <div class="mt-6 p-4 bg-success-50 border border-success-200 rounded-agricultural">
+                <div class="flex items-center space-x-2 mb-2">
+                    <svg class="w-5 h-5 text-success" fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M7 14l5-5 5 5z"/>
+                    </svg>
+                    <span class="font-medium text-success">Improving Trend</span>
+                </div>
+                <p class="text-sm text-text-secondary">
+                    Your soil health has improved by 8 points over the last 6 months. Continue with organic matter addition for best results.
+                </p>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-surface border-t border-border mt-12">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+                <div class="col-span-1 md:col-span-2">
+                    <div class="flex items-center mb-4">
+                        <svg class="h-8 w-8 text-primary" viewBox="0 0 32 32" fill="currentColor">
+                            <path d="M16 2L8 8v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V8l-8-6z"/>
+                            <path d="M12 14l2 2 6-6" stroke="white" stroke-width="2" fill="none"/>
+                        </svg>
+                        <span class="ml-2 text-xl font-bold text-primary">CropWise AI</span>
+                    </div>
+                    <p class="text-text-secondary text-sm mb-4">
+                        Empowering Indian farmers with AI-driven agricultural insights and multilingual support for better crop decisions.
+                    </p>
+                    <div class="flex space-x-4">
+                        <span class="text-xs text-text-secondary">Supported by ICAR</span>
+                        <span class="text-xs text-text-secondary">Government Certified</span>
+                    </div>
+                </div>
+                <div>
+                    <h4 class="font-semibold text-text-primary mb-3">Quick Links</h4>
+                    <ul class="space-y-2 text-sm text-text-secondary">
+                        <li><a href="crop_recommendation.html" class="hover:text-primary transition-agricultural">Crop Recommendations</a></li>
+                        <li><a href="soil_analysis.html" class="hover:text-primary transition-agricultural">Soil Analysis</a></li>
+                        <li><a href="weather_monitoring.html" class="hover:text-primary transition-agricultural">Weather Monitoring</a></li>
+                        <li><a href="market_price_tracker.html" class="hover:text-primary transition-agricultural">Market Prices</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="font-semibold text-text-primary mb-3">Support</h4>
+                    <ul class="space-y-2 text-sm text-text-secondary">
+                        <li><a href="javascript:void(0)" class="hover:text-primary transition-agricultural">Help Center</a></li>
+                        <li><a href="javascript:void(0)" class="hover:text-primary transition-agricultural">Contact Us</a></li>
+                        <li><a href="javascript:void(0)" class="hover:text-primary transition-agricultural">Training Videos</a></li>
+                        <li><a href="javascript:void(0)" class="hover:text-primary transition-agricultural">FAQs</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="border-t border-border mt-8 pt-6 text-center">
+                <p class="text-sm text-text-secondary">© 2025 CropWise AI. All Rights Reserved. | Serving Indian Agriculture</p>
+            </div>
+        </div>
+    </footer>
+<script id="dhws-dataInjector" src="../public/dhws-data-injector.js"></script>
+</body>
+</html>

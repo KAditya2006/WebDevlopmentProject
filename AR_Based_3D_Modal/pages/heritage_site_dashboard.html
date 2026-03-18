@@ -1,0 +1,866 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Heritage Site Dashboard - Heritage AR Odisha</title>
+    <link rel="stylesheet" href="../css/main.css">
+    <style>
+        .heritage-card {
+            transition: all 0.3s ease;
+            background: linear-gradient(135deg, #FDF6E3 0%, #F5E6D3 100%);
+        }
+        
+        .heritage-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 16px 32px rgba(212, 98, 26, 0.25);
+        }
+        
+        .ar-indicator {
+            background: linear-gradient(135deg, #D4621A, #FFD700);
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.7; }
+        }
+        
+        .map-overlay {
+            transform: translateY(100%);
+            transition: transform 0.3s ease-in-out;
+        }
+        
+        .map-overlay.active {
+            transform: translateY(0);
+        }
+        
+        .filter-chip {
+            background: rgba(212, 98, 26, 0.1);
+            border: 1px solid rgba(212, 98, 26, 0.3);
+            transition: all 0.2s ease;
+        }
+        
+        .filter-chip.active {
+            background: linear-gradient(135deg, #D4621A, #B85516);
+            color: white;
+            border-color: #D4621A;
+        }
+        
+        .search-suggestions {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease;
+        }
+        
+        .search-suggestions.active {
+            max-height: 200px;
+        }
+        
+        .user-dropdown {
+            position: absolute;
+            top: 100%;
+            right: 0;
+            background: white;
+            border: 1px solid rgba(212, 98, 26, 0.2);
+            border-radius: 12px;
+            box-shadow: 0 8px 24px rgba(212, 98, 26, 0.15);
+            min-width: 200px;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(-10px);
+            transition: all 0.3s ease;
+            z-index: 1000;
+        }
+        
+        .user-dropdown.active {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+        
+        .user-profile-button {
+            position: relative;
+        }
+        
+        .auth-button {
+            background: rgba(212, 98, 26, 0.1);
+            border: 1px solid rgba(212, 98, 26, 0.3);
+            color: #D4621A;
+            padding: 6px 12px;
+            border-radius: 8px;
+            font-size: 12px;
+            font-weight: 500;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+        
+        .auth-button:hover {
+            background: rgba(212, 98, 26, 0.2);
+            transform: translateY(-1px);
+        }
+        
+        .auth-button.primary {
+            background: linear-gradient(135deg, #D4621A, #B85516);
+            color: white;
+            border-color: #D4621A;
+        }
+        
+        .auth-button.primary:hover {
+            background: linear-gradient(135deg, #B85516, #9C4813);
+        }
+    </style>
+  
+  <script type="module" async src="https://static.rocket.new/rocket-web.js?_cfg=https%3A%2F%2Fheritagea3954back.builtwithrocket.new&_be=https%3A%2F%2Fapplication.rocket.new&_v=0.1.9"></script>
+  <script type="module" defer src="https://static.rocket.new/rocket-shot.js?v=0.0.1"></script>
+  </head>
+<body class="bg-background text-text-primary">
+    <!-- Top Navigation Header -->
+    <header class="fixed top-0 left-0 right-0 z-50 bg-gradient-to-r from-primary-900/95 to-secondary-900/95 backdrop-blur-md border-b border-accent-400/20">
+        <div class="flex items-center justify-between px-4 py-3">
+            <!-- Logo and Title -->
+            <div class="flex items-center space-x-3">
+                <div class="w-10 h-10 bg-gradient-to-br from-accent-500 to-accent-600 rounded-lg flex items-center justify-center">
+                    <svg class="w-6 h-6 text-primary-900" fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+                    </svg>
+                </div>
+                <div>
+                    <h1 class="text-lg font-playfair font-bold text-accent-100">Heritage AR Odisha</h1>
+                    <p class="text-xs text-accent-300">Discover Cultural Heritage</p>
+                </div>
+            </div>
+
+            <!-- Language & User Profile -->
+            <div class="flex items-center space-x-3">
+                <select class="bg-primary-800/80 text-accent-100 border border-accent-400/30 rounded-lg px-3 py-1 text-sm focus:outline-none focus:ring-2 focus:ring-accent-400">
+                    <option value="en">English</option>
+                    <option value="hi">हिंदी</option>
+                    <option value="od">ଓଡ଼ିଆ</option>
+                </select>
+                
+                <!-- Authentication Section -->
+                <div id="authSection">
+                    <!-- Show when user is not logged in -->
+                    <div id="guestAuth" class="flex items-center space-x-2">
+                        <a href="user_authentication.html" class="auth-button text-xs">Sign In</a>
+                        <a href="user_authentication.html" class="auth-button primary text-xs">Sign Up</a>
+                    </div>
+                    
+                    <!-- Show when user is logged in (hidden by default) -->
+                    <div id="userAuth" class="user-profile-button hidden">
+                        <button id="userProfileBtn" class="flex items-center space-x-2 bg-accent-600 hover:bg-accent-700 text-primary-900 px-3 py-2 rounded-lg font-medium heritage-transition">
+                            <div class="w-6 h-6 bg-primary-600 rounded-full flex items-center justify-center text-white text-xs font-bold">
+                                U
+                            </div>
+                            <span class="text-sm">User</span>
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+                            </svg>
+                        </button>
+                        
+                        <!-- User Dropdown Menu -->
+                        <div id="userDropdown" class="user-dropdown">
+                            <div class="p-3 border-b border-secondary-200">
+                                <p class="font-medium text-text-primary text-sm">Welcome back!</p>
+                                <p class="text-text-secondary text-xs">user@example.com</p>
+                            </div>
+                            <div class="py-2">
+                                <a href="user_profile.html" class="flex items-center px-4 py-2 text-sm text-text-primary hover:bg-primary-50 heritage-transition">
+                                    <svg class="w-4 h-4 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/>
+                                    </svg>
+                                    My Profile
+                                </a>
+                                <a href="user_preferences.html" class="flex items-center px-4 py-2 text-sm text-text-primary hover:bg-primary-50 heritage-transition">
+                                    <svg class="w-4 h-4 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/>
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
+                                    </svg>
+                                    Preferences
+                                </a>
+                                <a href="my_contributions.html" class="flex items-center px-4 py-2 text-sm text-text-primary hover:bg-primary-50 heritage-transition">
+                                    <svg class="w-4 h-4 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/>
+                                    </svg>
+                                    My Contributions
+                                </a>
+                                <div class="border-t border-secondary-200 mt-2 pt-2">
+                                    <button id="logoutBtn" class="flex items-center w-full px-4 py-2 text-sm text-error-600 hover:bg-error-50 heritage-transition">
+                                        <svg class="w-4 h-4 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"/>
+                                        </svg>
+                                        Sign Out
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Search and Filter Section -->
+    <section class="pt-20 pb-4 px-4 bg-gradient-to-b from-primary-50 to-background">
+        <div class="max-w-6xl mx-auto">
+            <!-- Search Bar -->
+            <div class="relative mb-6">
+                <div class="relative">
+                    <input type="text" 
+                           id="searchInput"
+                           placeholder="Search heritage sites, monuments, temples..."
+                           class="w-full bg-white border border-secondary-300 rounded-xl px-4 py-3 pl-12 pr-16 text-text-primary placeholder-text-secondary focus:outline-none focus:ring-2 focus:ring-primary-400 focus:border-primary-400 heritage-transition">
+                    <svg class="absolute left-4 top-1/2 transform -translate-y-1/2 w-5 h-5 text-text-secondary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
+                    </svg>
+                    <button class="absolute right-4 top-1/2 transform -translate-y-1/2 text-text-secondary hover:text-primary-600 heritage-transition">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11a7 7 0 01-7 7m0 0a7 7 0 01-7-7m7 7v4m0 0H8m4 0h4m-4-8a3 3 0 01-3-3V5a3 3 0 116 0v6a3 3 0 01-3 3z"/>
+                        </svg>
+                    </button>
+                </div>
+                
+                <!-- Search Suggestions -->
+                <div id="searchSuggestions" class="search-suggestions absolute top-full left-0 right-0 bg-white border border-secondary-200 rounded-lg mt-1 shadow-heritage-medium z-30">
+                    <div class="p-2 space-y-1">
+                        <button class="w-full text-left px-3 py-2 hover:bg-primary-50 rounded-lg text-sm text-text-primary heritage-transition">Konark Sun Temple</button>
+                        <button class="w-full text-left px-3 py-2 hover:bg-primary-50 rounded-lg text-sm text-text-primary heritage-transition">Jagannath Temple, Puri</button>
+                        <button class="w-full text-left px-3 py-2 hover:bg-primary-50 rounded-lg text-sm text-text-primary heritage-transition">Lingaraj Temple</button>
+                        <button class="w-full text-left px-3 py-2 hover:bg-primary-50 rounded-lg text-sm text-text-primary heritage-transition">Udayagiri Caves</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Filter Chips -->
+            <div class="flex flex-wrap gap-3 mb-4">
+                <button class="filter-chip active px-4 py-2 rounded-full text-sm font-medium heritage-transition">
+                    All Sites
+                </button>
+                <button class="filter-chip px-4 py-2 rounded-full text-sm font-medium heritage-transition">
+                    UNESCO Sites
+                </button>
+                <button class="filter-chip px-4 py-2 rounded-full text-sm font-medium heritage-transition">
+                    Temples
+                </button>
+                <button class="filter-chip px-4 py-2 rounded-full text-sm font-medium heritage-transition">
+                    Monuments
+                </button>
+                <button class="filter-chip px-4 py-2 rounded-full text-sm font-medium heritage-transition">
+                    Museums
+                </button>
+                <button class="filter-chip px-4 py-2 rounded-full text-sm font-medium heritage-transition">
+                    AR Available
+                </button>
+                <button class="filter-chip px-4 py-2 rounded-full text-sm font-medium heritage-transition">
+                    360° Tours
+                </button>
+            </div>
+
+            <!-- View Toggle and Map Button -->
+            <div class="flex items-center justify-between mb-6">
+                <div class="flex items-center space-x-2">
+                    <span class="text-sm text-text-secondary">View:</span>
+                    <button id="gridView" class="p-2 bg-primary-600 text-white rounded-lg heritage-transition">
+                        <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M3 3h8v8H3V3zm10 0h8v8h-8V3zM3 13h8v8H3v-8zm10 0h8v8h-8v-8z"/>
+                        </svg>
+                    </button>
+                    <button id="listView" class="p-2 bg-secondary-200 text-text-secondary rounded-lg heritage-transition">
+                        <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M3 13h2v-2H3v2zm0 4h2v-2H3v2zm0-8h2V7H3v2zm4 4h14v-2H7v2zm0 4h14v-2H7v2zM7 7v2h14V7H7z"/>
+                        </svg>
+                    </button>
+                </div>
+                
+                <button id="mapToggle" class="flex items-center space-x-2 bg-accent-600 hover:bg-accent-700 text-primary-900 px-4 py-2 rounded-lg font-medium heritage-transition">
+                    <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/>
+                    </svg>
+                    <span>Map View</span>
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Featured Heritage Sites Carousel -->
+    <section class="px-4 mb-8">
+        <div class="max-w-6xl mx-auto">
+            <div class="flex items-center justify-between mb-4">
+                <h2 class="text-2xl font-playfair font-bold text-text-primary">Featured Heritage Sites</h2>
+                <button class="text-primary-600 hover:text-primary-700 text-sm font-medium heritage-transition">View All</button>
+            </div>
+            
+            <div class="flex space-x-4 overflow-x-auto pb-4">
+                <!-- Featured Site 1 -->
+                <div class="flex-shrink-0 w-80 heritage-card rounded-xl overflow-hidden heritage-shadow-medium">
+                    <div class="relative">
+                        <img src="https://images.unsplash.com/photo-1704899286560-086d408d1bd9" 
+                             alt="Konark Sun Temple showing intricate stone wheel carvings and architectural details"
+                             class="w-full h-48 object-cover"
+                             onerror="this.src='https://images.unsplash.com/photo-1667925564693-ebfc1a3d98fc'; this.onerror=null;">
+                        <div class="absolute top-3 left-3">
+                            <span class="ar-indicator px-2 py-1 rounded-full text-xs font-medium text-white">AR Available</span>
+                        </div>
+                        <div class="absolute top-3 right-3">
+                            <span class="bg-accent-600 text-primary-900 px-2 py-1 rounded-full text-xs font-medium">UNESCO</span>
+                        </div>
+                    </div>
+                    <div class="p-4">
+                        <h3 class="text-lg font-playfair font-bold text-text-primary mb-2">Konark Sun Temple</h3>
+                        <p class="text-text-secondary text-sm mb-3">13th century architectural marvel dedicated to Surya. Famous for its intricate stone carvings and astronomical significance.</p>
+                        <div class="flex items-center justify-between text-xs text-text-secondary mb-4">
+                            <span>Built: 1250 CE</span>
+                            <span>Distance: 0.2 km</span>
+                        </div>
+                        <div class="flex space-x-2">
+                            <button onclick="window.location.href='ar_heritage_explorer.html'" class="flex-1 bg-primary-600 hover:bg-primary-700 text-white py-2 px-3 rounded-lg text-sm font-medium heritage-transition">
+                                AR Experience
+                            </button>
+                            <button onclick="window.location.href='virtual_heritage_tour.html'" class="flex-1 bg-secondary-200 hover:bg-secondary-300 text-text-primary py-2 px-3 rounded-lg text-sm font-medium heritage-transition">
+                                Virtual Tour
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Featured Site 2 -->
+                <div class="flex-shrink-0 w-80 heritage-card rounded-xl overflow-hidden heritage-shadow-medium">
+                    <div class="relative">
+                        <img src="https://images.unsplash.com/photo-1708924756882-79ac63d888ac" 
+                             alt="Jagannath Temple Puri showing traditional Kalinga architecture with towering spires"
+                             class="w-full h-48 object-cover"
+                             onerror="this.src='https://images.unsplash.com/photo-1698853311860-18e444f0e35e'; this.onerror=null;">
+                        <div class="absolute top-3 left-3">
+                            <span class="ar-indicator px-2 py-1 rounded-full text-xs font-medium text-white">AR Available</span>
+                        </div>
+                    </div>
+                    <div class="p-4">
+                        <h3 class="text-lg font-playfair font-bold text-text-primary mb-2">Jagannath Temple, Puri</h3>
+                        <p class="text-text-secondary text-sm mb-3">Sacred Hindu temple dedicated to Lord Jagannath. Famous for the annual Rath Yatra festival.</p>
+                        <div class="flex items-center justify-between text-xs text-text-secondary mb-4">
+                            <span>Built: 12th Century</span>
+                            <span>Distance: 35 km</span>
+                        </div>
+                        <div class="flex space-x-2">
+                            <button onclick="window.location.href='ar_heritage_explorer.html'" class="flex-1 bg-primary-600 hover:bg-primary-700 text-white py-2 px-3 rounded-lg text-sm font-medium heritage-transition">
+                                AR Experience
+                            </button>
+                            <button onclick="window.location.href='virtual_heritage_tour.html'" class="flex-1 bg-secondary-200 hover:bg-secondary-300 text-text-primary py-2 px-3 rounded-lg text-sm font-medium heritage-transition">
+                                Virtual Tour
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Featured Site 3 -->
+                <div class="flex-shrink-0 w-80 heritage-card rounded-xl overflow-hidden heritage-shadow-medium">
+                    <div class="relative">
+                        <img src="https://images.unsplash.com/photo-1667925564693-ebfc1a3d98fc" 
+                             alt="Lingaraj Temple Bhubaneswar displaying ancient Kalinga architectural style"
+                             class="w-full h-48 object-cover"
+                             onerror="this.src='https://images.unsplash.com/photo-1640257168673-0527f2bb2f52'; this.onerror=null;">
+                        <div class="absolute top-3 left-3">
+                            <span class="bg-secondary-600 text-white px-2 py-1 rounded-full text-xs font-medium">360° Tour</span>
+                        </div>
+                    </div>
+                    <div class="p-4">
+                        <h3 class="text-lg font-playfair font-bold text-text-primary mb-2">Lingaraj Temple</h3>
+                        <p class="text-text-secondary text-sm mb-3">Ancient Hindu temple dedicated to Lord Shiva. Finest example of Kalinga architecture in Bhubaneswar.</p>
+                        <div class="flex items-center justify-between text-xs text-text-secondary mb-4">
+                            <span>Built: 11th Century</span>
+                            <span>Distance: 65 km</span>
+                        </div>
+                        <div class="flex space-x-2">
+                            <button onclick="window.location.href='virtual_heritage_tour.html'" class="flex-1 bg-primary-600 hover:bg-primary-700 text-white py-2 px-3 rounded-lg text-sm font-medium heritage-transition">
+                                Virtual Tour
+                            </button>
+                            <button onclick="window.location.href='cultural_learning_hub.html'" class="flex-1 bg-secondary-200 hover:bg-secondary-300 text-text-primary py-2 px-3 rounded-lg text-sm font-medium heritage-transition">
+                                Learn More
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Heritage Sites Grid -->
+    <section class="px-4 pb-24">
+        <div class="max-w-6xl mx-auto">
+            <div class="flex items-center justify-between mb-6">
+                <h2 class="text-2xl font-playfair font-bold text-text-primary">All Heritage Sites</h2>
+                <div class="flex items-center space-x-2 text-sm text-text-secondary">
+                    <span>Showing 24 of 156 sites</span>
+                    <select class="bg-white border border-secondary-300 rounded-lg px-3 py-1 text-sm focus:outline-none focus:ring-2 focus:ring-primary-400">
+                        <option>Sort by Distance</option>
+                        <option>Sort by Popularity</option>
+                        <option>Sort by Rating</option>
+                        <option>Sort by Name</option>
+                    </select>
+                </div>
+            </div>
+
+            <div id="heritageGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <!-- Heritage Site Card 1 -->
+                <div class="heritage-card rounded-xl overflow-hidden heritage-shadow-medium">
+                    <div class="relative">
+                        <img src="https://images.unsplash.com/photo-1679555871485-53120eb4e33b" 
+                             alt="Udayagiri Caves showing ancient rock-cut architecture and Buddhist sculptures"
+                             class="w-full h-48 object-cover"
+                             onerror="this.src='https://images.unsplash.com/photo-1679555871485-53120eb4e33b'; this.onerror=null;">
+                        <div class="absolute top-3 left-3">
+                            <span class="ar-indicator px-2 py-1 rounded-full text-xs font-medium text-white">AR Available</span>
+                        </div>
+                        <button class="absolute top-3 right-3 w-8 h-8 bg-white/80 backdrop-blur-sm rounded-full flex items-center justify-center text-text-secondary hover:text-primary-600 heritage-transition">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/>
+                            </svg>
+                        </button>
+                    </div>
+                    <div class="p-4">
+                        <h3 class="text-lg font-playfair font-bold text-text-primary mb-2">Udayagiri Caves</h3>
+                        <p class="text-text-secondary text-sm mb-3">Ancient rock-cut caves with Buddhist and Jain sculptures. Historical significance dating back to 2nd century BCE.</p>
+                        <div class="flex items-center justify-between text-xs text-text-secondary mb-4">
+                            <span>Built: 2nd Century BCE</span>
+                            <span>Distance: 45 km</span>
+                        </div>
+                        <div class="flex space-x-2">
+                            <button onclick="window.location.href='ar_heritage_explorer.html'" class="flex-1 bg-primary-600 hover:bg-primary-700 text-white py-2 px-3 rounded-lg text-sm font-medium heritage-transition">
+                                AR Experience
+                            </button>
+                            <button onclick="window.location.href='cultural_learning_hub.html'" class="flex-1 bg-secondary-200 hover:bg-secondary-300 text-text-primary py-2 px-3 rounded-lg text-sm font-medium heritage-transition">
+                                Learn More
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Heritage Site Card 2 -->
+                <div class="heritage-card rounded-xl overflow-hidden heritage-shadow-medium">
+                    <div class="relative">
+                        <img src="https://images.unsplash.com/photo-1640257168673-0527f2bb2f52" 
+                             alt="Rajarani Temple showcasing ornate stone carvings and temple architecture"
+                             class="w-full h-48 object-cover"
+                             onerror="this.src='https://images.unsplash.com/photo-1726507576308-653c0738498b'; this.onerror=null;">
+                        <div class="absolute top-3 left-3">
+                            <span class="bg-secondary-600 text-white px-2 py-1 rounded-full text-xs font-medium">360° Tour</span>
+                        </div>
+                        <button class="absolute top-3 right-3 w-8 h-8 bg-white/80 backdrop-blur-sm rounded-full flex items-center justify-center text-text-secondary hover:text-primary-600 heritage-transition">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/>
+                            </svg>
+                        </button>
+                    </div>
+                    <div class="p-4">
+                        <h3 class="text-lg font-playfair font-bold text-text-primary mb-2">Rajarani Temple</h3>
+                        <p class="text-text-secondary text-sm mb-3">11th century temple known for its exquisite sculptures and architectural beauty. Famous for love temple designation.</p>
+                        <div class="flex items-center justify-between text-xs text-text-secondary mb-4">
+                            <span>Built: 11th Century</span>
+                            <span>Distance: 68 km</span>
+                        </div>
+                        <div class="flex space-x-2">
+                            <button onclick="window.location.href='virtual_heritage_tour.html'" class="flex-1 bg-primary-600 hover:bg-primary-700 text-white py-2 px-3 rounded-lg text-sm font-medium heritage-transition">
+                                Virtual Tour
+                            </button>
+                            <button onclick="window.location.href='cultural_learning_hub.html'" class="flex-1 bg-secondary-200 hover:bg-secondary-300 text-text-primary py-2 px-3 rounded-lg text-sm font-medium heritage-transition">
+                                Learn More
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Heritage Site Card 3 -->
+                <div class="heritage-card rounded-xl overflow-hidden heritage-shadow-medium">
+                    <div class="relative">
+                        <img src="https://images.pexels.com/photos/1583339/pexels-photo-1583339.jpeg?auto=compress&cs=tinysrgb&w=800" 
+                             alt="Odisha State Museum displaying traditional artifacts and cultural heritage items"
+                             class="w-full h-48 object-cover"
+                             onerror="this.src='https://images.unsplash.com/photo-1698853311860-18e444f0e35e'; this.onerror=null;">
+                        <div class="absolute top-3 left-3">
+                            <span class="bg-accent-700 text-white px-2 py-1 rounded-full text-xs font-medium">Museum</span>
+                        </div>
+                        <button class="absolute top-3 right-3 w-8 h-8 bg-white/80 backdrop-blur-sm rounded-full flex items-center justify-center text-text-secondary hover:text-primary-600 heritage-transition">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/>
+                            </svg>
+                        </button>
+                    </div>
+                    <div class="p-4">
+                        <h3 class="text-lg font-playfair font-bold text-text-primary mb-2">Odisha State Museum</h3>
+                        <p class="text-text-secondary text-sm mb-3">Comprehensive collection of Odishan art, archaeology, and cultural artifacts. Educational exhibits and galleries.</p>
+                        <div class="flex items-center justify-between text-xs text-text-secondary mb-4">
+                            <span>Established: 1932</span>
+                            <span>Distance: 70 km</span>
+                        </div>
+                        <div class="flex space-x-2">
+                            <button onclick="window.location.href='virtual_heritage_tour.html'" class="flex-1 bg-primary-600 hover:bg-primary-700 text-white py-2 px-3 rounded-lg text-sm font-medium heritage-transition">
+                                Virtual Tour
+                            </button>
+                            <button onclick="window.location.href='cultural_learning_hub.html'" class="flex-1 bg-secondary-200 hover:bg-secondary-300 text-text-primary py-2 px-3 rounded-lg text-sm font-medium heritage-transition">
+                                Learn More
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Heritage Site Card 4 -->
+                <div class="heritage-card rounded-xl overflow-hidden heritage-shadow-medium">
+                    <div class="relative">
+                        <img src="https://images.unsplash.com/photo-1621572692057-e9058c280faa" 
+                             alt="Dhauli Peace Pagoda showing white Buddhist stupa with surrounding gardens"
+                             class="w-full h-48 object-cover"
+                             onerror="this.src='https://images.pixabay.com/photo/2019/12/09/16/48/udayagiri-4684679_1280.jpg'; this.onerror=null;">
+                        <div class="absolute top-3 left-3">
+                            <span class="ar-indicator px-2 py-1 rounded-full text-xs font-medium text-white">AR Available</span>
+                        </div>
+                        <button class="absolute top-3 right-3 w-8 h-8 bg-white/80 backdrop-blur-sm rounded-full flex items-center justify-center text-primary-600 heritage-transition">
+                            <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+                            </svg>
+                        </button>
+                    </div>
+                    <div class="p-4">
+                        <h3 class="text-lg font-playfair font-bold text-text-primary mb-2">Dhauli Peace Pagoda</h3>
+                        <p class="text-text-secondary text-sm mb-3">Buddhist peace pagoda built at the site of the historic Kalinga War. Symbol of peace and non-violence.</p>
+                        <div class="flex items-center justify-between text-xs text-text-secondary mb-4">
+                            <span>Built: 1972</span>
+                            <span>Distance: 55 km</span>
+                        </div>
+                        <div class="flex space-x-2">
+                            <button onclick="window.location.href='ar_heritage_explorer.html'" class="flex-1 bg-primary-600 hover:bg-primary-700 text-white py-2 px-3 rounded-lg text-sm font-medium heritage-transition">
+                                AR Experience
+                            </button>
+                            <button onclick="window.location.href='cultural_learning_hub.html'" class="flex-1 bg-secondary-200 hover:bg-secondary-300 text-text-primary py-2 px-3 rounded-lg text-sm font-medium heritage-transition">
+                                Learn More
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Heritage Site Card 5 -->
+                <div class="heritage-card rounded-xl overflow-hidden heritage-shadow-medium">
+                    <div class="relative">
+                        <img src="https://images.pixabay.com/photo/2019/03/15/09/49/temple-4056966_1280.jpg" 
+                             alt="Mukteshwar Temple displaying intricate stone carvings and architectural details"
+                             class="w-full h-48 object-cover"
+                             onerror="this.src='https://images.unsplash.com/photo-1578662996442-48f60103fc96?q=80&w=800&auto=format&fit=crop'; this.onerror=null;">
+                        <div class="absolute top-3 left-3">
+                            <span class="bg-secondary-600 text-white px-2 py-1 rounded-full text-xs font-medium">360° Tour</span>
+                        </div>
+                        <button class="absolute top-3 right-3 w-8 h-8 bg-white/80 backdrop-blur-sm rounded-full flex items-center justify-center text-text-secondary hover:text-primary-600 heritage-transition">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/>
+                            </svg>
+                        </button>
+                    </div>
+                    <div class="p-4">
+                        <h3 class="text-lg font-playfair font-bold text-text-primary mb-2">Mukteshwar Temple</h3>
+                        <p class="text-text-secondary text-sm mb-3">10th century Hindu temple known as the gem of Odishan architecture. Features exquisite stone carvings.</p>
+                        <div class="flex items-center justify-between text-xs text-text-secondary mb-4">
+                            <span>Built: 10th Century</span>
+                            <span>Distance: 72 km</span>
+                        </div>
+                        <div class="flex space-x-2">
+                            <button onclick="window.location.href='virtual_heritage_tour.html'" class="flex-1 bg-primary-600 hover:bg-primary-700 text-white py-2 px-3 rounded-lg text-sm font-medium heritage-transition">
+                                Virtual Tour
+                            </button>
+                            <button onclick="window.location.href='cultural_learning_hub.html'" class="flex-1 bg-secondary-200 hover:bg-secondary-300 text-text-primary py-2 px-3 rounded-lg text-sm font-medium heritage-transition">
+                                Learn More
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Heritage Site Card 6 -->
+                <div class="heritage-card rounded-xl overflow-hidden heritage-shadow-medium">
+                    <div class="relative">
+                        <img src="https://images.unsplash.com/photo-1679555871485-53120eb4e33b" 
+                             alt="Khandagiri Caves showing ancient Jain rock-cut architecture and sculptures"
+                             class="w-full h-48 object-cover"
+                             onerror="this.src='https://images.pexels.com/photos/1583339/pexels-photo-1583339.jpeg?auto=compress&cs=tinysrgb&w=800'; this.onerror=null;">
+                        <div class="absolute top-3 left-3">
+                            <span class="ar-indicator px-2 py-1 rounded-full text-xs font-medium text-white">AR Available</span>
+                        </div>
+                        <button class="absolute top-3 right-3 w-8 h-8 bg-white/80 backdrop-blur-sm rounded-full flex items-center justify-center text-text-secondary hover:text-primary-600 heritage-transition">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/>
+                            </svg>
+                        </button>
+                    </div>
+                    <div class="p-4">
+                        <h3 class="text-lg font-playfair font-bold text-text-primary mb-2">Khandagiri Caves</h3>
+                        <p class="text-text-secondary text-sm mb-3">Ancient Jain rock-cut caves with historical inscriptions. Part of the twin hills of Khandagiri and Udayagiri.</p>
+                        <div class="flex items-center justify-between text-xs text-text-secondary mb-4">
+                            <span>Built: 2nd Century BCE</span>
+                            <span>Distance: 48 km</span>
+                        </div>
+                        <div class="flex space-x-2">
+                            <button onclick="window.location.href='ar_heritage_explorer.html'" class="flex-1 bg-primary-600 hover:bg-primary-700 text-white py-2 px-3 rounded-lg text-sm font-medium heritage-transition">
+                                AR Experience
+                            </button>
+                            <button onclick="window.location.href='cultural_learning_hub.html'" class="flex-1 bg-secondary-200 hover:bg-secondary-300 text-text-primary py-2 px-3 rounded-lg text-sm font-medium heritage-transition">
+                                Learn More
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Load More Button -->
+            <div class="text-center mt-8">
+                <button class="bg-primary-600 hover:bg-primary-700 text-white px-8 py-3 rounded-lg font-medium heritage-transition">
+                    Load More Sites
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Map Overlay -->
+    <div id="mapOverlay" class="map-overlay fixed inset-0 z-50 bg-white">
+        <div class="flex flex-col h-full">
+            <!-- Map Header -->
+            <div class="flex items-center justify-between p-4 bg-gradient-to-r from-primary-900 to-secondary-900 text-white">
+                <h3 class="text-lg font-playfair font-bold">Heritage Sites Map</h3>
+                <button id="closeMap" class="w-8 h-8 bg-white/20 rounded-full flex items-center justify-center hover:bg-white/30 heritage-transition">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+                    </svg>
+                </button>
+            </div>
+            
+            <!-- Map Content -->
+            <div class="flex-1 relative bg-gradient-to-br from-primary-50 to-secondary-50">
+                <div class="absolute inset-0 flex items-center justify-center">
+                    <div class="text-center">
+                        <div class="w-16 h-16 bg-primary-600 rounded-full flex items-center justify-center mx-auto mb-4">
+                            <svg class="w-8 h-8 text-white" fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/>
+                            </svg>
+                        </div>
+                        <h4 class="text-xl font-playfair font-bold text-text-primary mb-2">Interactive Map</h4>
+                        <p class="text-text-secondary mb-4">Explore heritage sites on an interactive map with GPS navigation</p>
+                        <button class="bg-primary-600 hover:bg-primary-700 text-white px-6 py-2 rounded-lg font-medium heritage-transition">
+                            Enable Location Services
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Navigation Menu -->
+    <nav class="fixed bottom-0 left-0 right-0 z-50 bg-gradient-to-t from-primary-900 to-primary-800 backdrop-blur-md border-t border-accent-400/20">
+        <div class="flex items-center justify-around py-2">
+            <a href="heritage_site_dashboard.html" class="flex flex-col items-center space-y-1 p-2 text-accent-100 bg-primary-700/50 rounded-lg">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2H5a2 2 0 00-2-2z"/>
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 15v-4a2 2 0 012-2h4a2 2 0 012 2v4"/>
+                </svg>
+                <span class="text-xs">Dashboard</span>
+            </a>
+            
+            <a href="ar_heritage_explorer.html" class="flex flex-col items-center space-y-1 p-2 text-accent-300 hover:text-accent-100 heritage-transition">
+                <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+                    <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+                </svg>
+                <span class="text-xs">AR Explorer</span>
+            </a>
+            
+            <a href="virtual_heritage_tour.html" class="flex flex-col items-center space-y-1 p-2 text-accent-300 hover:text-accent-100 heritage-transition">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"/>
+                </svg>
+                <span class="text-xs">Virtual Tour</span>
+            </a>
+            
+            <a href="cultural_learning_hub.html" class="flex flex-col items-center space-y-1 p-2 text-accent-300 hover:text-accent-100 heritage-transition">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.246 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/>
+                </svg>
+                <span class="text-xs">Learning</span>
+            </a>
+            
+            <a href="community_contribution.html" class="flex flex-col items-center space-y-1 p-2 text-accent-300 hover:text-accent-100 heritage-transition">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"/>
+                </svg>
+                <span class="text-xs">Community</span>
+            </a>
+            
+            <a href="heritage_preservation.html" class="flex flex-col items-center space-y-1 p-2 text-accent-300 hover:text-accent-100 heritage-transition">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/>
+                </svg>
+                <span class="text-xs">Preservation</span>
+            </a>
+        </div>
+    </nav>
+
+    <script>
+        // Search functionality
+        const searchInput = document.getElementById('searchInput');
+        const searchSuggestions = document.getElementById('searchSuggestions');
+
+        searchInput.addEventListener('focus', function() {
+            searchSuggestions.classList.add('active');
+        });
+
+        searchInput.addEventListener('blur', function() {
+            setTimeout(() => {
+                searchSuggestions.classList.remove('active');
+            }, 200);
+        });
+
+        // Filter chips functionality
+        const filterChips = document.querySelectorAll('.filter-chip');
+        filterChips.forEach(chip => {
+            chip.addEventListener('click', function() {
+                filterChips.forEach(c => c.classList.remove('active'));
+                this.classList.add('active');
+            });
+        });
+
+        // View toggle functionality
+        const gridView = document.getElementById('gridView');
+        const listView = document.getElementById('listView');
+        const heritageGrid = document.getElementById('heritageGrid');
+
+        gridView.addEventListener('click', function() {
+            gridView.classList.add('bg-primary-600', 'text-white');
+            gridView.classList.remove('bg-secondary-200', 'text-text-secondary');
+            listView.classList.add('bg-secondary-200', 'text-text-secondary');
+            listView.classList.remove('bg-primary-600', 'text-white');
+            heritageGrid.className = 'grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6';
+        });
+
+        listView.addEventListener('click', function() {
+            listView.classList.add('bg-primary-600', 'text-white');
+            listView.classList.remove('bg-secondary-200', 'text-text-secondary');
+            gridView.classList.add('bg-secondary-200', 'text-text-secondary');
+            gridView.classList.remove('bg-primary-600', 'text-white');
+            heritageGrid.className = 'grid grid-cols-1 gap-4';
+        });
+
+        // Map overlay functionality
+        const mapToggle = document.getElementById('mapToggle');
+        const mapOverlay = document.getElementById('mapOverlay');
+        const closeMap = document.getElementById('closeMap');
+
+        mapToggle.addEventListener('click', function() {
+            mapOverlay.classList.add('active');
+        });
+
+        closeMap.addEventListener('click', function() {
+            mapOverlay.classList.remove('active');
+        });
+
+        // Authentication state management
+        let isLoggedIn = false; // This would be managed by actual auth system
+
+        const guestAuth = document.getElementById('guestAuth');
+        const userAuth = document.getElementById('userAuth');
+        const userProfileBtn = document.getElementById('userProfileBtn');
+        const userDropdown = document.getElementById('userDropdown');
+        const logoutBtn = document.getElementById('logoutBtn');
+
+        // Toggle user profile dropdown
+        if (userProfileBtn) {
+            userProfileBtn.addEventListener('click', function(e) {
+                e.stopPropagation();
+                userDropdown.classList.toggle('active');
+            });
+        }
+
+        // Close dropdown when clicking outside
+        document.addEventListener('click', function(e) {
+            if (userDropdown && !userDropdown.contains(e.target) && !userProfileBtn.contains(e.target)) {
+                userDropdown.classList.remove('active');
+            }
+        });
+
+        // Logout functionality
+        if (logoutBtn) {
+            logoutBtn.addEventListener('click', function() {
+                isLoggedIn = false;
+                updateAuthUI();
+                userDropdown.classList.remove('active');
+                
+                // Show logout message
+                showMessage('You have been signed out successfully', 'success');
+            });
+        }
+
+        // Update authentication UI based on login status
+        function updateAuthUI() {
+            if (isLoggedIn) {
+                guestAuth.classList.add('hidden');
+                userAuth.classList.remove('hidden');
+            } else {
+                guestAuth.classList.remove('hidden');
+                userAuth.classList.add('hidden');
+            }
+        }
+
+        // Simulate login for demo (would be replaced with actual auth)
+        function simulateLogin() {
+            isLoggedIn = true;
+            updateAuthUI();
+            showMessage('Welcome back! You are now signed in.', 'success');
+        }
+
+        // Check authentication status on page load
+        function checkAuthStatus() {
+            // In a real app, this would check with the backend
+            // For demo, check localStorage or similar
+            const authStatus = localStorage.getItem('heritage_auth_status');
+            if (authStatus === 'logged_in') {
+                isLoggedIn = true;
+                updateAuthUI();
+            }
+        }
+
+        // Bookmark functionality
+        const bookmarkButtons = document.querySelectorAll('.heritage-card button[class*="absolute top-3 right-3"]');
+        bookmarkButtons.forEach(button => {
+            button.addEventListener('click', function(e) {
+                e.preventDefault();
+                const icon = this.querySelector('svg');
+                if (icon.getAttribute('fill') === 'currentColor') {
+                    icon.setAttribute('fill', 'none');
+                    this.classList.remove('text-primary-600');
+                    this.classList.add('text-text-secondary');
+                    showMessage('Removed from favorites', 'info');
+                } else {
+                    icon.setAttribute('fill', 'currentColor');
+                    this.classList.remove('text-text-secondary');
+                    this.classList.add('text-primary-600');
+                    showMessage('Added to favorites', 'success');
+                }
+            });
+        });
+
+        // Utility function for showing messages
+        function showMessage(message, type = 'info') {
+            const messageDiv = document.createElement('div');
+            const bgColor = type === 'success' ? 'bg-success-500' : 
+                          type === 'error' ? 'bg-error-500' : 'bg-primary-500';
+            
+            messageDiv.className = `fixed top-4 right-4 ${bgColor} text-white px-6 py-3 rounded-lg shadow-lg z-50 heritage-transition`;
+            messageDiv.textContent = message;
+            document.body.appendChild(messageDiv);
+
+            setTimeout(() => {
+                messageDiv.remove();
+            }, 3000);
+        }
+
+        // Initialize page
+        document.addEventListener('DOMContentLoaded', function() {
+            checkAuthStatus();
+            console.log('Heritage Site Dashboard loaded successfully');
+        });
+    </script>
+<script id="dhws-dataInjector" src="../public/dhws-data-injector.js"></script>
+</body>
+</html>

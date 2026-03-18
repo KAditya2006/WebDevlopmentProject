@@ -1,0 +1,450 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pest Detection - CropWise AI</title>
+    <link rel="stylesheet" href="../css/main.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  
+  <script type="module" async src="https://static.rocket.new/rocket-web.js?_cfg=https%3A%2F%2Fcropwisea2089back.builtwithrocket.new&_be=https%3A%2F%2Fapplication.rocket.new&_v=0.1.9"></script>
+  <script type="module" defer src="https://static.rocket.new/rocket-shot.js?v=0.0.1"></script>
+  </head>
+<body class="bg-background font-sans">
+    <!-- Header Navigation -->
+    <header class="bg-surface shadow-agricultural border-b border-border">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <!-- Logo -->
+                <div class="flex items-center">
+                    <svg class="h-8 w-8 text-primary" viewBox="0 0 32 32" fill="currentColor">
+                        <path d="M16 2L8 8v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V8l-8-6z"/>
+                        <path d="M12 14l2 2 6-6" stroke="white" stroke-width="2" fill="none"/>
+                    </svg>
+                    <span class="ml-2 text-xl font-bold text-primary">CropWise AI</span>
+                </div>
+
+                <!-- Navigation Links -->
+                <nav class="hidden md:flex space-x-8">
+                    <a href="farmer_dashboard.html" class="text-text-secondary hover:text-primary transition-agricultural">Dashboard</a>
+                    <a href="crop_recommendation.html" class="text-text-secondary hover:text-primary transition-agricultural">Crop Recommendations</a>
+                    <a href="soil_analysis.html" class="text-text-secondary hover:text-primary transition-agricultural">Soil Analysis</a>
+                    <a href="weather_monitoring.html" class="text-text-secondary hover:text-primary transition-agricultural">Weather</a>
+                    <a href="market_price_tracker.html" class="text-text-secondary hover:text-primary transition-agricultural">Market Prices</a>
+                    <a href="pest_detection.html" class="text-primary font-medium border-b-2 border-primary pb-1">Pest Detection</a>
+                </nav>
+
+                <!-- Language Selector & Profile -->
+                <div class="flex items-center space-x-4">
+                    <select class="bg-surface border border-border rounded-agricultural px-3 py-1 text-sm focus:outline-none focus:ring-2 focus:ring-primary">
+                        <option value="en">English</option>
+                        <option value="hi">हिंदी</option>
+                        <option value="bn">বাংলা</option>
+                        <option value="ta">தமிழ்</option>
+                        <option value="mr">मराठी</option>
+                        <option value="te">తెలుగు</option>
+                        <option value="gu">ગુજરાતી</option>
+                        <option value="or">ଓଡ଼ିଆ</option>
+                    </select>
+                    <div class="w-8 h-8 bg-primary rounded-full flex items-center justify-center">
+                        <span class="text-white text-sm font-medium">RK</span>
+                    </div>
+                </div>
+
+                <!-- Mobile Menu Button -->
+                <button class="md:hidden p-2 rounded-agricultural text-text-secondary hover:text-primary">
+                    <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
+                    </svg>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <!-- Page Header -->
+        <div class="mb-8">
+            <h1 class="text-3xl font-bold text-text-primary mb-2">Pest & Disease Detection</h1>
+            <p class="text-text-secondary">Upload plant images for AI-powered pest identification and treatment recommendations</p>
+        </div>
+
+        <!-- Voice Command Section -->
+        <div class="bg-gradient-to-br from-primary-50 to-accent-50 rounded-agricultural-lg p-6 mb-8 shadow-agricultural">
+            <div class="flex items-center justify-between mb-4">
+                <h2 class="text-xl font-semibold text-text-primary">Voice Assistant</h2>
+                <div class="flex items-center space-x-2 text-sm text-text-secondary">
+                    <div class="w-2 h-2 bg-success rounded-full animate-pulse"></div>
+                    <span>Ready to listen</span>
+                </div>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <button class="bg-primary hover:bg-primary-600 text-white rounded-agricultural-lg p-6 transition-agricultural animate-breathe">
+                    <svg class="w-8 h-8 mx-auto mb-2" fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M12 14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3z"/>
+                        <path d="M17 11c0 2.76-2.24 5-5 5s-5-2.24-5-5H5c0 3.53 2.61 6.43 6 6.92V21h2v-3.08c3.39-.49 6-3.39 6-6.92h-2z"/>
+                    </svg>
+                    <span class="text-sm font-medium">Identify this leaf disease</span>
+                </button>
+                <div class="bg-surface rounded-agricultural p-4 border border-border">
+                    <h3 class="font-medium text-text-primary mb-2">Try saying:</h3>
+                    <ul class="text-sm text-text-secondary space-y-1">
+                        <li>"मेरे पत्ते पर क्या बीमारी है?" (Hindi)</li>
+                        <li>"এই পাতার রোগ কী?" (Bengali)</li>
+                        <li>"What pest is on my crop?"</li>
+                        <li>"Treatment for leaf spots"</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Main Content Grid -->
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+            <!-- Image Upload Section -->
+            <div class="space-y-6">
+                <!-- Upload Area -->
+                <div class="bg-surface rounded-agricultural-lg p-6 shadow-agricultural border border-border">
+                    <h3 class="text-lg font-semibold text-text-primary mb-4">Upload Plant Image</h3>
+                    
+                    <!-- Drag & Drop Area -->
+                    <div class="border-2 border-dashed border-border rounded-agricultural-lg p-8 text-center hover:border-primary transition-agricultural cursor-pointer" id="dropZone">
+                        <svg class="w-12 h-12 text-text-secondary mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"/>
+                        </svg>
+                        <p class="text-text-primary font-medium mb-2">Drag & drop your plant image here</p>
+                        <p class="text-text-secondary text-sm mb-4">or click to browse files</p>
+                        <input type="file" id="imageUpload" accept="image/*" class="hidden" multiple>
+                        <button class="bg-primary text-white px-6 py-2 rounded-agricultural hover:bg-primary-600 transition-agricultural">
+                            Choose Files
+                        </button>
+                    </div>
+
+                    <!-- Camera Capture -->
+                    <div class="mt-4 pt-4 border-t border-border">
+                        <button class="w-full bg-secondary text-white py-3 rounded-agricultural hover:bg-secondary-600 transition-agricultural flex items-center justify-center space-x-2">
+                            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M12 15.2l3.2-2.7a8 8 0 000-5L12 10.2 8.8 7.5a8 8 0 000 5L12 15.2zM12 9a3 3 0 110 6 3 3 0 010-6z"/>
+                                <path d="M12 17a5 5 0 100-10 5 5 0 000 10z"/>
+                                <path d="M12 21a9 9 0 100-18 9 9 0 000 18z"/>
+                            </svg>
+                            <span>Take Photo with Camera</span>
+                        </button>
+                    </div>
+
+                    <!-- Upload Guidelines -->
+                    <div class="mt-4 p-3 bg-accent-50 rounded-agricultural border-l-4 border-accent">
+                        <h4 class="font-medium text-accent-800 mb-2">Photo Guidelines:</h4>
+                        <ul class="text-sm text-accent-700 space-y-1">
+                            <li>• Capture clear, well-lit images of affected leaves</li>
+                            <li>• Include both healthy and diseased parts if possible</li>
+                            <li>• Avoid blurry or dark images</li>
+                            <li>• Multiple angles help improve accuracy</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Recent Detections -->
+                <div class="bg-surface rounded-agricultural-lg p-6 shadow-agricultural border border-border">
+                    <h3 class="text-lg font-semibold text-text-primary mb-4">Recent Detections</h3>
+                    <div class="space-y-3">
+                        <div class="flex items-center space-x-3 p-3 bg-error-50 rounded-agricultural border-l-4 border-error">
+                            <img src="https://images.unsplash.com/photo-1590309309902-28abbbbfb466" 
+                                 alt="Tomato leaf affected by late blight disease showing brown spots" 
+                                 class="w-12 h-12 rounded-agricultural object-cover"
+                                 onerror="this.src='https://images.unsplash.com/photo-1584824486509-112e4181ff6b?q=80&w=2940&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'; this.onerror=null;">
+                            <div class="flex-1">
+                                <h4 class="font-medium text-text-primary">Late Blight</h4>
+                                <p class="text-sm text-text-secondary">Tomato - 2 days ago</p>
+                                <span class="text-xs text-error font-medium">High Risk</span>
+                            </div>
+                        </div>
+                        <div class="flex items-center space-x-3 p-3 bg-warning-50 rounded-agricultural border-l-4 border-warning">
+                            <img src="https://images.unsplash.com/photo-1643237409934-5dede29cf2e3" 
+                                 alt="Green aphids clustered on plant stem causing damage" 
+                                 class="w-12 h-12 rounded-agricultural object-cover"
+                                 onerror="this.src='https://images.unsplash.com/photo-1584824486509-112e4181ff6b?q=80&w=2940&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'; this.onerror=null;">
+                            <div class="flex-1">
+                                <h4 class="font-medium text-text-primary">Aphid Infestation</h4>
+                                <p class="text-sm text-text-secondary">Wheat - 5 days ago</p>
+                                <span class="text-xs text-warning font-medium">Medium Risk</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Analysis Results Section -->
+            <div class="space-y-6">
+                <!-- AI Analysis Results -->
+                <div class="bg-surface rounded-agricultural-lg p-6 shadow-agricultural border border-border">
+                    <div class="flex items-center justify-between mb-4">
+                        <h3 class="text-lg font-semibold text-text-primary">Analysis Results</h3>
+                        <div class="flex items-center space-x-2 text-sm text-success">
+                            <div class="w-2 h-2 bg-success rounded-full"></div>
+                            <span>Analysis Complete</span>
+                        </div>
+                    </div>
+
+                    <!-- Detection Result -->
+                    <div class="bg-error-50 rounded-agricultural-lg p-4 mb-4 border border-error-200">
+                        <div class="flex items-start space-x-4">
+                            <img src="https://images.unsplash.com/photo-1566154516347-d3f4a5d1da5b" 
+                                 alt="Close-up of plant leaf showing bacterial leaf spot disease symptoms" 
+                                 class="w-20 h-20 rounded-agricultural object-cover"
+                                 onerror="this.src='https://images.unsplash.com/photo-1584824486509-112e4181ff6b?q=80&w=2940&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'; this.onerror=null;">
+                            <div class="flex-1">
+                                <h4 class="text-lg font-semibold text-error-800 mb-2">Bacterial Leaf Spot</h4>
+                                <div class="flex items-center space-x-4 mb-2">
+                                    <span class="text-sm text-error-700">Confidence: 94%</span>
+                                    <span class="text-sm text-error-700">Risk Level: High</span>
+                                </div>
+                                <p class="text-sm text-error-700">
+                                    Bacterial infection causing dark spots with yellow halos on leaves. Common in warm, humid conditions.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Comparison Images -->
+                    <div class="grid grid-cols-2 gap-4 mb-4">
+                        <div class="text-center">
+                            <img src="https://images.unsplash.com/photo-1603435227064-fd4d65efff3d" 
+                                 alt="Healthy green plant leaf without any disease symptoms" 
+                                 class="w-full h-24 rounded-agricultural object-cover mb-2"
+                                 onerror="this.src='https://images.unsplash.com/photo-1584824486509-112e4181ff6b?q=80&w=2940&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'; this.onerror=null;">
+                            <span class="text-xs text-success font-medium">Healthy Leaf</span>
+                        </div>
+                        <div class="text-center">
+                            <img src="https://images.unsplash.com/photo-1590309309902-28abbbbfb466" 
+                                 alt="Plant leaf showing bacterial leaf spot disease with dark spots and yellowing" 
+                                 class="w-full h-24 rounded-agricultural object-cover mb-2"
+                                 onerror="this.src='https://images.unsplash.com/photo-1584824486509-112e4181ff6b?q=80&w=2940&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'; this.onerror=null;">
+                            <span class="text-xs text-error font-medium">Infected Leaf</span>
+                        </div>
+                    </div>
+
+                    <!-- Action Buttons -->
+                    <div class="flex space-x-3">
+                        <button class="flex-1 bg-primary text-white py-2 px-4 rounded-agricultural hover:bg-primary-600 transition-agricultural">
+                            Get Treatment Plan
+                        </button>
+                        <button class="flex-1 bg-secondary text-white py-2 px-4 rounded-agricultural hover:bg-secondary-600 transition-agricultural">
+                            Consult Expert
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Treatment Recommendations -->
+                <div class="bg-surface rounded-agricultural-lg p-6 shadow-agricultural border border-border">
+                    <h3 class="text-lg font-semibold text-text-primary mb-4">Treatment Recommendations</h3>
+                    
+                    <!-- Chemical Treatment -->
+                    <div class="mb-6">
+                        <h4 class="font-medium text-text-primary mb-3 flex items-center">
+                            <svg class="w-5 h-5 text-error mr-2" fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+                            </svg>
+                            Chemical Treatment
+                        </h4>
+                        <div class="bg-error-50 rounded-agricultural p-4 border border-error-200">
+                            <div class="space-y-3">
+                                <div>
+                                    <span class="font-medium text-error-800">Recommended Pesticide:</span>
+                                    <span class="text-error-700 ml-2">Copper Hydroxide 77% WP</span>
+                                </div>
+                                <div>
+                                    <span class="font-medium text-error-800">Dosage:</span>
+                                    <span class="text-error-700 ml-2">2-3 grams per liter of water</span>
+                                </div>
+                                <div>
+                                    <span class="font-medium text-error-800">Application:</span>
+                                    <span class="text-error-700 ml-2">Spray every 10-15 days, 2-3 times</span>
+                                </div>
+                                <div class="p-2 bg-warning-100 rounded-agricultural border-l-4 border-warning">
+                                    <p class="text-xs text-warning-800">
+                                        <strong>Safety:</strong> Wear protective gear. Do not spray during flowering. Follow 7-day pre-harvest interval.
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Organic Treatment -->
+                    <div class="mb-6">
+                        <h4 class="font-medium text-text-primary mb-3 flex items-center">
+                            <svg class="w-5 h-5 text-success mr-2" fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+                            </svg>
+                            Organic Alternatives
+                        </h4>
+                        <div class="bg-success-50 rounded-agricultural p-4 border border-success-200">
+                            <div class="space-y-2">
+                                <div class="flex items-center space-x-2">
+                                    <span class="w-2 h-2 bg-success rounded-full"></span>
+                                    <span class="text-success-800">Neem oil spray (5ml per liter)</span>
+                                </div>
+                                <div class="flex items-center space-x-2">
+                                    <span class="w-2 h-2 bg-success rounded-full"></span>
+                                    <span class="text-success-800">Baking soda solution (1 tsp per liter)</span>
+                                </div>
+                                <div class="flex items-center space-x-2">
+                                    <span class="w-2 h-2 bg-success rounded-full"></span>
+                                    <span class="text-success-800">Garlic-chili extract spray</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Prevention Strategies -->
+                    <div>
+                        <h4 class="font-medium text-text-primary mb-3 flex items-center">
+                            <svg class="w-5 h-5 text-accent mr-2" fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4z"/>
+                            </svg>
+                            Prevention Tips
+                        </h4>
+                        <div class="bg-accent-50 rounded-agricultural p-4 border border-accent-200">
+                            <ul class="space-y-2 text-accent-800">
+                                <li class="flex items-start space-x-2">
+                                    <span class="w-1.5 h-1.5 bg-accent rounded-full mt-2 flex-shrink-0"></span>
+                                    <span>Ensure proper plant spacing for air circulation</span>
+                                </li>
+                                <li class="flex items-start space-x-2">
+                                    <span class="w-1.5 h-1.5 bg-accent rounded-full mt-2 flex-shrink-0"></span>
+                                    <span>Avoid overhead watering, water at soil level</span>
+                                </li>
+                                <li class="flex items-start space-x-2">
+                                    <span class="w-1.5 h-1.5 bg-accent rounded-full mt-2 flex-shrink-0"></span>
+                                    <span>Remove infected plant debris regularly</span>
+                                </li>
+                                <li class="flex items-start space-x-2">
+                                    <span class="w-1.5 h-1.5 bg-accent rounded-full mt-2 flex-shrink-0"></span>
+                                    <span>Use disease-resistant varieties when available</span>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Expert Consultation Section -->
+        <div class="mt-8 bg-gradient-to-br from-secondary-50 to-primary-50 rounded-agricultural-lg p-6 shadow-agricultural">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div>
+                    <h3 class="text-xl font-semibold text-text-primary mb-4">Need Expert Help?</h3>
+                    <p class="text-text-secondary mb-4">
+                        Connect with certified agricultural specialists for complex pest management cases and personalized treatment plans.
+                    </p>
+                    <div class="space-y-2 text-sm text-text-secondary">
+                        <div class="flex items-center space-x-2">
+                            <svg class="w-4 h-4 text-success" fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                            </svg>
+                            <span>Video consultation available</span>
+                        </div>
+                        <div class="flex items-center space-x-2">
+                            <svg class="w-4 h-4 text-success" fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                            </svg>
+                            <span>Multilingual support</span>
+                        </div>
+                        <div class="flex items-center space-x-2">
+                            <svg class="w-4 h-4 text-success" fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                            </svg>
+                            <span>Follow-up support included</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="flex flex-col justify-center">
+                    <button class="bg-primary text-white py-3 px-6 rounded-agricultural hover:bg-primary-600 transition-agricultural mb-3">
+                        Schedule Consultation
+                    </button>
+                    <button class="bg-surface text-primary border border-primary py-3 px-6 rounded-agricultural hover:bg-primary-50 transition-agricultural">
+                        Call Expert Now
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Seasonal Pest Patterns -->
+        <div class="mt-8 bg-surface rounded-agricultural-lg p-6 shadow-agricultural border border-border">
+            <h3 class="text-lg font-semibold text-text-primary mb-4">Seasonal Pest Patterns</h3>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <div class="bg-warning-50 rounded-agricultural p-4 border border-warning-200">
+                    <h4 class="font-medium text-warning-800 mb-2">November - December</h4>
+                    <ul class="text-sm text-warning-700 space-y-1">
+                        <li>• Aphid infestations peak</li>
+                        <li>• Fungal diseases increase</li>
+                        <li>• Monitor for leaf spots</li>
+                    </ul>
+                </div>
+                <div class="bg-accent-50 rounded-agricultural p-4 border border-accent-200">
+                    <h4 class="font-medium text-accent-800 mb-2">January - February</h4>
+                    <ul class="text-sm text-accent-700 space-y-1">
+                        <li>• Thrips activity increases</li>
+                        <li>• Powdery mildew common</li>
+                        <li>• Check for root rot</li>
+                    </ul>
+                </div>
+                <div class="bg-primary-50 rounded-agricultural p-4 border border-primary-200">
+                    <h4 class="font-medium text-primary-800 mb-2">March - April</h4>
+                    <ul class="text-sm text-primary-700 space-y-1">
+                        <li>• Caterpillar damage peaks</li>
+                        <li>• Bacterial infections rise</li>
+                        <li>• Prepare for summer pests</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-surface border-t border-border mt-12">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+                <div class="col-span-1 md:col-span-2">
+                    <div class="flex items-center mb-4">
+                        <svg class="h-8 w-8 text-primary" viewBox="0 0 32 32" fill="currentColor">
+                            <path d="M16 2L8 8v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V8l-8-6z"/>
+                            <path d="M12 14l2 2 6-6" stroke="white" stroke-width="2" fill="none"/>
+                        </svg>
+                        <span class="ml-2 text-xl font-bold text-primary">CropWise AI</span>
+                    </div>
+                    <p class="text-text-secondary text-sm mb-4">
+                        Empowering Indian farmers with AI-driven agricultural insights and multilingual support for better crop decisions.
+                    </p>
+                    <div class="flex space-x-4">
+                        <span class="text-xs text-text-secondary">Supported by ICAR</span>
+                        <span class="text-xs text-text-secondary">Government Certified</span>
+                    </div>
+                </div>
+                <div>
+                    <h4 class="font-semibold text-text-primary mb-3">Quick Links</h4>
+                    <ul class="space-y-2 text-sm text-text-secondary">
+                        <li><a href="crop_recommendation.html" class="hover:text-primary transition-agricultural">Crop Recommendations</a></li>
+                        <li><a href="soil_analysis.html" class="hover:text-primary transition-agricultural">Soil Analysis</a></li>
+                        <li><a href="weather_monitoring.html" class="hover:text-primary transition-agricultural">Weather Monitoring</a></li>
+                        <li><a href="market_price_tracker.html" class="hover:text-primary transition-agricultural">Market Prices</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="font-semibold text-text-primary mb-3">Support</h4>
+                    <ul class="space-y-2 text-sm text-text-secondary">
+                        <li><a href="javascript:void(0)" class="hover:text-primary transition-agricultural">Help Center</a></li>
+                        <li><a href="javascript:void(0)" class="hover:text-primary transition-agricultural">Contact Us</a></li>
+                        <li><a href="javascript:void(0)" class="hover:text-primary transition-agricultural">Training Videos</a></li>
+                        <li><a href="javascript:void(0)" class="hover:text-primary transition-agricultural">FAQs</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="border-t border-border mt-8 pt-6 text-center">
+                <p class="text-sm text-text-secondary">© 2025 CropWise AI. All Rights Reserved. | Serving Indian Agriculture</p>
+            </div>
+        </div>
+    </footer>
+<script id="dhws-dataInjector" src="../public/dhws-data-injector.js"></script>
+</body>
+</html>

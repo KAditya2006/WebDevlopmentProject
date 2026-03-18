@@ -1,0 +1,567 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Registration - CropWise AI</title>
+    <link rel="stylesheet" href="../css/main.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <script type="module" async src="https://static.rocket.new/rocket-web.js?_cfg=https%3A%2F%2Fcropwisea2089back.builtwithrocket.new&_be=https%3A%2F%2Fapplication.rocket.new&_v=0.1.9"></script>
+  <script type="module" defer src="https://static.rocket.new/rocket-shot.js?v=0.0.1"></script>
+  <style>
+    .otp-container {
+      display: none;
+    }
+    
+    .otp-inputs {
+      display: flex;
+      justify-content: space-between;
+      gap: 8px;
+      margin: 16px 0;
+    }
+    
+    .otp-input {
+      width: 50px;
+      height: 50px;
+      text-align: center;
+      font-size: 18px;
+      font-weight: bold;
+      border: 2px solid #d1d5db;
+      border-radius: 8px;
+      background: white;
+    }
+    
+    .otp-input:focus {
+      border-color: #2D5016;
+      outline: none;
+      box-shadow: 0 0 0 3px rgba(45, 80, 22, 0.1);
+    }
+    
+    .resend-otp {
+      color: #2D5016;
+      cursor: pointer;
+      text-decoration: underline;
+    }
+    
+    .resend-otp.disabled {
+      color: #9ca3af;
+      cursor: not-allowed;
+    }
+    
+    .timer {
+      color: #ef4444;
+      font-weight: 600;
+    }
+  </style>
+  </head>
+<body class="bg-background font-sans min-h-screen">
+    <!-- Navigation Bar -->
+    <nav class="bg-surface shadow-agricultural border-b border-border">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <!-- Logo -->
+                <div class="flex items-center">
+                    <svg class="h-8 w-8 text-primary" viewBox="0 0 32 32" fill="currentColor">
+                        <path d="M16 2L8 8v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V8l-8-6z"/>
+                        <path d="M12 14l2 2 6-6" stroke="white" stroke-width="2" fill="none"/>
+                    </svg>
+                    <span class="ml-2 text-xl font-bold text-primary">CropWise AI</span>
+                </div>
+
+                <!-- Login Link -->
+                <div class="flex items-center space-x-4">
+                    <select class="bg-surface border border-border rounded-agricultural px-3 py-1 text-sm focus:outline-none focus:ring-2 focus:ring-primary">
+                        <option value="en">English</option>
+                        <option value="hi">हिंदी</option>
+                        <option value="bn">বাংলা</option>
+                        <option value="ta">தமிழ்</option>
+                        <option value="mr">मराठी</option>
+                        <option value="te">తెలుగు</option>
+                        <option value="gu">ગુજરાતી</option>
+                        <option value="or">ଓଡ଼ିଆ</option>
+                    </select>
+                    <a href="user_login.html" class="text-primary hover:text-primary-600 font-medium transition-agricultural">Already have an account? Login</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="min-h-screen bg-gradient-to-br from-primary-50 via-surface to-accent-50 flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
+        <div class="max-w-md w-full space-y-8">
+            <!-- Header -->
+            <div class="text-center">
+                <div class="mx-auto h-16 w-16 bg-primary rounded-full flex items-center justify-center mb-6">
+                    <svg class="h-8 w-8 text-white" fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
+                    </svg>
+                </div>
+                <h2 class="text-3xl font-bold text-text-primary mb-2">Join CropWise AI</h2>
+                <p class="text-text-secondary">Create your account to access smart farming solutions</p>
+            </div>
+
+            <!-- Registration Form -->
+            <form id="registrationForm" class="mt-8 space-y-6 bg-surface rounded-agricultural-lg shadow-agricultural p-8 border border-border" action="#" method="POST">
+                <div class="space-y-4">
+                    <!-- Full Name -->
+                    <div>
+                        <label for="fullName" class="block text-sm font-medium text-text-primary mb-2">Full Name</label>
+                        <input 
+                            id="fullName" 
+                            name="fullName" 
+                            type="text" 
+                            required 
+                            class="w-full px-3 py-3 border border-border rounded-agricultural focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-agricultural"
+                            placeholder="Enter your full name"
+                        >
+                    </div>
+
+                    <!-- Mobile Number -->
+                    <div>
+                        <label for="mobile" class="block text-sm font-medium text-text-primary mb-2">Mobile Number</label>
+                        <div class="flex">
+                            <span class="inline-flex items-center px-3 py-3 border border-r-0 border-border bg-primary-50 text-text-secondary rounded-l-agricultural">+91</span>
+                            <input 
+                                id="mobile" 
+                                name="mobile" 
+                                type="tel" 
+                                required 
+                                class="flex-1 px-3 py-3 border border-border rounded-r-agricultural focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-agricultural"
+                                placeholder="Enter 10-digit mobile number"
+                                maxlength="10"
+                            >
+                        </div>
+                    </div>
+
+                    <!-- Email Address -->
+                    <div>
+                        <label for="email" class="block text-sm font-medium text-text-primary mb-2">Email Address (Optional)</label>
+                        <input 
+                            id="email" 
+                            name="email" 
+                            type="email" 
+                            class="w-full px-3 py-3 border border-border rounded-agricultural focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-agricultural"
+                            placeholder="Enter your email address"
+                        >
+                    </div>
+
+                    <!-- Farm Location -->
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div>
+                            <label for="state" class="block text-sm font-medium text-text-primary mb-2">State</label>
+                            <select 
+                                id="state" 
+                                name="state" 
+                                required 
+                                class="w-full px-3 py-3 border border-border rounded-agricultural focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-agricultural"
+                            >
+                                <option value="">Select State</option>
+                                <option value="andhra-pradesh">Andhra Pradesh</option>
+                                <option value="bihar">Bihar</option>
+                                <option value="gujarat">Gujarat</option>
+                                <option value="haryana">Haryana</option>
+                                <option value="karnataka">Karnataka</option>
+                                <option value="madhya-pradesh">Madhya Pradesh</option>
+                                <option value="maharashtra">Maharashtra</option>
+                                <option value="odisha">Odisha</option>
+                                <option value="punjab">Punjab</option>
+                                <option value="rajasthan">Rajasthan</option>
+                                <option value="tamil-nadu">Tamil Nadu</option>
+                                <option value="telangana">Telangana</option>
+                                <option value="uttar-pradesh">Uttar Pradesh</option>
+                                <option value="west-bengal">West Bengal</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label for="district" class="block text-sm font-medium text-text-primary mb-2">District</label>
+                            <input 
+                                id="district" 
+                                name="district" 
+                                type="text" 
+                                required 
+                                class="w-full px-3 py-3 border border-border rounded-agricultural focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-agricultural"
+                                placeholder="Enter district"
+                            >
+                        </div>
+                    </div>
+
+                    <!-- Farm Size -->
+                    <div>
+                        <label for="farmSize" class="block text-sm font-medium text-text-primary mb-2">Farm Size (in acres)</label>
+                        <input 
+                            id="farmSize" 
+                            name="farmSize" 
+                            type="number" 
+                            step="0.1" 
+                            min="0.1" 
+                            required 
+                            class="w-full px-3 py-3 border border-border rounded-agricultural focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-agricultural"
+                            placeholder="Enter farm size in acres"
+                        >
+                    </div>
+
+                    <!-- Primary Crops -->
+                    <div>
+                        <label class="block text-sm font-medium text-text-primary mb-2">Primary Crops (Select multiple)</label>
+                        <div class="grid grid-cols-2 gap-2 p-3 border border-border rounded-agricultural bg-primary-50">
+                            <label class="flex items-center space-x-2">
+                                <input type="checkbox" name="crops[]" value="rice" class="text-primary focus:ring-primary border-border rounded">
+                                <span class="text-sm">Rice</span>
+                            </label>
+                            <label class="flex items-center space-x-2">
+                                <input type="checkbox" name="crops[]" value="wheat" class="text-primary focus:ring-primary border-border rounded">
+                                <span class="text-sm">Wheat</span>
+                            </label>
+                            <label class="flex items-center space-x-2">
+                                <input type="checkbox" name="crops[]" value="cotton" class="text-primary focus:ring-primary border-border rounded">
+                                <span class="text-sm">Cotton</span>
+                            </label>
+                            <label class="flex items-center space-x-2">
+                                <input type="checkbox" name="crops[]" value="sugarcane" class="text-primary focus:ring-primary border-border rounded">
+                                <span class="text-sm">Sugarcane</span>
+                            </label>
+                            <label class="flex items-center space-x-2">
+                                <input type="checkbox" name="crops[]" value="maize" class="text-primary focus:ring-primary border-border rounded">
+                                <span class="text-sm">Maize</span>
+                            </label>
+                            <label class="flex items-center space-x-2">
+                                <input type="checkbox" name="crops[]" value="pulses" class="text-primary focus:ring-primary border-border rounded">
+                                <span class="text-sm">Pulses</span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <!-- Terms and Conditions -->
+                    <div class="flex items-start space-x-3">
+                        <input 
+                            id="terms" 
+                            name="terms" 
+                            type="checkbox" 
+                            required 
+                            class="mt-1 text-primary focus:ring-primary border-border rounded"
+                        >
+                        <label for="terms" class="text-sm text-text-secondary">
+                            I agree to the <a href="#" class="text-primary hover:text-primary-600">Terms and Conditions</a> 
+                            and <a href="#" class="text-primary hover:text-primary-600">Privacy Policy</a>
+                        </label>
+                    </div>
+                </div>
+
+                <!-- Submit Button -->
+                <div class="pt-4">
+                    <button 
+                        type="submit" 
+                        class="w-full bg-primary hover:bg-primary-600 text-white font-medium py-3 px-4 rounded-agricultural transition-agricultural focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 shadow-agricultural"
+                    >
+                        Send OTP
+                    </button>
+                </div>
+            </form>
+
+            <!-- OTP Verification Form -->
+            <div id="otpContainer" class="otp-container bg-surface rounded-agricultural-lg shadow-agricultural p-8 border border-border">
+                <div class="text-center mb-6">
+                    <h3 class="text-xl font-bold text-text-primary mb-2">Verify Your Mobile</h3>
+                    <p class="text-text-secondary">Enter the 6-digit OTP sent to</p>
+                    <p class="font-medium text-text-primary" id="otpMobileNumber"></p>
+                </div>
+
+                <form id="otpForm">
+                    <div class="otp-inputs">
+                        <input type="text" maxlength="1" class="otp-input" data-index="1" autocomplete="off">
+                        <input type="text" maxlength="1" class="otp-input" data-index="2" autocomplete="off">
+                        <input type="text" maxlength="1" class="otp-input" data-index="3" autocomplete="off">
+                        <input type="text" maxlength="1" class="otp-input" data-index="4" autocomplete="off">
+                        <input type="text" maxlength="1" class="otp-input" data-index="5" autocomplete="off">
+                        <input type="text" maxlength="1" class="otp-input" data-index="6" autocomplete="off">
+                    </div>
+
+                    <div class="text-center mt-4">
+                        <p class="text-sm text-text-secondary">
+                            Didn't receive OTP? 
+                            <span id="resendOtp" class="resend-otp">Resend OTP</span>
+                            <span id="timer" class="timer ml-2">(02:00)</span>
+                        </p>
+                    </div>
+
+                    <div class="pt-4">
+                        <button 
+                            type="submit" 
+                            class="w-full bg-primary hover:bg-primary-600 text-white font-medium py-3 px-4 rounded-agricultural transition-agricultural focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 shadow-agricultural"
+                        >
+                            Verify & Create Account
+                        </button>
+                    </div>
+                </form>
+            </div>
+
+            <!-- Features Section -->
+            <div class="mt-8 bg-surface rounded-agricultural-lg p-6 border border-border shadow-agricultural">
+                <h3 class="text-lg font-semibold text-text-primary mb-4 text-center">Why Join CropWise AI?</h3>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div class="flex items-start space-x-3">
+                        <div class="w-6 h-6 bg-primary-100 rounded-full flex items-center justify-center flex-shrink-0 mt-1">
+                            <svg class="w-4 h-4 text-primary" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
+                            </svg>
+                        </div>
+                        <div>
+                            <h4 class="font-medium text-text-primary">AI-Powered Recommendations</h4>
+                            <p class="text-sm text-text-secondary">Get personalized crop suggestions based on your soil and weather conditions</p>
+                        </div>
+                    </div>
+
+                    <div class="flex items-start space-x-3">
+                        <div class="w-6 h-6 bg-primary-100 rounded-full flex items-center justify-center flex-shrink-0 mt-1">
+                            <svg class="w-4 h-4 text-primary" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
+                            </svg>
+                        </div>
+                        <div>
+                            <h4 class="font-medium text-text-primary">Real-time Weather Alerts</h4>
+                            <p class="text-sm text-text-secondary">Stay updated with weather forecasts and farming alerts</p>
+                        </div>
+                    </div>
+
+                    <div class="flex items-start space-x-3">
+                        <div class="w-6 h-6 bg-primary-100 rounded-full flex items-center justify-center flex-shrink-0 mt-1">
+                            <svg class="w-4 h-4 text-primary" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
+                            </svg>
+                        </div>
+                        <div>
+                            <h4 class="font-medium text-text-primary">Market Price Tracking</h4>
+                            <p class="text-sm text-text-secondary">Monitor crop prices and make informed selling decisions</p>
+                        </div>
+                    </div>
+
+                    <div class="flex items-start space-x-3">
+                        <div class="w-6 h-6 bg-primary-100 rounded-full flex items-center justify-center flex-shrink-0 mt-1">
+                            <svg class="w-4 h-4 text-primary" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
+                            </svg>
+                        </div>
+                        <div>
+                            <h4 class="font-medium text-text-primary">Multilingual Support</h4>
+                            <p class="text-sm text-text-secondary">Use the app in your preferred Indian language</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-surface border-t border-border">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+            <div class="text-center">
+                <p class="text-sm text-text-secondary">© 2025 CropWise AI. All Rights Reserved. | Serving Indian Agriculture</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // OTP Registration functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            const registrationForm = document.getElementById('registrationForm');
+            const otpContainer = document.getElementById('otpContainer');
+            const otpForm = document.getElementById('otpForm');
+            const otpInputs = document.querySelectorAll('.otp-input');
+            const resendOtp = document.getElementById('resendOtp');
+            const timer = document.getElementById('timer');
+            const otpMobileNumber = document.getElementById('otpMobileNumber');
+
+            let currentUserData = null;
+            let countdown = 120; // 2 minutes
+            let countdownInterval = null;
+
+            // Mobile number validation
+            const mobile = document.getElementById('mobile');
+            mobile.addEventListener('input', function() {
+                this.value = this.value.replace(/\D/g, '');
+                if (this.value.length > 10) {
+                    this.value = this.value.slice(0, 10);
+                }
+            });
+
+            // Registration form submission
+            registrationForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                // Validate at least one crop is selected
+                const crops = document.querySelectorAll('input[name="crops[]"]:checked');
+                if (crops.length === 0) {
+                    alert('Please select at least one primary crop');
+                    return;
+                }
+
+                // Get form data
+                currentUserData = {
+                    id: 'user_' + Date.now(),
+                    fullName: document.getElementById('fullName').value,
+                    mobile: document.getElementById('mobile').value,
+                    email: document.getElementById('email').value || '',
+                    state: document.getElementById('state').value,
+                    district: document.getElementById('district').value,
+                    farmSize: document.getElementById('farmSize').value,
+                    primaryCrops: Array.from(crops).map(crop => crop.value),
+                    registrationDate: new Date().toISOString()
+                };
+
+                // Check if mobile number already exists
+                const users = JSON.parse(localStorage.getItem('cropwise_users')) || [];
+                const existingUser = users.find(u => u.mobile === currentUserData.mobile);
+                
+                if (existingUser) {
+                    alert('This mobile number is already registered. Please use a different number or login.');
+                    return;
+                }
+
+                // Show OTP verification
+                otpMobileNumber.textContent = `+91 ${currentUserData.mobile}`;
+                registrationForm.style.display = 'none';
+                otpContainer.style.display = 'block';
+
+                // Generate and send OTP (simulated)
+                const generatedOtp = generateOTP();
+                localStorage.setItem('registration_otp', generatedOtp);
+                localStorage.setItem('registration_mobile', currentUserData.mobile);
+
+                // Start countdown timer
+                startCountdown();
+
+                // Auto-focus first OTP input
+                otpInputs[0].focus();
+
+                // Show success message
+                alert(`OTP sent to ${currentUserData.mobile}. For demo purposes, use OTP: ${generatedOtp}`);
+            });
+
+            // OTP input handling
+            otpInputs.forEach((input, index) => {
+                input.addEventListener('input', function(e) {
+                    const value = e.target.value;
+                    
+                    if (value.length === 1 && index < otpInputs.length - 1) {
+                        otpInputs[index + 1].focus();
+                    }
+                    
+                    if (value.length === 0 && index > 0) {
+                        otpInputs[index - 1].focus();
+                    }
+                });
+
+                input.addEventListener('keydown', function(e) {
+                    if (e.key === 'Backspace' && this.value === '' && index > 0) {
+                        otpInputs[index - 1].focus();
+                    }
+                });
+
+                input.addEventListener('paste', function(e) {
+                    e.preventDefault();
+                    const pasteData = e.clipboardData.getData('text').slice(0, 6);
+                    pasteData.split('').forEach((char, charIndex) => {
+                        if (otpInputs[charIndex]) {
+                            otpInputs[charIndex].value = char;
+                        }
+                    });
+                    otpInputs[Math.min(pasteData.length - 1, 5)].focus();
+                });
+            });
+
+            // OTP form submission
+            otpForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                const enteredOtp = Array.from(otpInputs).map(input => input.value).join('');
+                const storedOtp = localStorage.getItem('registration_otp');
+                const storedMobile = localStorage.getItem('registration_mobile');
+
+                if (enteredOtp.length !== 6) {
+                    alert('Please enter complete 6-digit OTP');
+                    return;
+                }
+
+                if (enteredOtp === storedOtp && currentUserData.mobile === storedMobile) {
+                    // OTP verified successfully
+                    const users = JSON.parse(localStorage.getItem('cropwise_users')) || [];
+                    users.push(currentUserData);
+                    localStorage.setItem('cropwise_users', JSON.stringify(users));
+                    localStorage.setItem('current_user', JSON.stringify(currentUserData));
+
+                    // Clear OTP data
+                    localStorage.removeItem('registration_otp');
+                    localStorage.removeItem('registration_mobile');
+
+                    // Show success message
+                    const submitBtn = otpForm.querySelector('button[type="submit"]');
+                    submitBtn.textContent = 'Registration Successful!';
+                    submitBtn.classList.remove('bg-primary', 'hover:bg-primary-600');
+                    submitBtn.classList.add('bg-success', 'hover:bg-success-600');
+
+                    // Redirect to dashboard
+                    setTimeout(() => {
+                        window.location.href = 'farmer_dashboard.html';
+                    }, 1500);
+                } else {
+                    alert('Invalid OTP. Please try again.');
+                    // Clear OTP inputs
+                    otpInputs.forEach(input => input.value = '');
+                    otpInputs[0].focus();
+                }
+            });
+
+            // Resend OTP functionality
+            resendOtp.addEventListener('click', function() {
+                if (resendOtp.classList.contains('disabled')) return;
+
+                // Generate new OTP
+                const newOtp = generateOTP();
+                localStorage.setItem('registration_otp', newOtp);
+
+                // Reset countdown
+                clearInterval(countdownInterval);
+                countdown = 120;
+                startCountdown();
+
+                // Show success message
+                alert(`New OTP sent to ${currentUserData.mobile}. For demo purposes, use OTP: ${newOtp}`);
+            });
+
+            function generateOTP() {
+                return Math.floor(100000 + Math.random() * 900000).toString();
+            }
+
+            function startCountdown() {
+                resendOtp.classList.add('disabled');
+                
+                countdownInterval = setInterval(() => {
+                    countdown--;
+                    
+                    const minutes = Math.floor(countdown / 60);
+                    const seconds = countdown % 60;
+                    timer.textContent = `(${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')})`;
+                    
+                    if (countdown <= 0) {
+                        clearInterval(countdownInterval);
+                        resendOtp.classList.remove('disabled');
+                        timer.textContent = '';
+                    }
+                }, 1000);
+            }
+
+            // State change handler for districts
+            const stateSelect = document.getElementById('state');
+            const districtInput = document.getElementById('district');
+            
+            stateSelect.addEventListener('change', function() {
+                if (this.value) {
+                    districtInput.focus();
+                }
+            });
+        });
+    </script>
+<script id="dhws-dataInjector" src="../public/dhws-data-injector.js"></script>
+</body>
+</html>
